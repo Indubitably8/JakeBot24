@@ -1,4 +1,4 @@
-/*package robotx.modules;
+package robotx.modules;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,7 +10,7 @@ import robotx.libraries.OmniDriveSystem;
  * Created by Adi on 4/20/2018.
  */
 
-/*public class MecanumDrive extends OmniDriveSystem {
+public class MecanumDrive extends OmniDriveSystem {
     public DcMotor frontLeft;
     public DcMotor frontRight;
     public DcMotor backLeft;

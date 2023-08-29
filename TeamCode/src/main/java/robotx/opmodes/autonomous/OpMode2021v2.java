@@ -18,7 +18,6 @@ public class OpMode2021v2 extends XOpMode {
         orientationDrive = new OrientationDrive(this);
         activeModules.add(orientationDrive);
 
-
     }
 
     public void init() {
@@ -35,7 +34,5 @@ Left bumper to toggle slow mode
 Right bumper to toggle super slow mode
 
 Gamepad 2:
-claw open/ claw close y
-four bar movement x
-lift a and b
+
 */
