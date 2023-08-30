@@ -46,47 +46,6 @@ public class MecanumDrive extends OmniDriveSystem {
         opMode.telemetry.addData("backLeft", getYPower() - getXPower() + getRotationPower());
         backLeft.setPower(getYPower() + getXPower() + getRotationPower());
     }
-}*/
-
-package robotx.modules;
-
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
-import robotx.libraries.XModule;
-
-
-public final class MecanumDrive extends XModule{
-
-    public DcMotor frontLeft;
-    public DcMotor frontRight;
-    public DcMotor backLeft;
-    public DcMotor backRight;
-
-
-    public MecanumDrive(OpMode op){
-        super(op);
-    }
-
-    public void init(){
-        //front left motor
-        frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
-        // frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);            //reverse this; want "forward direction for robot" to be "positive values" /or/ "up on the y-stick"
-        //when moving forward, the two front wheels spin in opposite directions (left is counter-clockwise, right is clockwise)
-        //front right motor
-        frontRight = opMode.hardwareMap.dcMotor.get("frontRight");
-        // frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        //back left motor
-        backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
-        // backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //backLeft.setDirection(DcMotorSimple.Direction.REVERSE);             //reverse for same reason as above
-
-        //back right motor
-        backRight = opMode.hardwareMap.dcMotor.get("backRight");
-        //backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
 
     public void loop(){
 
