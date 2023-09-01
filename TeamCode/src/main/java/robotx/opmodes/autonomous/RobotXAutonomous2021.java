@@ -57,6 +57,7 @@ import robotx.modules.OrientationDrive;
          //runtime.reset();
 
          if (opModeIsActive()) {
+             // example of a square autonomous
              sleep(2000);
              DriveForward(1, 100);
              sleep(sleepTime);
