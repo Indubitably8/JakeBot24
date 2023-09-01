@@ -53,9 +53,18 @@ import robotx.modules.OrientationDrive;
          int sleepTime = 1000;
 
          waitForStart();
+
          //runtime.reset();
 
          if (opModeIsActive()) {
+             sleep(2000);
+             DriveForward(1, 100);
+             sleep(sleepTime);
+             StrafeLeft(1, 100);
+             sleep(sleepTime);
+             DriveForward(-1, 100 );
+             sleep(sleepTime);
+;            StrafeRight(1, 100);
 
 
          }

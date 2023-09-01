@@ -25,12 +25,12 @@ public class MecanumDrive extends OmniDriveSystem {
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);                //reverse is necessary: up on Y stick makes frontLeft counterclockwise and frontRight clockwise
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight = opMode.hardwareMap.dcMotor.get("frontRight");
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight = opMode.hardwareMap.dcMotor.get("backRight");
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void updateMotors(){
