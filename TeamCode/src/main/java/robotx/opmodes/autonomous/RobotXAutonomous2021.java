@@ -120,6 +120,30 @@ import robotx.modules.OrientationDrive;
          mecanumDrive.backRight.setPower(0);
      }
 
+     public void DiagonalLeft(double power, int time){
+         mecanumDrive.frontLeft.setPower(power);
+         mecanumDrive.frontRight.setPower(-power);
+         mecanumDrive.backLeft.setPower(-power);
+         mecanumDrive.backRight.setPower(power);
+         sleep(time);
+         mecanumDrive.frontLeft.setPower(0);
+         mecanumDrive.frontRight.setPower(0);
+         mecanumDrive.backLeft.setPower(0);
+         mecanumDrive.backRight.setPower(0);
+     }
+
+     public void DiagonalRight(double power, int time){
+         mecanumDrive.frontLeft.setPower(-power);
+         mecanumDrive.frontRight.setPower(power);
+         mecanumDrive.backLeft.setPower(power);
+         mecanumDrive.backRight.setPower(-power);
+         sleep(time);
+         mecanumDrive.frontLeft.setPower(0);
+         mecanumDrive.frontRight.setPower(0);
+         mecanumDrive.backLeft.setPower(0);
+         mecanumDrive.backRight.setPower(0);
+     }
+
      public void TurnLeft(double power, int time) {
          mecanumDrive.frontLeft.setPower(power);
          mecanumDrive.frontRight.setPower(-power);
