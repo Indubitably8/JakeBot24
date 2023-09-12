@@ -21,15 +21,13 @@ import robotx.modules.MecanumDrive;
 import robotx.modules.OrientationDrive;
 import robotx.modules.*;
 
-@TeleOp(name = "OpenCv", group = "Default")
-public class Opencv extends LinearOpMode {
+@TeleOp(name = "OpenCvV1", group = "Default")
+public class CvAuto extends LinearOpMode {
 
     OpenCvWebcam phoneCam;
     SkystoneDeterminationPipeline pipeline;
     MecanumDrive mecanumDrive;
     OrientationDrive orientationDrive;
-    LiftMotors liftMotors;
-    ClawSystem clawSystem;
     OdomSystem odomSystem;
 
     @Override
@@ -46,19 +44,11 @@ public class Opencv extends LinearOpMode {
         mecanumDrive = new MecanumDrive(this);
         mecanumDrive.init();
 
-        liftMotors = new LiftMotors(this);
-        liftMotors.init();
-
-        clawSystem = new ClawSystem(this);
-        clawSystem.init();
-
         odomSystem = new OdomSystem(this);
         odomSystem.init();
 
         mecanumDrive.start();
         orientationDrive.start();
-        liftMotors.start();
-        clawSystem.start();
 
         mecanumDrive.frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         mecanumDrive.frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -100,7 +90,7 @@ public class Opencv extends LinearOpMode {
 
             //fix all constants
 
-            //use pipeline.getAnalysis1() / 2 
+            //use pipeline.getAnalysis1() / 2
 
             // use a for loop is so it doesn't get stuck
 
@@ -109,26 +99,26 @@ public class Opencv extends LinearOpMode {
             for( int i = 0; i < 2000; i++){
 
                 //robot at three & scan
-                if(pipeline.getAnalysis1 < 0 && pipeline.getAnalysis2 > 0){
+                if(pipeline.getAnalysis1() < 0 && pipeline.getAnalysis2() > 0){
                     propPos = "Three";
                     break;
                 }
                 sleep(1);
             }
 
-            if(!(propPos = "Three")){
+            if(propPos.equals("None")){
                 for( int i = 0; i < 2000; i++){
                     //move to two
                     StrafeLeft(0.5,200);
                     //scan
-                    if(pipeline.getAnalysis1 < 0 && pipeline.getAnalysis2 > 0){
+                    if(pipeline.getAnalysis1() < 0 && pipeline.getAnalysis2() > 0){
                         propPos = "Two";
                         break;
                     }
                     sleep(1);
                 }
                 // if not in the other two positions, is in the first one
-                if(propPos = "None"){
+                if(propPos.equals("None")){
                     propPos = "One";
                 }
             }
@@ -137,74 +127,74 @@ public class Opencv extends LinearOpMode {
             //now movements based on the scan
 
             if(propPos == "One"){
-            //will be in pos to scan two
+                //will be in pos to scan two
 
                 //purple
 
-                    StrafeLeft(.5,200);
-                    DriveForward(.5,300);
+                StrafeLeft(.5,200);
+                DriveForward(.5,300);
 
-                    //place purple pixel
-                
+                //place purple pixel
+
                 //yellow (on backdrop)
 
-                    DriveBackward(.5,50)
-                    TurnRight(.5,300);
-                    DriveForward(.8,800);
-                    StrafeLeft(.5,400)
+                DriveBackward(.5,50);
+                TurnRight(.5,300);
+                DriveForward(.8,800);
+                StrafeLeft(.5,400);
 
-                    //place yellow pixel
+                //place yellow pixel
 
                 //should already be parked
-                
+
             }
 
             if(propPos == "Two"){
-            //will be in pos to scan two
+                //will be in pos to scan two
 
                 //purple
 
-                    StrafeLeft(.5,200);
-                    DriveForward(.5,300);
+                StrafeLeft(.5,200);
+                DriveForward(.5,300);
 
-                    //place purple pixel
-            
+                //place purple pixel
+
                 //yellow (on backdrop)
 
-                    DriveBackward(.5,50)
-                    TurnRight(.5,300);
-                    DriveForward(.8,800);
-                    StrafeLeft(.5,400)
+                DriveBackward(.5,50);
+                TurnRight(.5,300);
+                DriveForward(.8,800);
+                StrafeLeft(.5,400);
 
-                    //place yellow pixel
+                //place yellow pixel
 
                 //should already be parked
 
             }
 
             if(propPos == "Three"){
-            //will be in pos to scan three
+                //will be in pos to scan three
 
                 //purple
 
-                    StrafeLeft(.5,200);
-                    DriveForward(.5,300);
+                StrafeLeft(.5,200);
+                DriveForward(.5,300);
 
-                    //place purple pixel
-    
+                //place purple pixel
+
                 //yellow (on backdrop)
 
-                    DriveBackward(.5,50)
-                    TurnRight(.5,300);
-                    DriveForward(.8,800);
-                    StrafeLeft(.5,400)
+                DriveBackward(.5,50);
+                TurnRight(.5,300);
+                DriveForward(.8,800);
+                StrafeLeft(.5,400);
 
-                    //place yellow pixel
+                //place yellow pixel
 
                 //should already be parked
 
             }
-              
+
         }
     }
 

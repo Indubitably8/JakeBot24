@@ -1,4 +1,4 @@
-package robotx.controls;
+package org.firstinspires.ftc.teamcode.util.controls;
 
 import robotx.libraries.DriveSystemControls;
 import robotx.libraries.XGamepad;

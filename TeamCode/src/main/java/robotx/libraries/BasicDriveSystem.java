@@ -2,7 +2,7 @@ package robotx.libraries;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import robotx.controls.BasicTankDriveControls;
+import org.firstinspires.ftc.teamcode.util.controls.BasicTankDriveControls;
 
 /**
  * Created by Nicholas on 11/12/16.
