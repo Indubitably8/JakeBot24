@@ -8,7 +8,7 @@ import robotx.libraries.XModule;
 
 
 
-public class EncoderTester extends XModule {
+public class LiftMotorsEncoderTester extends XModule {
 
     public DcMotor LeftLift1;
     public DcMotor LeftLift2;
