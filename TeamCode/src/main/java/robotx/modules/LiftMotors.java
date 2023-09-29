@@ -34,73 +34,32 @@ public class LiftMotors extends XModule {
 
     public void loop() {
 
-        if (xGamepad2().a.isDown()){
+        if (xGamepad2().dpad_up.isDown()){
             LeftLift.setPower(power);
-        }
-        else if (xGamepad2().b.isDown()) {
-            LeftLift.setPower(-power2);
-        }
-        else {
-            LeftLift.setPower(0.0);
-        }
-
-        if (xGamepad2().a.isDown()){
             RightLift.setPower(power);
         }
-        else if (xGamepad2().b.isDown()) {
+        else if (xGamepad2().dpad_down.isDown()) {
+            LeftLift.setPower(-power2);
             RightLift.setPower(-power2);
         }
         else {
+            LeftLift.setPower(0.0);
             RightLift.setPower(0.0);
         }
-        /*
-        if (xGamepad2().dpad_up.isDown()){
-            LeftLift1.setPower(.4);
-        }
 
-        else if (xGamepad2().dpad_down.isDown()) {
-            LeftLift1.setPower(-.4);
-        }
 
+        if (xGamepad2().dpad_left.isDown()){
+            LeftLift.setPower(0.3);
+            RightLift.setPower(0.3);
+        }
+        else if (xGamepad2().dpad_right.isDown()) {
+            LeftLift.setPower(-0.3);
+            RightLift.setPower(-0.3);
+        }
         else {
-            LeftLift1.setPower(0.0);
+            LeftLift.setPower(0.0);
+            RightLift.setPower(0.0);
         }
-
-        if (xGamepad2().dpad_up.isDown()){
-            LeftLift2.setPower(.4);
-        }
-
-        else if (xGamepad2().dpad_down.isDown()) {
-            LeftLift2.setPower(-.4);
-        }
-
-        else {
-            LeftLift2.setPower(0.0);
-        }
-        if (xGamepad2().dpad_up.isDown()){
-            RightLift1.setPower(.4);
-        }
-
-        else if (xGamepad2().dpad_down.isDown()) {
-            RightLift1.setPower(-.4);
-        }
-
-        else {
-            RightLift1.setPower(0.0);
-        }
-
-        if (xGamepad2().dpad_up.isDown()){
-            RightLift2.setPower(.4);
-        }
-
-        else if (xGamepad2().dpad_down.isDown()) {
-            RightLift2.setPower(-.4);
-        }
-
-        else {
-            RightLift2.setPower(0.0);
-        }
-         */
     }
 }
 
