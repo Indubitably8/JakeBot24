@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import robotx.modules.MecanumDrive;
 import robotx.modules.OdomSystem;
 import robotx.modules.OrientationDrive;
+import robotx.modules.ArmSystem;
+import robotx.modules.IntakeSystem;
+import robotx.modules.LiftMotors;
 
  @Autonomous(name = "RightSideNoDetection", group = "Default")
  
@@ -18,6 +21,9 @@ import robotx.modules.OrientationDrive;
      MecanumDrive mecanumDrive;
      OrientationDrive orientationDrive;
      OdomSystem odomSystem;
+     ArmSystem armSystem;
+     IntakeSystem intakeSystem;
+     LiftMotors liftMotors;
 
      @Override
 
@@ -36,14 +42,27 @@ import robotx.modules.OrientationDrive;
          odomSystem = new OdomSystem(this);
          odomSystem.init();
 
+         armSystem = new ArmSystem(this);
+         armSystem.init();
+
+         intakeSystem = new IntakeSystem(this);
+         intakeSystem.init();
+
+         liftMotors = new LiftMotors(this);
+         liftMotors.init();
+
          odomSystem.start();
          mecanumDrive.start();
          orientationDrive.start();
+         armSystem.start();
+         intakeSystem.start();
+         liftMotors.start();
 
          mecanumDrive.frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
          mecanumDrive.frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
          mecanumDrive.backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
          mecanumDrive.backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
          telemetry.addData(">", "Press Play to Start Op Mode");
          telemetry.update();
@@ -57,16 +76,7 @@ import robotx.modules.OrientationDrive;
          //runtime.reset();
 
          if (opModeIsActive()) {
-             // example of a square autonomous
-             sleep(2000);
-             DriveForward(1, 100);
-             sleep(sleepTime);
-             StrafeLeft(1, 100);
-             sleep(sleepTime);
-             DriveForward(-1, 100 );
-             sleep(sleepTime);
-;            StrafeRight(1, 100);
-
+             //Function Sequence goes here
 
          }
      }
@@ -166,6 +176,44 @@ import robotx.modules.OrientationDrive;
          mecanumDrive.frontRight.setPower(0);
          mecanumDrive.backLeft.setPower(0);
          mecanumDrive.backRight.setPower(0);
+     }
+
+     public void Intake(double power, int time) {
+         intakeSystem.IntakeMotor.setPower(power);
+         sleep(time);
+         intakeSystem.IntakeMotor.setPower(0);
+     }
+
+     public void Unintake(double power, int time) {
+         intakeSystem.IntakeMotor.setPower(-power);
+         sleep(time);
+         intakeSystem.IntakeMotor.setPower(0);
+     }
+
+     public void FirstLift() {
+         double liftPower = 1;
+         int liftTime = 100;
+         liftMotors.LeftLift.setPower(liftPower);
+         liftMotors.RightLift.setPower(liftPower);
+         sleep(liftTime);
+         liftMotors.LeftLift.setPower(0);
+         liftMotors.RightLift.setPower(0);
+     }
+
+     public void RaiseLift(double power, int time) {
+         liftMotors.LeftLift.setPower(power);
+         liftMotors.RightLift.setPower(power);
+         sleep(time);
+         liftMotors.LeftLift.setPower(0);
+         liftMotors.RightLift.setPower(0);
+     }
+
+     public void LowerLift(double power, int time) {
+         liftMotors.LeftLift.setPower(-power);
+         liftMotors.RightLift.setPower(-power);
+         sleep(time);
+         liftMotors.LeftLift.setPower(0);
+         liftMotors.RightLift.setPower(0);
      }
 
  }
