@@ -216,4 +216,30 @@ import robotx.modules.LiftMotors;
          liftMotors.RightLift.setPower(0);
      }
 
+     public void ArmOut() {
+     armSystem.leftArm.setPosition(0);
+     armSystem.rightArm.setPosition(0);
+     }
+
+     public void ArmIn() {
+         armSystem.leftArm.setPosition(0);
+         armSystem.rightArm.setPosition(0);
+     }
+
+     public void WristOut() {
+         armSystem.leftWrist.setPosition(0);
+         armSystem.rightWrist.setPosition(0);
+     }
+
+     public void WristIn() {
+         armSystem.leftWrist.setPosition(0);
+         armSystem.rightWrist.setPosition(0);
+     }
+
+     public void Release(int time) {
+         armSystem.blockServo.setPosition(0);
+         sleep(time);
+         armSystem.blockServo.setPosition(0);
+     }
+
  }
