@@ -18,8 +18,6 @@ public class ArmSystem extends XModule {
     boolean wrist = false;
     boolean blocked = false;
 
-
-
     //methods are built into one button as a toggle
 
     public void moveArm() {
@@ -81,17 +79,17 @@ public class ArmSystem extends XModule {
     public void loop() {
         // button presses, calls methods
 
-            if (xGamepad1().b.wasPressed()) {
+            if (xGamepad2().b.wasPressed()) {
                 if(!wrist){
                     moveArm();
                 }
             }
-        if (xGamepad1().y.wasPressed()) {
+        if (xGamepad2().y.wasPressed()) {
             if (arm) {
                 moveWrist();
             }
         }
-        if (xGamepad1().a.wasPressed()) {
+        if (xGamepad2().a.wasPressed()) {
             if (wrist) {
                 toggleBlock();
             }

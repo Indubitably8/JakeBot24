@@ -7,7 +7,7 @@ import robotx.libraries.XModule;
 
 public class GrapplingHook extends XModule {
 
-
+/*
     // motors being used
 
     public DcMotor GrappleMotor;
@@ -36,6 +36,8 @@ public class GrapplingHook extends XModule {
         }
 
     }
+
+ */
 }
 
 /*
