@@ -20,7 +20,7 @@ public class OrientationDrive extends XModule {
     public DcMotor frontRight;
     public DcMotor backRight;
     public DcMotor backLeft;
-    public BNO055IMU gyroSensor;
+    public BHI260APIMU gyroSensor;
     public Orientation lastAngles = new Orientation();
     public double globalAngle;
     public double robotAngle;
