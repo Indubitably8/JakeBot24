@@ -33,6 +33,7 @@ public class LiftMotors extends XModule {
     }
 
     public void loop() {
+        
 
         if (xGamepad2().dpad_up.isDown()){
             LeftLift.setPower(power);

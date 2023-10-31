@@ -12,7 +12,7 @@ public class DroneLaunch extends XModule {
 
     boolean launched = false;
 
-
+/*
 
     //methods are built into one button as a toggle
 
@@ -41,5 +41,5 @@ public class DroneLaunch extends XModule {
                     launch();
                 }
             }
-    }
+    */
 }
