@@ -20,7 +20,7 @@ public class OrientationDrive extends XModule {
     public DcMotor frontRight;
     public DcMotor backRight;
     public DcMotor backLeft;
-    public BNO055IMU gyroSensor;
+    public BHI260APIMU gyroSensor;
     public Orientation lastAngles = new Orientation();
     public double globalAngle;
     public double robotAngle;
@@ -190,7 +190,7 @@ public class OrientationDrive extends XModule {
             backLeft.setPower((yPrime+xPrime-r)*(s));
         }
 
-    // deadzone code - I did this
+    // deadzone code
     /*
         if ( 0 < Math.abs(flPow) && Math.abs(flPow) < 0.4){
             frontLeft.setPower(0);
