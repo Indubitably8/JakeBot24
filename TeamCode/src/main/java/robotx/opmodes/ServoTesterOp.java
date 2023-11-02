@@ -12,11 +12,20 @@ import robotx.libraries.PressHandler;
  * Hold down the back bumpers to change the unit,
  * and press the up and down buttons on the D-Pad to increment/decrement.
  */
+
 @TeleOp(name = "ServoTesterOp", group = "Tests")
 public class ServoTesterOp extends OpMode {
 
-    Servo testServo1;
-    Servo testServo2;
+    Servo testServo11;
+    Servo testServo12;
+
+    Servo testServo21;
+    Servo testServo22;
+
+    Servo testServo31;
+    Servo testServo32;
+
+
 
     double servoPosition1;
     double servoPosition2;
@@ -31,13 +40,27 @@ public class ServoTesterOp extends OpMode {
 
     boolean scaleEnabled = false;
 
+
+
+    int groupNumber = 1;
+
+    Servo activeServo1;
+    Servo activeServo2;
+
+    Servo[] servoGroup1;
+    Servo[] servoGroup2;
+    Servo[] servoGroup3;
+
+    Servo[][] servoGroups;
+
     @Override
     public void init() {
-        //with old config
+        /*with old config
         testServo1 = hardwareMap.servo.get("testServo1");
         testServo2 = hardwareMap.servo.get("testServo2");
+        */
 
-        /* with new config
+        // with new config
         testServo11 = hardwareMap.servo.get("testServo11");
         testServo12 = hardwareMap.servo.get("testServo12");
 
@@ -47,34 +70,14 @@ public class ServoTesterOp extends OpMode {
         testServo31 = hardwareMap.servo.get("testServo31");
         testServo32 = hardwareMap.servo.get("testServo32");
 
-        Servo[] servoGroup1 = [testServo11, testServo12];
-        Servo[] servoGroup2 = [testServo21, testServo22];
-        Servo[] servoGroup3 = [testServo31, testServo32];
+        activeServo1 = testServo11;
+        activeServo2 = testServo12;
 
-        Servo[][] servoGroups = [servoGroup1, servoGroup2, servoGroup3]
+        servoGroup1 = new Servo[]{testServo11, testServo12};
+        servoGroup2 = new Servo[]{testServo21, testServo22};
+        servoGroup3 = new Servo[]{testServo31, testServo32};
 
-        int groupNumber = 1;
-        Servo[] activeGroup = servoGroups[][groupNumber-1];
-
-        // move later
-        if (gamepad1_right_trigger.onPress()) {
-            groupNumber += 1;
-            if (groupNumber >= 4) {
-                groupNumber = 0;
-            }
-            activeGroup = servoGroups[][groupNumber-1];
-        }
-        if (gamepad1_left_trigger.onPress()) {
-            groupNumber -= 1;
-            if (groupNumber >= -1) {
-                groupNumber = 3;
-            }
-            activeGroup = servoGroups[][groupNumber-1];
-        }
-        */
-
-        servoPosition1 = 0.0;
-        servoPosition2 = 0.0;
+        servoGroups = new Servo[][]{servoGroup1, servoGroup2, servoGroup3};
 
         gamepad1_dpad_up = new PressHandler();
         gamepad1_dpad_down = new PressHandler();
@@ -87,12 +90,13 @@ public class ServoTesterOp extends OpMode {
 
     @Override
     public void start() {
-        testServo2.setPosition(servoPosition2);
-        testServo1.setPosition(servoPosition1);
+        servoPosition1 = 0.0;
+        servoPosition2 = 0.0;
     }
 
     @Override
     public void loop() {
+
         gamepad1_dpad_up.update(gamepad1.dpad_up);
         gamepad1_dpad_down.update(gamepad1.dpad_down);
         gamepad1_a.update(gamepad1.a);
@@ -103,16 +107,27 @@ public class ServoTesterOp extends OpMode {
 
         if (gamepad1_b.onPress()) {
             if (scaleEnabled) {
-                testServo1.scaleRange(0.0, 1.0);
-                testServo2.scaleRange(0.0, 1.0);
+                activeServo1.scaleRange(0.0, 1.0);
+                activeServo2.scaleRange(0.0, 1.0);
                 scaleEnabled = false;
             } else {
-                testServo1.scaleRange(0.02, 0.98);
-                testServo2.scaleRange(0.02, 0.98);
+                activeServo1.scaleRange(0.02, 0.98);
+                activeServo2.scaleRange(0.02, 0.98);
                 scaleEnabled = true;
             }
         }
-
+        if (gamepad1.right_trigger >= 0.5) {
+            groupNumber += 1;
+            if (groupNumber >= 4) {
+                groupNumber = 1;
+            }
+        }
+        if (gamepad1.left_trigger >= 0.5) {
+            groupNumber -= 1;
+            if (groupNumber <= 0) {
+                groupNumber = 3;
+            }
+        }
         double unit = 0.1;
         if (gamepad1_left_bumper.onPress()) {
             unit = 0.01;
@@ -141,23 +156,35 @@ public class ServoTesterOp extends OpMode {
         if (servoPosition1 > 1.0) {
             servoPosition1 = 1.0;
         }
-        if (servoPosition1 < 0.0) {
-            servoPosition1 = 0.0;
-        }
         if (servoPosition2 > 1.0) {
             servoPosition2 = 1.0;
         }
-        if (servoPosition2 < 0.0) {
-            servoPosition2 = 0.0;
+        if (groupNumber != 1) {
+            if (servoPosition1 < 0.0) {
+                servoPosition1 = 0.0;
+            }
+            if (servoPosition2 < 0.0) {
+                servoPosition2 = 0.0;
+            }
+        } else {
+            if (servoPosition1 < -1.0) {
+                servoPosition1 = -1.0;
+            }
+            if (servoPosition2 < -1.0) {
+                servoPosition2 = -1.0;
+            }
         }
 
-        testServo1.setPosition(servoPosition1);
-        testServo2.setPosition(servoPosition2);
+        activeServo1 = servoGroups[groupNumber - 1][0];
+        activeServo2 = servoGroups[groupNumber - 1][1];
 
+        activeServo1.setPosition(servoPosition1);
+        activeServo2.setPosition(servoPosition2);
 
-        telemetry.addData("Scale Enabled?", scaleEnabled);
-        telemetry.addData("Servo Position 1", servoPosition1);
-        telemetry.addData("Servo Position 2", servoPosition2);
+        telemetry.addData("Scale Enabled?    ", scaleEnabled);
+        telemetry.addData("Servo Position 1: ", servoPosition1);
+        telemetry.addData("Servo Position 2: ", servoPosition2);
+        telemetry.addData("Group number:     ", groupNumber);
     }
 
     @Override
