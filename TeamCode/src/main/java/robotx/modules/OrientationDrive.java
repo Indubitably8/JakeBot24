@@ -20,7 +20,7 @@ public class OrientationDrive extends XModule {
     public DcMotor frontRight;
     public DcMotor backRight;
     public DcMotor backLeft;
-    public BHI260APIMU gyroSensor;
+    public BNO055IMU gyroSensor;
     public Orientation lastAngles = new Orientation();
     public double globalAngle;
     public double robotAngle;
@@ -47,13 +47,13 @@ public class OrientationDrive extends XModule {
 
     public void init(){
         frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
-        //frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE); //WHEN DOM TRAIN
         frontRight = opMode.hardwareMap.dcMotor.get("frontRight");
         //frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight = opMode.hardwareMap.dcMotor.get("backRight");
         //backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
-        //backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);  //WHEN DOM TRAIN
 
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -80,7 +80,7 @@ public class OrientationDrive extends XModule {
         else if (deltaAngle > 180)
             deltaAngle -= 360;
 
-        globalAngle += deltaAngle;
+        globalAngle -= deltaAngle;
 
         int finalAngle = (int) globalAngle;
 
@@ -146,16 +146,16 @@ public class OrientationDrive extends XModule {
         s = ((Math.max(Math.abs(x), Math.max(Math.abs(y), Math.abs(r))))*(Math.max(Math.abs(x), Math.max(Math.abs(y), Math.abs(r)))))/((x*x)+(y*y)+(r*r));
 //added 90 to everything
         if (x>0){
-            joystickAngle = Math.atan(y/x) + Math.toRadians(90);
+            joystickAngle = Math.atan(y/x) + Math.toRadians(360);
         }
         else if (x<0){
-            joystickAngle = Math.atan(y/x) + Math.toRadians(270);
+            joystickAngle = Math.atan(y/x) + Math.toRadians(180);
         }
         else if (x == 0 && y>0){
-            joystickAngle = Math.toRadians(180);
+            joystickAngle = Math.toRadians(270);
         }
         else if (x == 0 && y<0){
-            joystickAngle = Math.toRadians(360);
+            joystickAngle = Math.toRadians(90);
         }
 
         xPrime = (Math.sqrt((x*x) + (y*y))) * (Math.cos(robotAngle + joystickAngle));
@@ -169,15 +169,15 @@ public class OrientationDrive extends XModule {
         }
 
         if (slowMode){
-            frontLeft.setPower((yPrime-xPrime-r)*(s) * .55);
-            backRight.setPower((yPrime-xPrime+r)*(s) * .55);
+            frontLeft.setPower((yPrime-xPrime-r)*(s) * 0.55);
+            backRight.setPower((yPrime-xPrime+r)*(s) * 0.55);
 
-            frontRight.setPower((yPrime+xPrime+r)*(s) * .55);
-            backLeft.setPower((yPrime+xPrime-r)*(s) * .55);
+            frontRight.setPower((yPrime+xPrime+r)*(s) * 0.55);
+            backLeft.setPower((yPrime+xPrime-r)*(s) * 0.55);
         }
         else if (superSlowMode){
-            frontLeft.setPower((yPrime-xPrime-r)*(s) * .4);
-            backRight.setPower((yPrime-xPrime+r)*(s) * .4);
+            frontLeft.setPower((yPrime-xPrime-r)*(s) * 0.4);
+            backRight.setPower((yPrime-xPrime+r)*(s) * 0.4);
 
             frontRight.setPower((yPrime+xPrime+r)*(s) * .4);
             backLeft.setPower((yPrime+xPrime-r)*(s) * .4);
