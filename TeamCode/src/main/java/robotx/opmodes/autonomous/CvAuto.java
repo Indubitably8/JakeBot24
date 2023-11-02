@@ -56,10 +56,9 @@ public class CvAuto extends LinearOpMode {
         mecanumDrive.backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         int sleepTime = 1000;
-        String coneColor = null;
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId);
+        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId); //device name= config name
         pipeline = new SkystoneDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
 
@@ -71,6 +70,7 @@ public class CvAuto extends LinearOpMode {
         phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
+                //Size of total camera: AKA streaming area; Scanning region is lower down under skystone
                 phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
 
@@ -107,10 +107,11 @@ public class CvAuto extends LinearOpMode {
             }
 
             if(propPos.equals("None")){
-                for( int i = 0; i < 2000; i++){
+
                     //move to two
                     StrafeLeft(0.5,200);
                     //scan
+                    for( int i = 0; i < 2000; i++){
                     if(pipeline.getAnalysis1() < 0 && pipeline.getAnalysis2() > 0){
                         propPos = "Two";
                         break;
@@ -207,13 +208,15 @@ public class CvAuto extends LinearOpMode {
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar GREEN = new Scalar(0, 255, 0);
 
-        static final int duckThreshold = 100;
-
         /*
          * The core values which define the location and size of the sample regions
          */
+
+
+        //Where the top left corner of scanning area is
         static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(163, 96);
 
+        //Size of scanning area
         static final int REGION_WIDTH = 10;
         static final int REGION_HEIGHT = 25;
 
@@ -246,7 +249,7 @@ public class CvAuto extends LinearOpMode {
          */
         void inputToCb(Mat input) {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-            Core.extractChannel(YCrCb, Cb, 1);
+            Core.extractChannel(YCrCb, Cb, 1);  //COI-Channel of input; R-G-B= 3 coi; Cr-Cb = 2 coi
         }
         void inputToCr(Mat input){
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
@@ -271,6 +274,7 @@ public class CvAuto extends LinearOpMode {
             avgCb = (int) Core.mean(region1_Cb).val[0];
             avgCr = (int) Core.mean(region1_Cr).val[0];
 
+            //Rectangles on screen for testing; will still work in auton if this isn't heer or has funky variables
             Imgproc.rectangle(
                     input, // Buffer to draw on
                     region1_pointA, // First point which defines the rectangle
