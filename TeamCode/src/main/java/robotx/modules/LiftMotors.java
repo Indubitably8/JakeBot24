@@ -49,11 +49,11 @@ public class LiftMotors extends XModule {
         }
 
 
-        if (xGamepad2().dpad_left.isDown()){
+        if (xGamepad2().dpad_right.isDown()){
             LeftLift.setPower(0.3);
             RightLift.setPower(0.3);
         }
-        else if (xGamepad2().dpad_right.isDown()) {
+        else if (xGamepad2().dpad_left.isDown()) {
             LeftLift.setPower(-0.3);
             RightLift.setPower(-0.3);
         }

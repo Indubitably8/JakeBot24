@@ -45,7 +45,7 @@ public class IntakeSystem extends XModule {
 
     public void loop() {
 
-        if (xGamepad2().x.isDown()){
+        if (xGamepad2().right_trigger > .5){
             IntakeMotor.setPower(power);
         }
         else {
@@ -53,7 +53,7 @@ public class IntakeSystem extends XModule {
         }
 
         //TEMPORARY BUTTON MAPPING: PLEASE CHANGE
-        /*if (xGamepad2().x.isDown()){
+        /*if (xGamepad2().x.wasPressed()){
             //intakeServo();
         }*/
 
