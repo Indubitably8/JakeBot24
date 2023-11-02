@@ -48,9 +48,8 @@ public class OrientationDrive extends XModule {
     public void init(){
         frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE); //WHEN DOM TRAIN
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);  //when using dom drive train, have left reversed
         frontRight = opMode.hardwareMap.dcMotor.get("frontRight");
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        //frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight = opMode.hardwareMap.dcMotor.get("backRight");
         //backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
@@ -147,10 +146,10 @@ public class OrientationDrive extends XModule {
         s = ((Math.max(Math.abs(x), Math.max(Math.abs(y), Math.abs(r))))*(Math.max(Math.abs(x), Math.max(Math.abs(y), Math.abs(r)))))/((x*x)+(y*y)+(r*r));
 //added 90 to everything
         if (x>0){
-            joystickAngle = Math.atan(y/x) + Math.toRadians(360);
+            joystickAngle = Math.atan(-y/x) + Math.toRadians(360);
         }
         else if (x<0){
-            joystickAngle = Math.atan(y/x) + Math.toRadians(180);
+            joystickAngle = Math.atan(-y/x) + Math.toRadians(180);
         }
         else if (x == 0 && y>0){
             joystickAngle = Math.toRadians(270);
