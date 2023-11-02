@@ -48,8 +48,9 @@ public class OrientationDrive extends XModule {
     public void init(){
         frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE); //WHEN DOM TRAIN
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);  //when using dom drive train, have left reversed
         frontRight = opMode.hardwareMap.dcMotor.get("frontRight");
-        //frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight = opMode.hardwareMap.dcMotor.get("backRight");
         //backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft = opMode.hardwareMap.dcMotor.get("backLeft");

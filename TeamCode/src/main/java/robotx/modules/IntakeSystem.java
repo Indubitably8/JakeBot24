@@ -53,9 +53,9 @@ public class IntakeSystem extends XModule {
         }
 
         //TEMPORARY BUTTON MAPPING: PLEASE CHANGE
-        if (xGamepad2().x.isDown()){
-            intakeServo();
-        }
+        /*if (xGamepad2().x.isDown()){
+            //intakeServo();
+        }*/
 
     }
 }
