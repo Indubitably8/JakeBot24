@@ -20,6 +20,8 @@ public class OrientationDrive extends XModule {
     public DcMotor frontRight;
     public DcMotor backRight;
     public DcMotor backLeft;
+
+//Gyro ID
     public BNO055IMU gyroSensor;
     public Orientation lastAngles = new Orientation();
     public double globalAngle;
@@ -46,6 +48,7 @@ public class OrientationDrive extends XModule {
     double blPow = ((yPrime+xPrime+r)*(-s));
 
     public void init(){
+//Reverses Motors
         frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE); //WHEN DOM TRAIN
         frontRight = opMode.hardwareMap.dcMotor.get("frontRight");
@@ -79,7 +82,7 @@ public class OrientationDrive extends XModule {
             deltaAngle += 360;
         else if (deltaAngle > 180)
             deltaAngle -= 360;
-
+//Change in angle compared to orientation: if gyro measures clockwise should add rather than subtract
         globalAngle -= deltaAngle;
 
         int finalAngle = (int) globalAngle;
@@ -142,15 +145,19 @@ public class OrientationDrive extends XModule {
 
         x = xGamepad1().left_stick_x;
         y = xGamepad1().left_stick_y;
+//Position of right stick AKA direction robot should turn
         r = xGamepad1().right_stick_x;
         s = ((Math.max(Math.abs(x), Math.max(Math.abs(y), Math.abs(r))))*(Math.max(Math.abs(x), Math.max(Math.abs(y), Math.abs(r)))))/((x*x)+(y*y)+(r*r));
-//added 90 to everything
+
+
+//Position of joystick when not straight forward
         if (x>0){
             joystickAngle = Math.atan(-y/x) + Math.toRadians(360);
         }
         else if (x<0){
             joystickAngle = Math.atan(-y/x) + Math.toRadians(180);
         }
+//Position of joystick when near perfectly forward
         else if (x == 0 && y>0){
             joystickAngle = Math.toRadians(270);
         }

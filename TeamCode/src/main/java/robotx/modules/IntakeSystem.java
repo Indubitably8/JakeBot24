@@ -15,20 +15,6 @@ public class IntakeSystem extends XModule {
     public Servo leftIntake;
     public Servo rightIntake;
 
-    boolean down = false;
-
-    public void intakeServo() {
-        if(down){
-            leftIntake.setPosition(0);
-            rightIntake.setPosition(0);
-            down = true;
-        } else {
-            leftIntake.setPosition(0);
-            rightIntake.setPosition(0);
-            down = false;
-        }
-    }
-
     double power = 1;
 
     public IntakeSystem(OpMode op) {
@@ -45,17 +31,16 @@ public class IntakeSystem extends XModule {
 
     public void loop() {
 
-        if (xGamepad2().right_trigger > .5){
-            IntakeMotor.setPower(power);
-        }
-        else {
-            IntakeMotor.setPower(0.0);
-        }
-
-        //TEMPORARY BUTTON MAPPING: PLEASE CHANGE
-        /*if (xGamepad2().x.wasPressed()){
-            //intakeServo();
-        }*/
+if(xGamepad2().x.isDown()  || xGamepad1().x.isDown()) {
+    IntakeMotor.setPower(power);
+    leftIntake.setPosition(0);
+    rightIntake.setPosition(0);
+}
+else{
+    IntakeMotor.setPower(0);
+    leftIntake.setPosition(0);
+    rightIntake.setPosition(0);
+}
 
     }
 }
