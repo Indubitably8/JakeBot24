@@ -30,6 +30,8 @@ public class ServoTesterOp extends OpMode {
     double servoPosition1;
     double servoPosition2;
 
+    //double[] servoPosition;
+
     PressHandler gamepad1_dpad_up;
     PressHandler gamepad1_dpad_down;
     PressHandler gamepad1_a;
@@ -90,8 +92,17 @@ public class ServoTesterOp extends OpMode {
 
     @Override
     public void start() {
-        servoPosition1 = 0.0;
-        servoPosition2 = 0.0;
+        servoPosition1 = 0.15;
+        servoPosition2 = 0.66;
+        // group 1 resting position
+        // position1 = .405
+        // position2 = .48
+        // group 1 up position
+        // position1 = .15
+        // position2 = .66
+        // group 2 resting position
+        // position1 = .308
+        // position2 = .672
     }
 
     @Override
