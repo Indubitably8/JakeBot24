@@ -91,7 +91,7 @@ public class OpenCvScan extends LinearOpMode {
             // Don't burn CPU cycles busy-looping in this sample
 
             telemetry.addData("AnalysisCb", pipeline.getAnalysis1());
-            telemetry.addData("AnalysisCb", pipeline.getAnalysis2());
+            telemetry.addData("AnalysisCr", pipeline.getAnalysis2());
             telemetry.update();
 
             sleep(50);
