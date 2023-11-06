@@ -8,7 +8,6 @@ import robotx.libraries.XModule;
 
 public class IntakeSystem extends XModule {
 
-//JOHN CODE NEW INTAKE SERVOS
     // motors being used
 
     public DcMotor IntakeMotor;
@@ -26,25 +25,19 @@ public class IntakeSystem extends XModule {
         //init motors from configs
 
         IntakeMotor = opMode.hardwareMap.dcMotor.get("IntakeMotor");
-
+        leftIntake = opMode.hardwareMap.servo.get("leftIntake");
+        rightIntake = opMode.hardwareMap.servo.get("rightIntake");
     }
 
     public void loop() {
 
-if(xGamepad2().x.isDown()  || xGamepad1().x.isDown()) {
-    IntakeMotor.setPower(power);
-    leftIntake.setPosition(0);
-    rightIntake.setPosition(0);
-}
-else{
-    IntakeMotor.setPower(0);
-    leftIntake.setPosition(0);
-    rightIntake.setPosition(0);
-}
-
+        if(xGamepad2().x.isDown()  || xGamepad1().x.isDown()) {
+            IntakeMotor.setPower(power);
+        }
+        else{
+            IntakeMotor.setPower(0);
+        }
+        leftIntake.setPosition(0);
+        rightIntake.setPosition(0);
     }
 }
-
-/*
-x - intake
- */
