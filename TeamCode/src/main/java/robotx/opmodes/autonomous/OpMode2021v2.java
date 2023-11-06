@@ -9,9 +9,9 @@ import robotx.modules.ArmSystem;
 import robotx.modules.DroneLaunch;
 import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "OpMode 23-24", group = "Default")
-
 public class OpMode2021v2 extends XOpMode {
 
     OrientationDrive orientationDrive;
@@ -20,6 +20,7 @@ public class OpMode2021v2 extends XOpMode {
     IntakeSystem intakeSystem;
     LiftMotors liftMotors;
     //GrapplingHook grapplingHook;
+
 
     public void initModules() {
 
@@ -47,7 +48,26 @@ public class OpMode2021v2 extends XOpMode {
 
     public void init() {
         super.init();
+    } {
+
     }
+    /*
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void loop() {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+    */
+
 }
 
 /*

@@ -17,7 +17,7 @@ public class LiftMotors extends XModule {
     public DcMotor RightLift;
 
     double power = 1;
-    double power2 = .6;
+    double power2 = 1;
 
     public LiftMotors(OpMode op) {
         super(op);

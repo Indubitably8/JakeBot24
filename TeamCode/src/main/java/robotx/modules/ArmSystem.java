@@ -14,6 +14,12 @@ public class ArmSystem extends XModule {
     public Servo rightWrist;
     public Servo blockServo;
 
+    double rightArmPos = .48;
+    double leftArmPos = .405;
+
+    double rightWristPos = .672;
+    double leftWristPos = .308;
+
     boolean arm = false;
     boolean wrist = false;
     boolean blocked = false;
@@ -22,17 +28,17 @@ public class ArmSystem extends XModule {
 
     public void moveArm() {
         if (!arm) {
-            leftArm.setPosition(.36);
-            rightArm.setPosition(.696);
+            leftArm.setPosition(.15);
+            rightArm.setPosition(.66);
             leftWrist.setPosition(.36);
             rightWrist.setPosition(.696);
             arm = true;
         }
         else {
-            leftArm.setPosition(0.62);
-            rightArm.setPosition(0.42);
-            leftWrist.setPosition(0.62);
-            rightWrist.setPosition(0.42);
+            leftArm.setPosition(0.405);
+            rightArm.setPosition(0.48);
+            leftWrist.setPosition(0.308);
+            rightWrist.setPosition(0.672);
             arm = false;
         }
     }
@@ -74,6 +80,12 @@ public class ArmSystem extends XModule {
         rightArm = opMode.hardwareMap.servo.get("rightArm");
         leftWrist = opMode.hardwareMap.servo.get("leftWrist");
         rightWrist = opMode.hardwareMap.servo.get("rightWrist");
+
+        rightArm.setPosition(rightArmPos);
+        leftArm.setPosition(leftArmPos);
+
+        rightWrist.setPosition(rightWristPos);
+        leftWrist.setPosition(leftWristPos);
     }
 
     public void loop() {

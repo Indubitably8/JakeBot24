@@ -8,6 +8,7 @@ import robotx.libraries.PressHandler;
 
 /**
  * Created by Nicholas on 11/6/16.
+ * heavily edited by cstaut 11/6/23 lol
  * Use to test the servo at any position.
  * Hold down the back bumpers to change the unit,
  * and press the up and down buttons on the D-Pad to increment/decrement.
@@ -24,7 +25,6 @@ public class ServoTesterOp extends OpMode {
 
     Servo testServo31;
     Servo testServo32;
-
 
 
     double servoPosition1;
@@ -51,7 +51,7 @@ public class ServoTesterOp extends OpMode {
 
 
 
-    int groupNumber = 1;
+    int groupNumber = 2;
 
     Servo activeServo1;
     Servo activeServo2;
@@ -64,7 +64,7 @@ public class ServoTesterOp extends OpMode {
 
     @Override
     public void init() {
-        /*with old config
+        /* with old config
         testServo1 = hardwareMap.servo.get("testServo1");
         testServo2 = hardwareMap.servo.get("testServo2");
         */
@@ -99,17 +99,20 @@ public class ServoTesterOp extends OpMode {
 
     @Override
     public void start() {
-        servoPosition1 = 0.15;
-        servoPosition2 = 0.66;
-        // group 1 resting position
+        servoPosition1 = 0.308;
+        servoPosition2 = 0.672;
+        // group 1 (arm) resting position
         // position1 = .405
         // position2 = .48
-        // group 1 up position
+        // group 1 (arm) up position
         // position1 = .15
         // position2 = .66
         // group 2 resting position
         // position1 = .308
         // position2 = .672
+
+        testServo11.setPosition(.15);
+        testServo12.setPosition(.66);
     }
 
     @Override
