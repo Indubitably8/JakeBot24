@@ -30,7 +30,14 @@ public class ServoTesterOp extends OpMode {
     double servoPosition1;
     double servoPosition2;
 
-    //double[] servoPosition;
+    double[][] servoPosition;
+    double[] group1Pos;
+    double[] group2Pos;
+    double[] group3Pos;
+
+    // code it so the servos will hold their position after switching groups
+    servoPosition[] = {group1Pos, group2Pos, group3Pos};
+    servoPosition[groupNumber - 1][1] = 2.0;
 
     PressHandler gamepad1_dpad_up;
     PressHandler gamepad1_dpad_down;
