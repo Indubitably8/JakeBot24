@@ -46,9 +46,9 @@ public class OdomSystem extends XModule {
 
     public void init() {
         // pulls servos from configs
-        odom1 = opMode.hardwareMap.servo.get("frontOdom");
-        odom2 = opMode.hardwareMap.servo.get("leftOdom");
-        odom3 = opMode.hardwareMap.servo.get("rightOdom");
+        //odom1 = opMode.hardwareMap.servo.get("frontOdom");
+        //odom2 = opMode.hardwareMap.servo.get("leftOdom");
+        //odom3 = opMode.hardwareMap.servo.get("rightOdom");
     }
 
     public void loop() {
