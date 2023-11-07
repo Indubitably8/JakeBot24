@@ -92,9 +92,10 @@ public class OpenCvScan extends LinearOpMode {
 
             telemetry.addData("AnalysisCb", pipeline.getAnalysis1());
             telemetry.addData("AnalysisCr", pipeline.getAnalysis2());
+            telemetry.addData("AnalysisCoi0", pipeline.getAnalysis3());
             telemetry.update();
 
-            sleep(50);
+            sleep(10);
 
         }
     }
@@ -136,6 +137,7 @@ public class OpenCvScan extends LinearOpMode {
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
         Mat Cr = new Mat();
+        Mat coi0 = new Mat();
         Mat Test3 = new Mat();
         Mat Test0 = new Mat();
 
@@ -147,10 +149,16 @@ public class OpenCvScan extends LinearOpMode {
         int avg3;
         int avg0;
 
+        int avgcoi0;
+
         /*
          * This function takes the RGB frame, converts to YCrCb,
          * and extracts the Cb channel to the 'Cb' variable
          */
+        void inputTo0(Mat input){
+            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
+            Core.extractChannel(YCrCb, Cr, 0);
+        }
         void inputToCb(Mat input) {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
             Core.extractChannel(YCrCb, Cb, 1);
@@ -165,7 +173,9 @@ public class OpenCvScan extends LinearOpMode {
 
             inputToCb(firstFrame);
             inputToCr(firstFrame);
+            inputTo0(firstFrame);
 
+            region1_0 = coi0.submat(new Rect(region1_pointA, region1_pointB));
             region1_Cr = Cr.submat(new Rect(region1_pointA, region1_pointB));
             region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
         }
@@ -174,9 +184,11 @@ public class OpenCvScan extends LinearOpMode {
         public Mat processFrame(Mat input) {
             inputToCb(input);
             inputToCr(input);
+            inputTo0(input);
 
             avgCb = (int) Core.mean(region1_Cb).val[0];
             avgCr = (int) Core.mean(region1_Cr).val[0];
+            avg0 = (int) Core.mean(region1_0).val[0];
 
             Imgproc.rectangle(
                     input, // Buffer to draw on
@@ -203,6 +215,10 @@ public class OpenCvScan extends LinearOpMode {
         public int getAnalysis2(){
             avg2 = avgCr;
             return avgCr;
+        }
+        public  int getAnalysis3(){
+            avg3 = avg0;
+            return  avg3;
         }
     }
 
