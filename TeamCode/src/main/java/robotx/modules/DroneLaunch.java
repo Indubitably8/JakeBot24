@@ -18,7 +18,7 @@ public class DroneLaunch extends XModule {
     //methods are built into one button as a toggle
 
     public void launch() {
-        launchArm.setPosition(.36);
+        launchArm.setPosition(.5);
         launched = true;
     }
 
