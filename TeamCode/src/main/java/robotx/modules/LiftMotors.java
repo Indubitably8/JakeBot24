@@ -52,8 +52,8 @@ public class LiftMotors extends XModule {
             RightLift.setPower(0.3);
         }
         else {
-            LeftLift.setPower(0.0);
-            RightLift.setPower(0.0);
+            LeftLift.setPower(-0.01);
+            RightLift.setPower(0.01);
         }
     }
 }
