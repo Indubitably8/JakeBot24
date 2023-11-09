@@ -70,14 +70,14 @@ public class ServoTesterOp extends OpMode {
         */
 
         // with new config
-        testServo11 = hardwareMap.servo.get("testServo11");
-        testServo12 = hardwareMap.servo.get("testServo12");
+        testServo11 = hardwareMap.servo.get("leftArm");
+        testServo12 = hardwareMap.servo.get("rightArm");
 
-        testServo21 = hardwareMap.servo.get("testServo21");
-        testServo22 = hardwareMap.servo.get("testServo22");
+        testServo21 = hardwareMap.servo.get("leftWrist");
+        testServo22 = hardwareMap.servo.get("rightWrist");
 
-        testServo31 = hardwareMap.servo.get("testServo31");
-        testServo32 = hardwareMap.servo.get("testServo32");
+        testServo31 = hardwareMap.servo.get("leftIntake");
+        testServo32 = hardwareMap.servo.get("rightIntake");
 
         activeServo1 = testServo11;
         activeServo2 = testServo12;
@@ -107,12 +107,15 @@ public class ServoTesterOp extends OpMode {
         // group 1 (arm) up position
         // position1 = .15
         // position2 = .66
-        // group 2 resting position
+        // group 2 (wrist) resting position
         // position1 = .308
         // position2 = .672
+        // group 2 (wrist) up position
+        // position1 = 0.8
+        // position2 = 0.1
 
-        testServo11.setPosition(.15);
-        testServo12.setPosition(.66);
+        testServo11.setPosition(0);
+        testServo12.setPosition(1);
     }
 
     @Override
