@@ -28,20 +28,20 @@ public class ArmSystem extends XModule {
 
     public void moveArm() {
         if (!arm) {
-            leftWrist.setPosition(.478);
-            rightWrist.setPosition(.452);
+            leftWrist.setPosition(0);
+            rightWrist.setPosition(1);
             leftArm.setPosition(.442);
-            rightArm.setPosition(.505);
+            rightArm.setPosition(.54);
 
 
 
             arm = true;
         }
         else {
-            leftWrist.setPosition(0);
-            rightWrist.setPosition(1);
+            leftWrist.setPosition(.9);
+            rightWrist.setPosition(.2);
             leftArm.setPosition(.308);
-            rightArm.setPosition(0.672);
+            rightArm.setPosition(0.69);
 
 
             arm = false;
