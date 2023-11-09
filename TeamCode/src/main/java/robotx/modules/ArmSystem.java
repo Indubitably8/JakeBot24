@@ -28,17 +28,22 @@ public class ArmSystem extends XModule {
 
     public void moveArm() {
         if (!arm) {
-            leftArm.setPosition(.15);
-            rightArm.setPosition(.66);
-            leftWrist.setPosition(.36);
-            rightWrist.setPosition(.696);
+            leftWrist.setPosition(.478);
+            rightWrist.setPosition(.452);
+            leftArm.setPosition(.442);
+            rightArm.setPosition(.505);
+
+
+
             arm = true;
         }
         else {
-            leftArm.setPosition(0.405);
-            rightArm.setPosition(0.48);
-            leftWrist.setPosition(0.308);
-            rightWrist.setPosition(0.672);
+            leftWrist.setPosition(0);
+            rightWrist.setPosition(1);
+            leftArm.setPosition(.308);
+            rightArm.setPosition(0.672);
+
+
             arm = false;
         }
     }
@@ -80,6 +85,7 @@ public class ArmSystem extends XModule {
         rightArm = opMode.hardwareMap.servo.get("rightArm");
         leftWrist = opMode.hardwareMap.servo.get("leftWrist");
         rightWrist = opMode.hardwareMap.servo.get("rightWrist");
+        blockServo = opMode.hardwareMap.servo.get("blockServo");
 
         rightArm.setPosition(rightArmPos);
         leftArm.setPosition(leftArmPos);
@@ -92,19 +98,13 @@ public class ArmSystem extends XModule {
         // button presses, calls methods
 
             if (xGamepad2().b.wasPressed()) {
-                if(!wrist){
-                    //moveArm();
-                }
+                toggleBlock();
             }
         if (xGamepad2().y.wasPressed()) {
-            if (arm) {
-                //moveWrist();
-            }
+
         }
         if (xGamepad2().a.wasPressed()) {
-            if (wrist) {
-                //toggleBlock();
-            }
+           moveArm();
         }
     }
 }

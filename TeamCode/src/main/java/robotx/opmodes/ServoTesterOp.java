@@ -150,10 +150,10 @@ public class ServoTesterOp extends OpMode {
             }
         }
         double unit = 0.1;
-        if (gamepad1_left_bumper.onPress()) {
+        if (gamepad1.left_bumper) {
             unit = 0.01;
         }
-        if (gamepad1_right_bumper.onPress()) {
+        if (gamepad1.right_bumper) {
             unit = 0.001;
         }
         if (gamepad1_left_bumper.onPress() && gamepad1_right_bumper.onPress()) {
