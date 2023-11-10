@@ -18,15 +18,17 @@ public class DroneLaunch extends XModule {
     //methods are built into one button as a toggle
 
     public void launch() {
-        launchArm.setPosition(.5);
+        launchArm.setPosition(0.62); //start pos .96
         launched = true;
     }
 
     public void angle() {
         if (!angled) {
-            angleLaunch.setPosition(0);
+            angleLaunch.setPosition(0.14);
+            angled = true;
         } else {
             angleLaunch.setPosition(0);
+            angled = false;
         }
     }
 
@@ -49,7 +51,7 @@ public class DroneLaunch extends XModule {
                 launch();
             }
         }
-        if (xGamepad2().left_trigger > 0.5) {
+        if (xGamepad2().left_bumper.wasPressed()) {
             angle();
         }
     }

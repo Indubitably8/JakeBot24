@@ -16,7 +16,7 @@ public class OpMode2021v2 extends XOpMode {
 
     OrientationDrive orientationDrive;
     ArmSystem armSystem;
-    //DroneLaunch droneLaunch;
+    DroneLaunch droneLaunch;
     IntakeSystem intakeSystem;
     LiftMotors liftMotors;
     //GrapplingHook grapplingHook;
@@ -32,8 +32,8 @@ public class OpMode2021v2 extends XOpMode {
         armSystem = new ArmSystem(this);
         activeModules.add(armSystem);
 
-        //droneLaunch = new DroneLaunch(this);
-        //activeModules.add(droneLaunch);
+        droneLaunch = new DroneLaunch(this);
+        activeModules.add(droneLaunch);
 
         intakeSystem = new IntakeSystem(this);
         activeModules.add(intakeSystem);
