@@ -1,8 +1,12 @@
 package robotx.opmodes.autonomous;
 
+import com.acmerobotics.roadrunner.geometry.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import robotx.modules.MecanumDrive;
 import robotx.modules.OdomSystem;
@@ -67,11 +71,23 @@ import robotx.modules.LiftMotors;
          telemetry.addData(">", "Press Play to Start Op Mode");
          telemetry.update();
 
+         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+         Pose2d start = new Pose2d(0,0,0);
+         Vector2d board = new Vector2d(0,0);
+
+         drive.setPoseEstimate(start);
+
+         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(start)
+                 .lineToConstantHeading(board)
+                 .build();
+
 
          double power = 0.5;
          int sleepTime = 1000;
 
          waitForStart();
+
 
          //runtime.reset();
 

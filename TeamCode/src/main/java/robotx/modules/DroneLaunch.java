@@ -41,6 +41,8 @@ public class DroneLaunch extends XModule {
         // pulls servos from configs
         launchArm = opMode.hardwareMap.servo.get("launchArm");
         angleLaunch = opMode.hardwareMap.servo.get("angleLaunch");
+        angleLaunch.setPosition(0);
+        launchArm.setPosition(.96);
     }
 
     public void loop() {

@@ -70,11 +70,11 @@ public class ServoTesterOp extends OpMode {
         */
 
         // with new config
-        testServo11 = hardwareMap.servo.get("angleLaunch");
-        testServo12 = hardwareMap.servo.get("launchArm");
+        testServo11 = hardwareMap.servo.get("leftArm");
+        testServo12 = hardwareMap.servo.get("rightArm");
 
-        testServo21 = hardwareMap.servo.get("angleLaunch");
-        testServo22 = hardwareMap.servo.get("launchArm");
+        testServo21 = hardwareMap.servo.get("leftWrist");
+        testServo22 = hardwareMap.servo.get("rightWrist");
 
         testServo31 = hardwareMap.servo.get("angleLaunch");
         testServo32 = hardwareMap.servo.get("launchArm");
@@ -114,8 +114,8 @@ public class ServoTesterOp extends OpMode {
         // position1 = 0.8
         // position2 = 0.1
 
-        testServo11.setPosition(0);
-        testServo12.setPosition(1);
+        testServo11.setPosition(1);
+        testServo12.setPosition(0);
     }
 
     @Override
