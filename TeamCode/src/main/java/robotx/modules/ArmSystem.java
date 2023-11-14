@@ -14,14 +14,14 @@ public class ArmSystem extends XModule {
     public Servo rightWrist;
     public Servo blockServo;
 
-    double rightArmPos = .48;
-    double leftArmPos = .405;
+    double rightArmPos = .440;
+    double leftArmPos = .471;
 
-    double rightWristPos = .672;
-    double leftWristPos = .308;
+    double rightWristPos = .98;
+    double leftWristPos = .02;
 
-    boolean arm = false;
-    boolean wrist = false;
+    boolean arm = true; //so arm system knows it starts down
+    boolean wrist = true;
     boolean blocked = false;
 
     //methods are built into one button as a toggle
@@ -90,10 +90,10 @@ public class ArmSystem extends XModule {
         rightWrist = opMode.hardwareMap.servo.get("rightWrist");
         blockServo = opMode.hardwareMap.servo.get("blockServo");
 
-        leftWrist.setPosition(.02);
-        rightWrist.setPosition(.98);
-        leftArm.setPosition(.445);
-        rightArm.setPosition(.490);
+        leftWrist.setPosition(leftWristPos);
+        rightWrist.setPosition(rightWristPos);
+        leftArm.setPosition(leftArmPos);
+        rightArm.setPosition(rightArmPos);
     }
 
     public void loop() {

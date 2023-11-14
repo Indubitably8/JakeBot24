@@ -15,7 +15,7 @@ import robotx.modules.ArmSystem;
 import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
 
- @Autonomous(name = "RightSideNoDetection", group = "Default")
+ @Autonomous(name = "MainAutonRight", group = "Default")
  
  public class RobotXAutonomous2021 extends LinearOpMode {
 
