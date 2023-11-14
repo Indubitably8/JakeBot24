@@ -29,10 +29,10 @@ public class ArmSystem extends XModule {
     public void moveArm() {
         if (!arm) {
             //DOWN
-            leftWrist.setPosition(.02);
-            rightWrist.setPosition(.98);
-            leftArm.setPosition(.440);
-            rightArm.setPosition(.471);
+            leftWrist.setPosition(.308);
+            rightWrist.setPosition(.672);
+            leftArm.setPosition(.405);
+            rightArm.setPosition(.48);
 
 
 
@@ -41,9 +41,9 @@ public class ArmSystem extends XModule {
         }
         else {
             //UP
-            leftWrist.setPosition(.95);
-            rightWrist.setPosition(.15);
-            leftArm.setPosition(.313);
+            leftWrist.setPosition(.8);
+            rightWrist.setPosition(.1);
+            leftArm.setPosition(.15);
             rightArm.setPosition(0.661);
 
 
