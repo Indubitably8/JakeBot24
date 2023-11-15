@@ -4,8 +4,31 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+
+import java.util.List;
+
+import android.graphics.ColorSpace;
+import android.util.Size;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
@@ -21,7 +44,7 @@ import robotx.modules.MecanumDrive;
 import robotx.modules.OrientationDrive;
 import robotx.modules.*;
 
-@TeleOp(name = "OpenCvV1", group = "Default")
+@TeleOp(name = "OpenCv+AprilTags", group = "Default")
 public class CvAuto extends LinearOpMode {
 
     OpenCvWebcam phoneCam;
@@ -30,8 +53,23 @@ public class CvAuto extends LinearOpMode {
     OrientationDrive orientationDrive;
     OdomSystem odomSystem;
 
+    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+
+    /**
+     * {@link #aprilTag} is the variable to store our instance of the AprilTag processor.
+     */
+    private AprilTagProcessor aprilTag;
+
+    /**
+     * {@link #visionPortal} is the variable to store our instance of the vision portal.
+     */
+    private VisionPortal visionPortal;
+
+
     @Override
     public void runOpMode() {
+
+        initAprilTag();
 
         // Setup, initialize, import modules
 
@@ -55,18 +93,23 @@ public class CvAuto extends LinearOpMode {
         mecanumDrive.backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         mecanumDrive.backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        //testing var
         int sleepTime = 1000;
 
+        //openCV camera / pipeline setup
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId); //device name= config name
+        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId); //device name= config name
         pipeline = new SkystoneDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
+
+
 
         // We set the viewport policy to optimized view so the preview doesn't appear 90 deg
         // out when the RC activity is in portrait. We do our actual image processing assuming
         // landscape orientation, though.
         phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
 
+        //start cam
         phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
@@ -80,124 +123,122 @@ public class CvAuto extends LinearOpMode {
             }
         });
 
+        String pixelPos = "";
+
         waitForStart();
 
+        //code that runs
         while (opModeIsActive()) {
 
-            String propPos = "None";
+            //need scan code w/ opencv
 
-            // being built for red board side
+            telemetry.addData("R:", pipeline.getAnalysisR());
+            telemetry.addData("G:", pipeline.getAnalysisG());
+            telemetry.addData("B:", pipeline.getAnalysisB());
+            telemetry.addData("A:", pipeline.getAnalysisA());
+            telemetry.update();
 
-            //fix all constants
+            //take location and then dependent on this
+/*
+            aprilTag.getDetections();
+            List<AprilTagDetection> currentDetections = aprilTag.getDetections();
 
-            //use pipeline.getAnalysis1() / 2
+            for (AprilTagDetection detection : currentDetections) {
 
-            // use a for loop is so it doesn't get stuck
-
-            // place robot so it scans three first
-
-            for( int i = 0; i < 2000; i++){
-
-                //robot at three & scan
-                if(pipeline.getAnalysis1() < 0 && pipeline.getAnalysis2() > 0){
-                    propPos = "Three";
+                if (detection.id == 1){
+                    telemetry.addData("test", detection.id);
+                    telemetry.update();
                     break;
                 }
-                sleep(1);
             }
+*/
 
-            if(propPos.equals("None")){
-
-                    //move to two
-                    StrafeLeft(0.5,200);
-                    //scan
-                    for( int i = 0; i < 2000; i++){
-                    if(pipeline.getAnalysis1() < 0 && pipeline.getAnalysis2() > 0){
-                        propPos = "Two";
-                        break;
-                    }
-                    sleep(1);
-                }
-                // if not in the other two positions, is in the first one
-                if(propPos.equals("None")){
-                    propPos = "One";
-                }
-            }
-
-
-            //now movements based on the scan
-
-            if(propPos == "One"){
-                //will be in pos to scan two
-
-                //purple
-
-                StrafeLeft(.5,200);
-                DriveForward(.5,300);
-
-                //place purple pixel
-
-                //yellow (on backdrop)
-
-                DriveBackward(.5,50);
-                TurnRight(.5,300);
-                DriveForward(.8,800);
-                StrafeLeft(.5,400);
-
-                //place yellow pixel
-
-                //should already be parked
-
-            }
-
-            if(propPos == "Two"){
-                //will be in pos to scan two
-
-                //purple
-
-                StrafeLeft(.5,200);
-                DriveForward(.5,300);
-
-                //place purple pixel
-
-                //yellow (on backdrop)
-
-                DriveBackward(.5,50);
-                TurnRight(.5,300);
-                DriveForward(.8,800);
-                StrafeLeft(.5,400);
-
-                //place yellow pixel
-
-                //should already be parked
-
-            }
-
-            if(propPos == "Three"){
-                //will be in pos to scan three
-
-                //purple
-
-                StrafeLeft(.5,200);
-                DriveForward(.5,300);
-
-                //place purple pixel
-
-                //yellow (on backdrop)
-
-                DriveBackward(.5,50);
-                TurnRight(.5,300);
-                DriveForward(.8,800);
-                StrafeLeft(.5,400);
-
-                //place yellow pixel
-
-                //should already be parked
-
-            }
 
         }
+
+        visionPortal.close();
     }
+
+    private void initAprilTag() {
+
+        // Create the AprilTag processor.
+        aprilTag = new AprilTagProcessor.Builder()
+                //.setDrawAxes(false)
+                //.setDrawCubeProjection(false)
+                //.setDrawTagOutline(true)
+                //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
+                //.setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
+                //.setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
+
+                // == CAMERA CALIBRATION ==
+                // If you do not manually specify calibration parameters, the SDK will attempt
+                // to load a predefined calibration for your camera.
+                //.setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
+
+                // ... these parameters are fx, fy, cx, cy.
+
+                .build();
+
+        // Create the vision portal by using a builder.
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+
+        // Set the camera (webcam vs. built-in RC phone camera).
+        if (USE_WEBCAM) {
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        } else {
+            builder.setCamera(BuiltinCameraDirection.BACK);
+        }
+
+        // Choose a camera resolution. Not all cameras support all resolutions.
+        //builder.setCameraResolution(new Size(640, 480));
+        builder.setCameraResolution(new Size(640,480));
+
+        // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
+        builder.enableCameraMonitoring(true);
+
+        // Set the stream format; MJPEG uses less bandwidth than default YUY2.
+        //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
+
+        // Choose whether or not LiveView stops if no processors are enabled.
+        // If set "true", monitor shows solid orange screen if no processors enabled.
+        // If set "false", monitor shows camera view without annotations.
+        builder.setAutoStopLiveView(false);
+
+        // Set and enable the processor.
+        builder.addProcessor(aprilTag);
+
+        // Build the Vision Portal, using the above settings.
+        visionPortal = builder.build();
+
+        // Disable or re-enable the aprilTag processor at any time.
+        //visionPortal.setProcessorEnabled(aprilTag, true);
+
+    }   // end method initAprilTag()
+
+    private void telemetryAprilTag() {
+
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        telemetry.addData("# AprilTags Detected", currentDetections.size());
+
+        // Step through the list of detections and display info for each one.
+        for (AprilTagDetection detection : currentDetections) {
+            if (detection.metadata != null) {
+                telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
+                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
+                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
+            } else {
+                telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+                telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+            }
+        }   // end for() loop
+
+        // Add "key" information to telemetry
+        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
+        telemetry.addLine("RBE = Range, Bearing & Elevation");
+
+    }   // end method telemetryAprilTag()
 
     public static class SkystoneDeterminationPipeline extends OpenCvPipeline {
 
@@ -230,49 +271,64 @@ public class CvAuto extends LinearOpMode {
         /*
          * Working variables
          */
-        Mat region1_Cb;
-        Mat region1_Cr;
-        Mat YCrCb = new Mat();
-        Mat Cb = new Mat();
-        Mat Cr = new Mat();
+        Mat region1;
+        Mat RGB = new Mat();
+        Mat R = new Mat();
+        Mat G = new Mat();
+        Mat B = new Mat();
+        Mat A = new Mat();
+
+        int avgR;
+        int avgG;
+        int avgB;
+        int avgA;
 
         int avg1;
         int avg2;
+        int avg3;
+        int avg4;
 
-        int avgCb;
-        int avgCr;
 
-        /*
-         * This function takes the RGB frame, converts to YCrCb,
-         * and extracts the Cb channel to the 'Cb' variable
-         * -> also added the Cr Channel
-         */
-        void inputToCb(Mat input) {
-            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-            Core.extractChannel(YCrCb, Cb, 1);  //COI-Channel of input; R-G-B= 3 coi; Cr-Cb = 2 coi
+        void inputToR(Mat input){
+            Imgproc.cvtColor(input,RGB,Imgproc.COLOR_mRGBA2RGBA);
+            Core.extractChannel(RGB,R,0);
+
         }
-        void inputToCr(Mat input){
-            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-            Core.extractChannel(YCrCb, Cr, 2);
+        void inputToG(Mat input){
+            Imgproc.cvtColor(input,RGB,Imgproc.COLOR_mRGBA2RGBA);
+            Core.extractChannel(RGB,G,1);
+
+        }
+        void inputToB(Mat input){
+            Imgproc.cvtColor(input,RGB,Imgproc.COLOR_mRGBA2RGBA);
+            Core.extractChannel(RGB,B,2);
+
+        }
+        void inputToA(Mat input){
+            Imgproc.cvtColor(input,RGB,Imgproc.COLOR_mRGBA2RGBA);
+            Core.extractChannel(RGB,A,4);
+
         }
 
 
         public void init(Mat firstFrame) {
 
-            inputToCb(firstFrame);
-            inputToCr(firstFrame);
+            inputToR(firstFrame);
+            inputToG(firstFrame);
+            inputToB(firstFrame);
+            inputToA(firstFrame);
 
-            region1_Cr = Cr.submat(new Rect(region1_pointA, region1_pointB));
-            region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
+            region1 = RGB.submat(new Rect(region1_pointA, region1_pointB));
+
         }
 
         @Override
         public Mat processFrame(Mat input) {
-            inputToCb(input);
-            inputToCr(input);
 
-            avgCb = (int) Core.mean(region1_Cb).val[0];
-            avgCr = (int) Core.mean(region1_Cr).val[0];
+            inputToR(input);
+            inputToG(input);
+            inputToB(input);
+            inputToA(input);
 
             //Rectangles on screen for testing; will still work in auton if this isn't heer or has funky variables
             Imgproc.rectangle(
@@ -290,17 +346,31 @@ public class CvAuto extends LinearOpMode {
                     GREEN, // The color the rectangle is drawn in
                     -1); // Negative thickness means solid fill
 
+            avgR = (int) Core.mean(region1).val[0];
+            avgG = (int) Core.mean(region1).val[0];
+            avgB = (int) Core.mean(region1).val[0];
+            avgA = (int) Core.mean(region1).val[0];
+
             return input;
         }
 
-        public int getAnalysis1() {
-            avg1 = avgCb;
-            return avgCb;
+        public int getAnalysisR() {
+            avg1 = avgR;
+            return avg1;
         }
-        public int getAnalysis2(){
-            avg2 = avgCr;
-            return avgCr;
+        public int getAnalysisG() {
+            avg2 = avgG;
+            return avg2;
         }
+        public int getAnalysisB() {
+            avg3 = avgB;
+            return avg3;
+        }
+        public int getAnalysisA() {
+            avg4 = avgA;
+            return avg4;
+        }
+
     }
 
     //Controls
