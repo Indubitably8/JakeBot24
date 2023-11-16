@@ -296,34 +296,12 @@ public class CvAuto extends LinearOpMode {
         int avg4;
 
 
-        void inputToR(Mat input){
-            Imgproc.cvtColor(input,RGB,Imgproc.COLOR_mRGBA2RGBA);
-            Core.extractChannel(RGB,R,0);
 
-        }
-        void inputToG(Mat input){
-            Imgproc.cvtColor(input,RGB,Imgproc.COLOR_mRGBA2RGBA);
-            Core.extractChannel(RGB,G,1);
-
-        }
-        void inputToB(Mat input){
-            Imgproc.cvtColor(input,RGB,Imgproc.COLOR_mRGBA2RGBA);
-            Core.extractChannel(RGB,B,2);
-
-        }
-        void inputToA(Mat input){
-            Imgproc.cvtColor(input,RGB,Imgproc.COLOR_mRGBA2RGBA);
-            Core.extractChannel(RGB,A,4);
-
-        }
 
 
         public void init(Mat firstFrame) {
 
-            inputToR(firstFrame);
-            inputToG(firstFrame);
-            inputToB(firstFrame);
-            inputToA(firstFrame);
+
 
             region1 = RGB.submat(new Rect(region1_pointA, region1_pointB));
 
@@ -332,10 +310,6 @@ public class CvAuto extends LinearOpMode {
         @Override
         public Mat processFrame(Mat input) {
 
-            inputToR(input);
-            inputToG(input);
-            inputToB(input);
-            inputToA(input);
 
             //Rectangles on screen for testing; will still work in auton if this isn't heer or has funky variables
             Imgproc.rectangle(
@@ -354,9 +328,9 @@ public class CvAuto extends LinearOpMode {
                     -1); // Negative thickness means solid fill
 
             avgR = (int) Core.mean(region1).val[0];
-            avgG = (int) Core.mean(region1).val[0];
-            avgB = (int) Core.mean(region1).val[0];
-            avgA = (int) Core.mean(region1).val[0];
+            avgG = (int) Core.mean(region1).val[1];
+            avgB = (int) Core.mean(region1).val[2];
+            avgA = (int) Core.mean(region1).val[3];
 
             return input;
         }
