@@ -50,7 +50,7 @@ public class ServoTesterOp extends OpMode {
     boolean scaleEnabled = false;
 
 
-    int groupNumber = 1;
+    int groupNumber = 2;
     double unit = 0.1;
 
     boolean delay = false;
@@ -97,27 +97,35 @@ public class ServoTesterOp extends OpMode {
         gamepad1_y = new PressHandler();
         gamepad1_left_bumper = new PressHandler();
         gamepad1_right_bumper = new PressHandler();
+
+        testServo11.setDirection(Servo.Direction.REVERSE);
+        testServo12.setDirection(Servo.Direction.REVERSE);
+        testServo21.setDirection(Servo.Direction.REVERSE);
+        testServo22.setDirection(Servo.Direction.REVERSE);
     }
 
     @Override
     public void start() {
-        servoPosition1 = 0.491;
-        servoPosition2 = 0.670;
+        servoPosition1 = 1;
+        servoPosition2 = 0;
         // group 1 (arm) resting position
-        // position1 = .405
-        // position2 = .48
+        // position1 = .29
+        // position2 = .71
         // group 1 (arm) up position
-        // position1 = .15
-        // position2 = .66
+        // position1 = .542
+        // position2 = .53
         // group 2 (wrist) resting position
-        // position1 = .308
-        // position2 = .672
+        // position1 = .38
+        // position2 = .66
         // group 2 (wrist) up position
-        // position1 = 0.8
-        // position2 = 0.1
+        // position1 = 0.02
+        // position2 = 0.98
 
-        //testServo11.setPosition(.2);
-        //testServo12.setPosition(.9);
+        testServo11.setPosition(.29);
+        testServo12.setPosition(.71);
+
+        testServo21.setPosition(.38);
+        testServo22.setPosition(.66);
     }
 
     @Override

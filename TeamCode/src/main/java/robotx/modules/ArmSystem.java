@@ -14,25 +14,27 @@ public class ArmSystem extends XModule {
     public Servo rightWrist;
     public Servo blockServo;
 
-    double rightArmPos = .440;
-    double leftArmPos = .471;
+    double rightArmPos = .71;
+    double leftArmPos = .29;
 
-    double rightWristPos = .98;
-    double leftWristPos = .02;
+    double rightWristPos = .66;
+    double leftWristPos = .38;
 
     boolean arm = true; //so arm system knows it starts down
     boolean wrist = true;
     boolean blocked = false;
+
+
 
     //methods are built into one button as a toggle
 
     public void moveArm() {
         if (!arm) {
             //DOWN
-            leftWrist.setPosition(.308);
-            rightWrist.setPosition(.672);
-            leftArm.setPosition(.405);
-            rightArm.setPosition(.48);
+            leftWrist.setPosition(.38);
+            rightWrist.setPosition(.66);
+            leftArm.setPosition(.29);
+            rightArm.setPosition(.71);
 
 
 
@@ -41,10 +43,10 @@ public class ArmSystem extends XModule {
         }
         else {
             //UP
-            leftWrist.setPosition(.8);
-            rightWrist.setPosition(.1);
-            leftArm.setPosition(.15);
-            rightArm.setPosition(0.661);
+            leftWrist.setPosition(0.02);
+            rightWrist.setPosition(0.98);
+            leftArm.setPosition(.542);
+            rightArm.setPosition(0.53);
 
 
             arm = false;
@@ -90,10 +92,17 @@ public class ArmSystem extends XModule {
         rightWrist = opMode.hardwareMap.servo.get("rightWrist");
         blockServo = opMode.hardwareMap.servo.get("blockServo");
 
+        leftWrist.setDirection(Servo.Direction.REVERSE);
+        rightWrist.setDirection(Servo.Direction.REVERSE);
+        leftArm.setDirection(Servo.Direction.REVERSE);
+        rightArm.setDirection(Servo.Direction.REVERSE);
+
         leftWrist.setPosition(leftWristPos);
         rightWrist.setPosition(rightWristPos);
         leftArm.setPosition(leftArmPos);
         rightArm.setPosition(rightArmPos);
+
+
     }
 
     public void loop() {
