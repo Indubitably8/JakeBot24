@@ -69,7 +69,6 @@ public class CvAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        initAprilTag();
 
         // Setup, initialize, import modules
 
@@ -109,6 +108,8 @@ public class CvAuto extends LinearOpMode {
         // landscape orientation, though.
         phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
 
+
+
         //start cam
         phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
@@ -131,12 +132,18 @@ public class CvAuto extends LinearOpMode {
         while (opModeIsActive()) {
 
             //need scan code w/ opencv
+            //phoneCam.stopStreaming();
+            //phoneCam.stopRecordingPipeline();
+            //phoneCam.closeCameraDevice();
+
 
             telemetry.addData("R:", pipeline.getAnalysisR());
             telemetry.addData("G:", pipeline.getAnalysisG());
             telemetry.addData("B:", pipeline.getAnalysisB());
             telemetry.addData("A:", pipeline.getAnalysisA());
             telemetry.update();
+
+//            initAprilTag();
 
             //take location and then dependent on this
 /*
@@ -156,7 +163,7 @@ public class CvAuto extends LinearOpMode {
 
         }
 
-        visionPortal.close();
+        //visionPortal.close();
     }
 
     private void initAprilTag() {
