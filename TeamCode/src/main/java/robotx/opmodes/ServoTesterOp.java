@@ -48,10 +48,11 @@ public class ServoTesterOp extends OpMode {
     PressHandler gamepad1_right_bumper;
 
     boolean scaleEnabled = false;
+    boolean delay = false;
 
 
-
-    int groupNumber = 2;
+    int groupNumber = 1;
+    double unit = 0.1;
 
     Servo activeServo1;
     Servo activeServo2;
@@ -140,27 +141,36 @@ public class ServoTesterOp extends OpMode {
                 scaleEnabled = true;
             }
         }
-        if (gamepad1.right_trigger >= 0.5) {
-            groupNumber += 1;
-            if (groupNumber >= 4) {
-                groupNumber = 1;
+        if (gamepad1.right_trigger >= 0.25) {
+            if(delay == false) {
+                groupNumber += 1;
+                if (groupNumber >= 4) {
+                    groupNumber = 1;
+                }
+                delay = true;
+            }
+        } else if (gamepad1.left_trigger >= 0.25) {
+            if(delay == false) {
+                groupNumber -= 1;
+                if (groupNumber <= 0) {
+                    groupNumber = 3;
+                }
+                delay = true;
+            }
+        } else {
+            delay = false;
+        }
+        if (gamepad1_left_bumper.onPress()) {
+            unit /= 10;
+            if(unit <= 0.0001){
+                unit = 0.001;
             }
         }
-        if (gamepad1.left_trigger >= 0.5) {
-            groupNumber -= 1;
-            if (groupNumber <= 0) {
-                groupNumber = 3;
+        if (gamepad1_right_bumper.onPress()) {
+            unit *= 10;
+            if(unit >= 1) {
+            unit = 0.1;
             }
-        }
-        double unit = 0.1;
-        if (gamepad1.left_bumper) {
-            unit = 0.01;
-        }
-        if (gamepad1.right_bumper) {
-            unit = 0.001;
-        }
-        if (gamepad1_left_bumper.onPress() && gamepad1_right_bumper.onPress()) {
-            unit = 0.0001;
         }
         telemetry.addData("Unit: ", unit);
 
