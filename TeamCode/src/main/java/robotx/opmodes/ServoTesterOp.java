@@ -48,11 +48,12 @@ public class ServoTesterOp extends OpMode {
     PressHandler gamepad1_right_bumper;
 
     boolean scaleEnabled = false;
-    boolean delay = false;
 
 
     int groupNumber = 1;
     double unit = 0.1;
+
+    boolean delay = false;
 
     Servo activeServo1;
     Servo activeServo2;
@@ -71,11 +72,11 @@ public class ServoTesterOp extends OpMode {
         */
 
         // with new config
-        testServo11 = hardwareMap.servo.get("leftArm");
-        testServo12 = hardwareMap.servo.get("rightArm");
+        testServo11 = hardwareMap.servo.get("leftArm"); //up: 0.491
+        testServo12 = hardwareMap.servo.get("rightArm"); //up: 0.670
 
-        testServo21 = hardwareMap.servo.get("leftArm");
-        testServo22 = hardwareMap.servo.get("rightArm");
+        testServo21 = hardwareMap.servo.get("leftWrist");
+        testServo22 = hardwareMap.servo.get("rightWrist");
 
         testServo31 = hardwareMap.servo.get("leftArm");
         testServo32 = hardwareMap.servo.get("rightArm");
@@ -100,8 +101,8 @@ public class ServoTesterOp extends OpMode {
 
     @Override
     public void start() {
-        servoPosition1 = 0.308;
-        servoPosition2 = 0.672;
+        servoPosition1 = 0.491;
+        servoPosition2 = 0.670;
         // group 1 (arm) resting position
         // position1 = .405
         // position2 = .48
@@ -115,8 +116,8 @@ public class ServoTesterOp extends OpMode {
         // position1 = 0.8
         // position2 = 0.1
 
-        testServo11.setPosition(1);
-        testServo12.setPosition(0);
+        //testServo11.setPosition(.2);
+        //testServo12.setPosition(.9);
     }
 
     @Override
@@ -141,6 +142,7 @@ public class ServoTesterOp extends OpMode {
                 scaleEnabled = true;
             }
         }
+
         if (gamepad1.right_trigger >= 0.25) {
             if(delay == false) {
                 groupNumber += 1;
@@ -160,6 +162,7 @@ public class ServoTesterOp extends OpMode {
         } else {
             delay = false;
         }
+
         if (gamepad1_left_bumper.onPress()) {
             unit /= 10;
             if(unit <= 0.0001){
@@ -215,9 +218,13 @@ public class ServoTesterOp extends OpMode {
         activeServo1.setPosition(servoPosition1);
         activeServo2.setPosition(servoPosition2);
 
+        //testServo11.setPosition(0.491);
+        //testServo12.setPosition(0.670);
+
+
         telemetry.addData("Scale Enabled?    ", scaleEnabled);
-        telemetry.addData("Servo Position 1: ", servoPosition1);
-        telemetry.addData("Servo Position 2: ", servoPosition2);
+        telemetry.addData("Servo Position 1: ", activeServo1.getPosition());
+        telemetry.addData("Servo Position 2: ", activeServo2.getPosition());
         telemetry.addData("Group number:     ", groupNumber);
     }
 
