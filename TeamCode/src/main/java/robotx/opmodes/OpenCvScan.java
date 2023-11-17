@@ -18,8 +18,8 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 import robotx.modules.MecanumDrive;
-import robotx.modules.OdomSystem;
 import robotx.modules.OrientationDrive;
+import robotx.modules.*;
 
 @TeleOp(name = "OpenCvScan", group = "Default")
 public class OpenCvScan extends LinearOpMode {
@@ -28,6 +28,8 @@ public class OpenCvScan extends LinearOpMode {
     SkystoneDeterminationPipeline pipeline;
     MecanumDrive mecanumDrive;
     OrientationDrive orientationDrive;
+    LiftMotors liftMotors;
+
     OdomSystem odomSystem;
 
     @Override
@@ -44,12 +46,18 @@ public class OpenCvScan extends LinearOpMode {
         mecanumDrive = new MecanumDrive(this);
         mecanumDrive.init();
 
+        liftMotors = new LiftMotors(this);
+        liftMotors.init();
+
+
 
         odomSystem = new OdomSystem(this);
         odomSystem.init();
 
         mecanumDrive.start();
         orientationDrive.start();
+        liftMotors.start();
+
 
         mecanumDrive.frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         mecanumDrive.frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -91,11 +99,10 @@ public class OpenCvScan extends LinearOpMode {
             // Don't burn CPU cycles busy-looping in this sample
 
             telemetry.addData("AnalysisCb", pipeline.getAnalysis1());
-            telemetry.addData("AnalysisCr", pipeline.getAnalysis2());
-            telemetry.addData("AnalysisCoi0", pipeline.getAnalysis3());
+            telemetry.addData("AnalysisCb", pipeline.getAnalysis2());
             telemetry.update();
 
-            sleep(10);
+            sleep(50);
 
         }
     }
@@ -137,7 +144,6 @@ public class OpenCvScan extends LinearOpMode {
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
         Mat Cr = new Mat();
-        Mat coi0 = new Mat();
         Mat Test3 = new Mat();
         Mat Test0 = new Mat();
 
@@ -149,16 +155,10 @@ public class OpenCvScan extends LinearOpMode {
         int avg3;
         int avg0;
 
-        int avgcoi0;
-
         /*
          * This function takes the RGB frame, converts to YCrCb,
          * and extracts the Cb channel to the 'Cb' variable
          */
-        void inputTo0(Mat input){
-            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-            Core.extractChannel(YCrCb, Cr, 0);
-        }
         void inputToCb(Mat input) {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
             Core.extractChannel(YCrCb, Cb, 1);
@@ -173,9 +173,7 @@ public class OpenCvScan extends LinearOpMode {
 
             inputToCb(firstFrame);
             inputToCr(firstFrame);
-            inputTo0(firstFrame);
 
-            region1_0 = coi0.submat(new Rect(region1_pointA, region1_pointB));
             region1_Cr = Cr.submat(new Rect(region1_pointA, region1_pointB));
             region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
         }
@@ -184,11 +182,9 @@ public class OpenCvScan extends LinearOpMode {
         public Mat processFrame(Mat input) {
             inputToCb(input);
             inputToCr(input);
-            inputTo0(input);
 
             avgCb = (int) Core.mean(region1_Cb).val[0];
             avgCr = (int) Core.mean(region1_Cr).val[0];
-            avg0 = (int) Core.mean(region1_0).val[0];
 
             Imgproc.rectangle(
                     input, // Buffer to draw on
@@ -216,101 +212,7 @@ public class OpenCvScan extends LinearOpMode {
             avg2 = avgCr;
             return avgCr;
         }
-        public  int getAnalysis3(){
-            avg3 = avg0;
-            return  avg3;
-        }
     }
 
-    //Controls
-    int timeCheck = 1;
-
-
-
-    public void odomsUp(int time){
-        odomSystem.odom1.setPosition(0.46);
-        odomSystem.odom1.setPosition(0.11);
-        odomSystem.odom1.setPosition(0.46);
-        sleep(time);
-    }
-    public void odomsDown(int time){
-        odomSystem.odom1.setPosition(0.1);
-        odomSystem.odom1.setPosition(0.77);
-        odomSystem.odom1.setPosition(0.21);
-        sleep(time);
-    }
-
-
-    public void DriveForward(double power, int time) {
-        mecanumDrive.frontLeft.setPower(-power);  //top left when rev is down and ducky wheel is right
-        mecanumDrive.frontRight.setPower(power); //bottom left
-        mecanumDrive.backLeft.setPower(power);   //top right
-        mecanumDrive.backRight.setPower(-power); // bottom right
-        sleep(time);
-        mecanumDrive.frontLeft.setPower(0);
-        mecanumDrive.frontRight.setPower(0);
-        mecanumDrive.backLeft.setPower(0);
-        mecanumDrive.backRight.setPower(0);
-    }
-
-    public void DriveBackward(double power, int time) {
-        mecanumDrive.frontLeft.setPower(power);
-        mecanumDrive.frontRight.setPower(-power);
-        mecanumDrive.backLeft.setPower(-power);
-        mecanumDrive.backRight.setPower(power);
-        sleep(time);
-        mecanumDrive.frontLeft.setPower(0);
-        mecanumDrive.frontRight.setPower(0);
-        mecanumDrive.backLeft.setPower(0);
-        mecanumDrive.backRight.setPower(0);
-    }
-
-    public void StrafeRight(double power, int time) {
-        mecanumDrive.frontLeft.setPower(-power);
-        mecanumDrive.frontRight.setPower(-power);
-        mecanumDrive.backLeft.setPower(-power);
-        mecanumDrive.backRight.setPower(-power);
-        sleep(time);
-        mecanumDrive.frontLeft.setPower(0);
-        mecanumDrive.frontRight.setPower(0);
-        mecanumDrive.backLeft.setPower(0);
-        mecanumDrive.backRight.setPower(0);
-    }
-
-    public void StrafeLeft(double power, int time) {
-        mecanumDrive.frontLeft.setPower(power);
-        mecanumDrive.frontRight.setPower(power);
-        mecanumDrive.backLeft.setPower(power);
-        mecanumDrive.backRight.setPower(power);
-        sleep(time);
-        mecanumDrive.frontLeft.setPower(0);
-        mecanumDrive.frontRight.setPower(0);
-        mecanumDrive.backLeft.setPower(0);
-        mecanumDrive.backRight.setPower(0);
-    }
-
-    public void TurnLeft(double power, int time) {
-        mecanumDrive.frontLeft.setPower(power);
-        mecanumDrive.frontRight.setPower(-power);
-        mecanumDrive.backLeft.setPower(power);
-        mecanumDrive.backRight.setPower(-power);
-        sleep(time);
-        mecanumDrive.frontLeft.setPower(0);
-        mecanumDrive.frontRight.setPower(0);
-        mecanumDrive.backLeft.setPower(0);
-        mecanumDrive.backRight.setPower(0);
-    }
-
-    public void TurnRight(double power, int time) {
-        mecanumDrive.frontLeft.setPower(-power);
-        mecanumDrive.frontRight.setPower(power);
-        mecanumDrive.backLeft.setPower(-power);
-        mecanumDrive.backRight.setPower(power);
-        sleep(time);
-        mecanumDrive.frontLeft.setPower(0);
-        mecanumDrive.frontRight.setPower(0);
-        mecanumDrive.backLeft.setPower(0);
-        mecanumDrive.backRight.setPower(0);
-    }
 
 }
