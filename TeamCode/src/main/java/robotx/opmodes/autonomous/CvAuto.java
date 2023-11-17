@@ -97,24 +97,18 @@ public class CvAuto extends LinearOpMode {
 
         //openCV camera / pipeline setup
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId); //device name= config name
+        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId);
         pipeline = new SkystoneDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
-
-
 
         // We set the viewport policy to optimized view so the preview doesn't appear 90 deg
         // out when the RC activity is in portrait. We do our actual image processing assuming
         // landscape orientation, though.
         phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
 
-
-
-        //start cam
         phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                //Size of total camera: AKA streaming area; Scanning region is lower down under skystone
                 phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
 
@@ -137,8 +131,9 @@ public class CvAuto extends LinearOpMode {
             //phoneCam.closeCameraDevice();
 
 
-            telemetry.addData("Cr:", pipeline.getAnalysis1());
-            telemetry.addData("Cb:", pipeline.getAnalysis2());
+            telemetry.addData("Cb:", pipeline.getAnalysis1());
+            telemetry.addData("Cr:", pipeline.getAnalysis2());
+            sleep(20);
 
             telemetry.update();
 
@@ -255,15 +250,13 @@ public class CvAuto extends LinearOpMode {
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar GREEN = new Scalar(0, 255, 0);
 
+        static final int duckThreshold = 100;
+
         /*
          * The core values which define the location and size of the sample regions
          */
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(160, 98);
 
-
-        //Where the top left corner of scanning area is
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(163, 96);
-
-        //Size of scanning area
         static final int REGION_WIDTH = 10;
         static final int REGION_HEIGHT = 25;
 
@@ -285,7 +278,6 @@ public class CvAuto extends LinearOpMode {
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
         Mat Cr = new Mat();
-        Mat coi0 = new Mat();
         Mat Test3 = new Mat();
         Mat Test0 = new Mat();
 
@@ -297,16 +289,10 @@ public class CvAuto extends LinearOpMode {
         int avg3;
         int avg0;
 
-        int avgcoi0;
-
         /*
          * This function takes the RGB frame, converts to YCrCb,
          * and extracts the Cb channel to the 'Cb' variable
          */
-        void inputTo0(Mat input){
-            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-            Core.extractChannel(YCrCb, Cr, 0);
-        }
         void inputToCb(Mat input) {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
             Core.extractChannel(YCrCb, Cb, 1);
@@ -321,9 +307,7 @@ public class CvAuto extends LinearOpMode {
 
             inputToCb(firstFrame);
             inputToCr(firstFrame);
-            inputTo0(firstFrame);
 
-            region1_0 = coi0.submat(new Rect(region1_pointA, region1_pointB));
             region1_Cr = Cr.submat(new Rect(region1_pointA, region1_pointB));
             region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
         }
@@ -332,11 +316,9 @@ public class CvAuto extends LinearOpMode {
         public Mat processFrame(Mat input) {
             inputToCb(input);
             inputToCr(input);
-            inputTo0(input);
 
             avgCb = (int) Core.mean(region1_Cb).val[0];
             avgCr = (int) Core.mean(region1_Cr).val[0];
-            avg0 = (int) Core.mean(region1_0).val[0];
 
             Imgproc.rectangle(
                     input, // Buffer to draw on
@@ -363,10 +345,6 @@ public class CvAuto extends LinearOpMode {
         public int getAnalysis2(){
             avg2 = avgCr;
             return avgCr;
-        }
-        public  int getAnalysis3(){
-            avg3 = avg0;
-            return  avg3;
         }
     }
 
