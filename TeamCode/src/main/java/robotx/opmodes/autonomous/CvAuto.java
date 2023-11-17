@@ -279,36 +279,57 @@ public class CvAuto extends LinearOpMode {
          * Working variables
          */
         Mat region1;
-        Mat RGB = new Mat();
-        Mat R = new Mat();
-        Mat G = new Mat();
-        Mat B = new Mat();
-        Mat A = new Mat();
 
-        int avgR;
-        int avgG;
-        int avgB;
-        int avgA;
+        Mat region1_Cb;
+        Mat region1_Cr;
+        Mat YCrCb = new Mat();
+        Mat Cb = new Mat();
+        Mat Cr = new Mat();
+
 
         int avg1;
         int avg2;
         int avg3;
         int avg4;
 
+        int avgCb;
+        int avgCr;
 
+
+        /*
+         * This function takes the RGB frame, converts to YCrCb,
+         * and extracts the Cb channel to the 'Cb' variable
+         * -> also added the Cr Channel
+         */
+        void inputToCb(Mat input) {
+            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
+            Core.extractChannel(YCrCb, Cb, 1);  //COI-Channel of input; R-G-B= 3 coi; Cr-Cb = 2 coi
+        }
+        void inputToCr(Mat input) {
+            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
+            Core.extractChannel(YCrCb, Cr, 2);
+        }
 
 
 
         public void init(Mat firstFrame) {
 
 
+            inputToCb(firstFrame);
+            inputToCr(firstFrame);
 
-            region1 = RGB.submat(new Rect(region1_pointA, region1_pointB));
+            region1_Cr = Cr.submat(new Rect(region1_pointA, region1_pointB));
+            region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
 
         }
 
         @Override
         public Mat processFrame(Mat input) {
+
+            inputToCb(input);
+            inputToCr(input);
+            avgCb = (int) Core.mean(region1_Cb).val[0];
+            avgCr = (int) Core.mean(region1_Cr).val[0];
 
 
             //Rectangles on screen for testing; will still work in auton if this isn't heer or has funky variables
@@ -327,29 +348,19 @@ public class CvAuto extends LinearOpMode {
                     GREEN, // The color the rectangle is drawn in
                     -1); // Negative thickness means solid fill
 
-            avgR = (int) Core.mean(region1).val[0];
-            avgG = (int) Core.mean(region1).val[1];
-            avgB = (int) Core.mean(region1).val[2];
-            avgA = (int) Core.mean(region1).val[3];
+            avg1 = (int) Core.mean(region1).val[0];
+            avg2 = (int) Core.mean(region1).val[0];
 
             return input;
         }
 
-        public int getAnalysisR() {
-            avg1 = avgR;
-            return avg1;
+        public int getAnalysis1() {
+            avg1 = avgCb;
+            return avgCb;
         }
-        public int getAnalysisG() {
-            avg2 = avgG;
-            return avg2;
-        }
-        public int getAnalysisB() {
-            avg3 = avgB;
-            return avg3;
-        }
-        public int getAnalysisA() {
-            avg4 = avgA;
-            return avg4;
+        public int getAnalysis2() {
+            avg2 = avgCr;
+            return avgCr;
         }
 
     }
