@@ -91,7 +91,7 @@ public class LiftEncoderTesterOp extends OpMode{
             testMotor.setPower(1);
             //testMotor3.setPower(1);
 
-            testMotor2.setPower(.5);
+            testMotor2.setPower(1);
             //testMotor4.setPower(.5);
 
             while (testMotor.isBusy()) {
@@ -117,8 +117,8 @@ public class LiftEncoderTesterOp extends OpMode{
             testMotor.setPower(-1);
             //testMotor3.setPower(-1);
 
-            testMotor2.setPower(-.5);
-            testMotor2.setPower(-.5);
+            testMotor2.setPower(-1);
+
 
             while (testMotor.isBusy()) {
                 if (isStopRequested) break;

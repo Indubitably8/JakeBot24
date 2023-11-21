@@ -17,8 +17,8 @@ public class ArmSystem extends XModule {
     double rightArmPos = .713;
     double leftArmPos = .31;
 
-    double rightWristPos = .90;
-    double leftWristPos = .075;
+    double rightWristPos = .88;
+    double leftWristPos = .19;
 
     boolean arm = true; //so arm system knows it starts down
     boolean wrist = true;
@@ -102,7 +102,7 @@ public class ArmSystem extends XModule {
         leftArm.setPosition(leftArmPos);
         rightArm.setPosition(rightArmPos);
 
-
+        blockServo.setPosition(.1);
     }
 
     public void loop() {
