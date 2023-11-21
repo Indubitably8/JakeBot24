@@ -29,7 +29,6 @@ public class OpenCvScan extends LinearOpMode {
     MecanumDrive mecanumDrive;
     OrientationDrive orientationDrive;
     LiftMotors liftMotors;
-
     OdomSystem odomSystem;
 
     @Override
@@ -49,8 +48,6 @@ public class OpenCvScan extends LinearOpMode {
         liftMotors = new LiftMotors(this);
         liftMotors.init();
 
-
-
         odomSystem = new OdomSystem(this);
         odomSystem.init();
 
@@ -58,12 +55,10 @@ public class OpenCvScan extends LinearOpMode {
         orientationDrive.start();
         liftMotors.start();
 
-
         mecanumDrive.frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         mecanumDrive.frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         mecanumDrive.backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         mecanumDrive.backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
 
         double placementVar = 0;
         int x = 0;
@@ -99,7 +94,7 @@ public class OpenCvScan extends LinearOpMode {
             // Don't burn CPU cycles busy-looping in this sample
 
             telemetry.addData("AnalysisCb", pipeline.getAnalysis1());
-            telemetry.addData("AnalysisCb", pipeline.getAnalysis2());
+            telemetry.addData("AnalysisCr", pipeline.getAnalysis2());
             telemetry.update();
 
             sleep(50);

@@ -125,19 +125,32 @@ public class CvAuto extends LinearOpMode {
         //code that runs
         while (opModeIsActive()) {
 
-            //need scan code w/ opencv
-            //phoneCam.stopStreaming();
-            //phoneCam.stopRecordingPipeline();
-            //phoneCam.closeCameraDevice();
+            // current opencv relationships found as of (11/21/23)
+            /*
+
+            Blue: Cb < Cr (50 < 200)
+            Red: Cb > Cr (215 > 100)
+            Grey: Cb = Cr
+
+            Will vary based on light conditions, but will hold to be true
+            Gray tiles are used, hence a spike in Cr means blue, spike in Cb is red
+             */
+
+            //for red side
+
+            //scan middle
+            //scan outer
 
 
-            telemetry.addData("Cb:", pipeline.getAnalysis1());
-            telemetry.addData("Cr:", pipeline.getAnalysis2());
-            sleep(20);
 
-            telemetry.update();
+            // close OpenCV camera
+            phoneCam.stopStreaming();
+            phoneCam.stopRecordingPipeline();
+            phoneCam.closeCameraDevice();
 
-//            initAprilTag();
+            //Apriltags
+
+            //initAprilTag();
 
             //take location and then dependent on this
 /*
@@ -147,6 +160,8 @@ public class CvAuto extends LinearOpMode {
             for (AprilTagDetection detection : currentDetections) {
 
                 if (detection.id == 1){
+                // add in conditions for each
+                // just set to a var and exit, then run code externally
                     telemetry.addData("test", detection.id);
                     telemetry.update();
                     break;
@@ -156,7 +171,7 @@ public class CvAuto extends LinearOpMode {
 
 
         }
-
+        // apriltags end vision - don't kill CPU
         //visionPortal.close();
     }
 
