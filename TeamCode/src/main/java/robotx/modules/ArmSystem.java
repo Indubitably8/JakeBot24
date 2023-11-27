@@ -14,42 +14,43 @@ public class ArmSystem extends XModule {
     public Servo rightWrist;
     public Servo blockServo;
 
-    double rightArmPos = .713;
-    double leftArmPos = .31;
+    double rightArmPos = .70;
+    double leftArmPos = .29;
 
-    double rightWristPos = .88;
-    double leftWristPos = .19;
+    double rightWristPos = .95;
+    double leftWristPos = .15;
 
     boolean arm = true; //so arm system knows it starts down
     boolean wrist = true;
     boolean blocked = false;
 
 
-
+    int k = 0;
     //methods are built into one button as a toggle
 
     public void moveArm() {
-        if (!arm) {
+        if (k == 0) {
             //DOWN
             leftWrist.setPosition(leftWristPos);
             rightWrist.setPosition(rightWristPos);
             leftArm.setPosition(leftArmPos);
             rightArm.setPosition(rightArmPos);
-
-
-
-
-            arm = true;
+            k++;
         }
-        else {
+
+        else if (k == 1){
+            leftWrist.setPosition((.98+leftWristPos)/2);
+            rightWrist.setPosition((.02+rightWristPos)/2);
+            k++;
+        }
+
+        else{
             //UP
             leftWrist.setPosition(.98);
             rightWrist.setPosition(.02);
             leftArm.setPosition(.542);
             rightArm.setPosition(0.53);
-
-
-            arm = false;
+            k=k-2;
         }
     }
 
