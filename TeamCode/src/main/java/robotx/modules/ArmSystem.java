@@ -22,7 +22,7 @@ public class ArmSystem extends XModule {
 
     boolean arm = true; //so arm system knows it starts down
     boolean wrist = true;
-    boolean blocked = false;
+    boolean blocked = true;
 
 
     int k = 0;

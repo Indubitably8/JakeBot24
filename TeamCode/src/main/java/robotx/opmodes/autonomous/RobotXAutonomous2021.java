@@ -101,8 +101,8 @@ import robotx.modules.LiftMotors;
      public void DriveForward(double power, int time) {
          mecanumDrive.frontLeft.setPower(-power);  //top left when rev is down and ducky wheel is right
          mecanumDrive.frontRight.setPower(power); //bottom left
-         mecanumDrive.backLeft.setPower(power);   //top right
-         mecanumDrive.backRight.setPower(-power); // bottom right
+         mecanumDrive.backLeft.setPower(-power);   //top right
+         mecanumDrive.backRight.setPower(power); // bottom right
          sleep(time);
          mecanumDrive.frontLeft.setPower(0);
          mecanumDrive.frontRight.setPower(0);
@@ -113,8 +113,8 @@ import robotx.modules.LiftMotors;
      public void DriveBackward(double power, int time) {
          mecanumDrive.frontLeft.setPower(power);
          mecanumDrive.frontRight.setPower(-power);
-         mecanumDrive.backLeft.setPower(-power);
-         mecanumDrive.backRight.setPower(power);
+         mecanumDrive.backLeft.setPower(power);
+         mecanumDrive.backRight.setPower(-power);
          sleep(time);
          mecanumDrive.frontLeft.setPower(0);
          mecanumDrive.frontRight.setPower(0);
@@ -125,8 +125,8 @@ import robotx.modules.LiftMotors;
      public void StrafeRight(double power, int time) {
          mecanumDrive.frontLeft.setPower(-power);
          mecanumDrive.frontRight.setPower(-power);
-         mecanumDrive.backLeft.setPower(-power);
-         mecanumDrive.backRight.setPower(-power);
+         mecanumDrive.backLeft.setPower(power);
+         mecanumDrive.backRight.setPower(power);
          sleep(time);
          mecanumDrive.frontLeft.setPower(0);
          mecanumDrive.frontRight.setPower(0);
@@ -137,8 +137,8 @@ import robotx.modules.LiftMotors;
      public void StrafeLeft(double power, int time) {
          mecanumDrive.frontLeft.setPower(power);
          mecanumDrive.frontRight.setPower(power);
-         mecanumDrive.backLeft.setPower(power);
-         mecanumDrive.backRight.setPower(power);
+         mecanumDrive.backLeft.setPower(-power);
+         mecanumDrive.backRight.setPower(-power);
          sleep(time);
          mecanumDrive.frontLeft.setPower(0);
          mecanumDrive.frontRight.setPower(0);
@@ -149,8 +149,8 @@ import robotx.modules.LiftMotors;
      public void DiagonalLeft(double power, int time){
          mecanumDrive.frontLeft.setPower(power);
          mecanumDrive.frontRight.setPower(-power);
-         mecanumDrive.backLeft.setPower(-power);
-         mecanumDrive.backRight.setPower(power);
+         mecanumDrive.backLeft.setPower(power);
+         mecanumDrive.backRight.setPower(-power);
          sleep(time);
          mecanumDrive.frontLeft.setPower(0);
          mecanumDrive.frontRight.setPower(0);
@@ -161,8 +161,8 @@ import robotx.modules.LiftMotors;
      public void DiagonalRight(double power, int time){
          mecanumDrive.frontLeft.setPower(-power);
          mecanumDrive.frontRight.setPower(power);
-         mecanumDrive.backLeft.setPower(power);
-         mecanumDrive.backRight.setPower(-power);
+         mecanumDrive.backLeft.setPower(-power);
+         mecanumDrive.backRight.setPower(power);
          sleep(time);
          mecanumDrive.frontLeft.setPower(0);
          mecanumDrive.frontRight.setPower(0);
@@ -173,8 +173,8 @@ import robotx.modules.LiftMotors;
      public void TurnLeft(double power, int time) {
          mecanumDrive.frontLeft.setPower(power);
          mecanumDrive.frontRight.setPower(-power);
-         mecanumDrive.backLeft.setPower(power);
-         mecanumDrive.backRight.setPower(-power);
+         mecanumDrive.backLeft.setPower(-power);
+         mecanumDrive.backRight.setPower(power);
          sleep(time);
          mecanumDrive.frontLeft.setPower(0);
          mecanumDrive.frontRight.setPower(0);
@@ -185,8 +185,8 @@ import robotx.modules.LiftMotors;
      public void TurnRight(double power, int time) {
          mecanumDrive.frontLeft.setPower(-power);
          mecanumDrive.frontRight.setPower(power);
-         mecanumDrive.backLeft.setPower(-power);
-         mecanumDrive.backRight.setPower(power);
+         mecanumDrive.backLeft.setPower(power);
+         mecanumDrive.backRight.setPower(-power);
          sleep(time);
          mecanumDrive.frontLeft.setPower(0);
          mecanumDrive.frontRight.setPower(0);
@@ -210,7 +210,7 @@ import robotx.modules.LiftMotors;
          double liftPower = 1;
          int liftTime = 100;
          liftMotors.LeftLift.setPower(liftPower);
-         liftMotors.RightLift.setPower(liftPower);
+         liftMotors.RightLift.setPower(-liftPower);
          sleep(liftTime);
          liftMotors.LeftLift.setPower(0);
          liftMotors.RightLift.setPower(0);
@@ -218,7 +218,7 @@ import robotx.modules.LiftMotors;
 
      public void RaiseLift(double power, int time) {
          liftMotors.LeftLift.setPower(power);
-         liftMotors.RightLift.setPower(power);
+         liftMotors.RightLift.setPower(-power);
          sleep(time);
          liftMotors.LeftLift.setPower(0);
          liftMotors.RightLift.setPower(0);
@@ -226,36 +226,33 @@ import robotx.modules.LiftMotors;
 
      public void LowerLift(double power, int time) {
          liftMotors.LeftLift.setPower(-power);
-         liftMotors.RightLift.setPower(-power);
+         liftMotors.RightLift.setPower(power);
          sleep(time);
          liftMotors.LeftLift.setPower(0);
          liftMotors.RightLift.setPower(0);
      }
 
-     public void ArmOut() {
-     armSystem.leftArm.setPosition(0);
-     armSystem.rightArm.setPosition(0);
+     public void ArmRest () {
+         armSystem.leftWrist.setPosition(.15);
+         armSystem.rightWrist.setPosition(.95);
+         armSystem.leftArm.setPosition(.29);
+         armSystem.rightArm.setPosition(.70);
      }
 
-     public void ArmIn() {
-         armSystem.leftArm.setPosition(0);
-         armSystem.rightArm.setPosition(0);
-     }
-
-     public void WristOut() {
-         armSystem.leftWrist.setPosition(0);
-         armSystem.rightWrist.setPosition(0);
-     }
-
-     public void WristIn() {
-         armSystem.leftWrist.setPosition(0);
-         armSystem.rightWrist.setPosition(0);
+     public void ArmUp () {
+         armSystem.leftWrist.setPosition((.565));
+         armSystem.rightWrist.setPosition((.485));
+         sleep(500);
+         armSystem.leftWrist.setPosition(.98);
+         armSystem.rightWrist.setPosition(.02);
+         armSystem.leftArm.setPosition(.542);
+         armSystem.rightArm.setPosition(0.53);
      }
 
      public void Release(int time) {
-         armSystem.blockServo.setPosition(0);
+         armSystem.blockServo.setPosition(.6);
          sleep(time);
-         armSystem.blockServo.setPosition(0);
+         armSystem.blockServo.setPosition(.1);
      }
 
  }
