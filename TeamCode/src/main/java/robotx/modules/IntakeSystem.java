@@ -34,19 +34,14 @@ public class IntakeSystem extends XModule {
         if(xGamepad2().x.isDown()  || xGamepad1().x.isDown()) {
             IntakeMotor.setPower(power);
         }
-        else{
-            IntakeMotor.setPower(0);
-        }
-        /*
-        if(xGamepad2().left_trigger > .25 || xGamepad1().left_trigger > .25) {
+        else if(xGamepad2().left_trigger > .25 || xGamepad1().left_trigger > .25) {
             IntakeMotor.setPower(-power);
         }
         else{
             IntakeMotor.setPower(0);
         }
-        
-         */
-        leftIntake.setPosition(.3);
-        rightIntake.setPosition(.7);
+
+        leftIntake.setPosition(.29);
+        rightIntake.setPosition(.71);
     }
 }
