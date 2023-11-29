@@ -109,10 +109,18 @@ public class ArmSystem extends XModule {
     public void loop() {
         // button presses, calls methods
 
-            if (xGamepad2().b.wasPressed()) {
+        if (xGamepad2().b.wasPressed()) {
                 toggleBlock();
-            }
+        }
         if (xGamepad2().y.wasPressed()) {
+
+            leftWrist.setPosition(leftWristPos);
+            rightWrist.setPosition(rightWristPos);
+            leftArm.setPosition(leftArmPos);
+            rightArm.setPosition(rightArmPos);
+
+            k=0;
+
 
         }
         if (xGamepad2().a.wasPressed()) {
