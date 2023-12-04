@@ -138,7 +138,8 @@ public class CvAuto extends LinearOpMode {
             }
         });
 
-        String pixelPos = "";
+        // init pixelPos
+        String pixelPos = "None";
 
         waitForStart();
 
@@ -154,103 +155,219 @@ public class CvAuto extends LinearOpMode {
 
             Will vary based on light conditions, but will hold to be true
             Gray tiles are used, hence a spike in Cr means blue, spike in Cb is red
+
+            Analysis1 = Cb
+            Analysis2 = Cr
              */
 
-            //for red side
+            //for red side (currently)
 
-            //scan middle
-            //scan outer
+            // scanning will work for both sides, just need to change which way we are moving
+            for (int i = 0; i < 500; i++) {
+                //scan middle
+                if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 75 || pipeline.getAnalysis2() > pipeline.getAnalysis1() + 75) {
+                    pixelPos = "Middle";
+                    break;
+                }
+                sleep(1);
+            }
 
+            //change strafe and what it is finding
+            StrafeRight(0.8, 150);
 
+            //scan outer (away from center)
+            for (int i = 0; i < 500; i++) {
+                if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 75 || pipeline.getAnalysis2() > pipeline.getAnalysis1() + 75) {
+                    pixelPos = "Right";
+                    break;
+                }
+                sleep(1);
+            }
+
+            //then logically has to be the other option
+            if (pixelPos.equals("None")) {
+                pixelPos = "Left";
+            }
+
+            telemetry.addData("Position", pixelPos);
+            telemetry.update();
 
             // close OpenCV camera
             phoneCam.stopStreaming();
             phoneCam.stopRecordingPipeline();
             phoneCam.closeCameraDevice();
 
-            //Apriltags
+            //movements place a pixel and get robot to the board
 
-            //initAprilTag();
+            if (pixelPos.equals("Left")) {
+                //drive and drop off pixel
+                DriveBackward(1, 0);
+                sleep(sleepTime);
+                TurnLeft(1, 0);
+                sleep(sleepTime);
+                DriveBackward(1, 0);
+                sleep(sleepTime);
+                DriveForward(1, 0);
+                sleep(sleepTime);
+                Unintake(1, 0);
+                sleep(sleepTime);
+                DriveForward(1, 0);
+                sleep(sleepTime);
 
-            //take location and then dependent on this
+            }
+            if (pixelPos.equals("Middle")) {
+                DriveBackward(1, 0);
+                sleep(sleepTime);
+                DriveForward(1, 0);
+                sleep(sleepTime);
+                Unintake(1, 0);
+                sleep(sleepTime);
+                TurnLeft(1, 0);
+                sleep(sleepTime);
+                DriveForward(1, 0);
+                sleep(sleepTime);
 
-            aprilTag.getDetections();
-            List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+            }
+            if (pixelPos.equals("Right")) {
+                StrafeLeft(1, 0);
+                sleep(sleepTime);
+                DriveBackward(1, 0);
+                sleep(sleepTime);
+                TurnLeft(1, 0);
+                sleep(sleepTime);
+                DriveBackward(1, 0);
+                sleep(sleepTime);
+                DriveForward(1, 0);
+                sleep(sleepTime);
+                Unintake(1, 0);
+                sleep(sleepTime);
+                DriveForward(1, 0);
+                sleep(sleepTime);
 
-            for (AprilTagDetection detection : currentDetections) {
-//1-left, 3-right
-                //time is not final
-                if(detection.id == 1){
-                    DriveBackward(1, 0);
-                    sleep(sleepTime);
-                    TurnLeft(1, 0);
-                    sleep(sleepTime);
-                    DriveBackward(1,0);
-                    sleep(sleepTime);
-                    DriveForward(1,0);
-                    sleep(sleepTime);
-                    Unintake(1,0);
-                    sleep(sleepTime);
-                    DriveForward(1,0);
-                    sleep(sleepTime);
-                    StrafeLeft(1,0);
-                    sleep(sleepTime);
-                    ArmUp();
-                    sleep(sleepTime);
-                    Release(0);
+            }
+
+            /*
+
+            code to set up getting to apriltags
+
+            left = 1 or 4
+            middle = 2 or 5
+            right = 3 or 6
+
+            ######## AprilTags Code is constant no matter what and should work no matter where the robot is on the board - change the "ConstantTimeMove1" var to edit how much it is moving
+            it is iterative, so could set to a low value it would just jerk a lot
+
+             */
+
+            int PlacementEval = 0;
+
+            switch(pixelPos) {
+
+                case "Left":
+                    PlacementEval = 1;
+                    break;
+                case "Middle":
+                    PlacementEval = 2;
+                    break;
+                case "Right":
+                    PlacementEval = 3;
+                    break;
+            }
+
+
+            //clear telemetry for apriltags
+            telemetry.clear();
+
+            //start camera for apriltags
+            initAprilTag();
+
+            int constantTimeMove1 = 75;
+            int DetectionEval = 0;
+
+            //dependent on location in relation to the board
+
+            while (true){
+
+                aprilTag.getDetections();
+                List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+
+                //find and save current detection
+                for (AprilTagDetection detection : currentDetections) {
+                    //1-left, 3-right
+                    //time is not final
+
+                    if (detection.id == 1 || detection.id == 4) {
+                        // add in conditions for each
+                        DetectionEval = 1;
+
+                        telemetry.addData("Current april Tags Detection", detection.id);
+                        telemetry.update();
+                        break;
+                    }
+                    if (detection.id == 2 || detection.id == 5) {
+                        // add in conditions for each
+                        DetectionEval = 2;
+
+                        telemetry.addData("Current april Tags Detection", detection.id);
+                        telemetry.update();
+                        break;
+                    }
+                    if (detection.id == 3 || detection.id == 6) {
+                        // add in conditions for each
+                        DetectionEval = 3;
+
+                        telemetry.addData("Current april Tags Detection", detection.id);
+                        telemetry.update();
+                        break;
+                    }
+
                 }
-                if(detection.id == 2){
-                    DriveBackward(1,0);
-                    sleep(sleepTime);
-                    DriveForward(1,0);
-                    sleep(sleepTime);
-                    Unintake(1,0);
-                    sleep(sleepTime);
-                    TurnLeft(1,0);
-                    sleep(sleepTime);
-                    DriveForward(1,0);
-                    sleep(sleepTime);
-                    StrafeRight(1,0);
-                    sleep(sleepTime);
-                    ArmUp();
-                    sleep(sleepTime);
-                    Release(0);
-                }
-                if(detection.id == 3){
-                    StrafeLeft(1,0);
-                    sleep(sleepTime);
-                    DriveBackward(1,0);
-                    sleep(sleepTime);
-                    TurnLeft(1,0);
-                    sleep(sleepTime);
-                    DriveBackward(1,0);
-                    sleep(sleepTime);
-                    DriveForward(1,0);
-                    sleep(sleepTime);
-                    Unintake(1,0);
-                    sleep(sleepTime);
-                    DriveForward(1,0);
-                    sleep(sleepTime);
-                    StrafeRight(1,0);
-                    sleep(sleepTime);
-                    ArmUp();
-                    sleep(sleepTime);
-                    Release(0);
-                }
-                if (detection.id == 1){
-                // add in conditions for each
-                // just set to a var and exit, then run code externally
-                    telemetry.addData("test", detection.id);
+
+                //catch not scanning properly
+
+                if (DetectionEval == 0){
+                    telemetry.addData("FAIL", "FAIL");
                     telemetry.update();
+
+                    //temp sleep for testing
+                    sleep(1000);
+                    continue;
+
+                }
+
+                // if correct, score and end (stop looking)
+                if (PlacementEval == DetectionEval){
+
+                    ScoreAPixel(500);
                     break;
                 }
+
+                // move to what should be correct place
+
+                if (PlacementEval > DetectionEval){
+
+                    StrafeRight(.8,(constantTimeMove1*(PlacementEval-DetectionEval)));
+                }
+
+                if (PlacementEval < DetectionEval){
+
+                    StrafeLeft(.8,(constantTimeMove1*(Math.abs(PlacementEval-DetectionEval))));
+
+                }
+
             }
+
+            //at this point should have a pixel placed on the wall and parked
+
+
+            //sleep entire auto
+            sleep(30000);
 
 
 
         }
         // apriltags end vision - don't kill CPU
-        //visionPortal.close();
+        visionPortal.close();
     }
 
     private void initAprilTag() {
@@ -578,27 +695,39 @@ public class CvAuto extends LinearOpMode {
         liftMotors.RightLift.setPower(0);
     }
 
-    public void ArmRest () {
+    public void ArmRest(int time) {
         armSystem.leftWrist.setPosition(.15);
         armSystem.rightWrist.setPosition(.95);
         armSystem.leftArm.setPosition(.29);
         armSystem.rightArm.setPosition(.70);
+        sleep(time);
     }
 
-    public void ArmUp () {
+    public void ArmUp(int time) {
         armSystem.leftWrist.setPosition((.565));
         armSystem.rightWrist.setPosition((.485));
-        sleep(500);
+        sleep(time);
         armSystem.leftWrist.setPosition(.98);
         armSystem.rightWrist.setPosition(.02);
         armSystem.leftArm.setPosition(.542);
         armSystem.rightArm.setPosition(0.53);
+        sleep(time);
     }
 
     public void Release(int time) {
         armSystem.blockServo.setPosition(.6);
         sleep(time);
         armSystem.blockServo.setPosition(.1);
+        sleep(time);
     }
+
+    public void ScoreAPixel(int time){
+        ArmUp(time);
+        Release(time);
+        ArmRest(time);
+
+    }
+
+    // special note for John - sleeps are to give the servos time to move
 
 }

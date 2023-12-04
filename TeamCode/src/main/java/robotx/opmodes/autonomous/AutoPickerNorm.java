@@ -1,12 +1,11 @@
 package robotx.opmodes.autonomous;
 
-import com.acmerobotics.roadrunner.geometry.*;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import robotx.modules.MecanumDrive;
 import robotx.modules.OdomSystem;
@@ -102,7 +101,7 @@ public class AutoPickerNorm extends LinearOpMode {
             }
         }
 
-        telemetry.addData("Program runing: ", sideSelect);
+        telemetry.addData("Program running: ", sideSelect);
         telemetry.update();
 
         waitForStart();
@@ -116,9 +115,7 @@ public class AutoPickerNorm extends LinearOpMode {
                 case "RSR":
                     // sample
                     break;
-                case "RSL:"
-                    break;
-                Default:
+                case "RSL":
                     break;
             }
 
