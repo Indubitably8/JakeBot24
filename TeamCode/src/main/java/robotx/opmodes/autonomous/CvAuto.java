@@ -141,6 +141,35 @@ public class CvAuto extends LinearOpMode {
         // init pixelPos
         String pixelPos = "None";
 
+        Boolean programSelected = false;
+        String sideSelect = "";
+
+        telemetry.addData("Info", "\na:RSR \n b:RSL \n x:BSR \n y:BSL \n ");
+        telemetry.update();
+
+        while (!programSelected){
+
+            if (gamepad1.a){
+                sideSelect = "RSR";
+                programSelected = true;
+            }
+            if (gamepad1.b){
+                sideSelect = "RSL";
+                programSelected = true;
+            }
+            if (gamepad1.x){
+                sideSelect = "BSR";
+                programSelected = true;
+            }
+            if (gamepad1.y){
+                sideSelect = "BSL";
+                programSelected = true;
+            }
+        }
+
+        telemetry.addData("Program running: ", sideSelect);
+        telemetry.update();
+
         waitForStart();
 
         //code that runs

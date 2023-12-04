@@ -1,11 +1,12 @@
 package robotx.opmodes.autonomous;
 
-
+import com.acmerobotics.roadrunner.geometry.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import robotx.modules.MecanumDrive;
 import robotx.modules.OdomSystem;
@@ -14,9 +15,9 @@ import robotx.modules.ArmSystem;
 import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
 
-@Autonomous(name = "autoNorm", group = "Default")
+@Autonomous(name = "ParkEverywhere", group = "Default")
 
-public class AutoPickerNorm extends LinearOpMode {
+public class ParkEverywhere extends LinearOpMode {
 
     //private ElapsedTime runtime = new ElapsedTime();
 
@@ -72,8 +73,19 @@ public class AutoPickerNorm extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
+        Pose2d start = new Pose2d(0,0,0);
+        Vector2d board = new Vector2d(0,0);
+
+        drive.setPoseEstimate(start);
+
+        TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(start)
+                .lineToConstantHeading(board)
+                .build();
+
+
         double power = 0.5;
         int sleepTime = 1000;
+
 
         Boolean programSelected = false;
         String sideSelect = "";
@@ -110,15 +122,42 @@ public class AutoPickerNorm extends LinearOpMode {
         //runtime.reset();
 
         if (opModeIsActive()) {
+            //Function Sequence goes here
 
-            switch(sideSelect) {
+            // need to adjust times / powers
+
+            switch (sideSelect){
                 case "RSR":
-                    // sample
+                    telemetry.addData("current run", sideSelect);
+                    telemetry.update();
+                    sleep(100);
+                    StrafeRight(0.8,500);
+                    sleep(1000);
                     break;
                 case "RSL":
+                    telemetry.addData("current run", sideSelect);
+                    telemetry.update();
+                    sleep(100);
+                    StrafeRight(0.8,2000);
+                    sleep(1000);
+                    break;
+                case "BSR":
+                    telemetry.addData("current run", sideSelect);
+                    telemetry.update();
+                    sleep(100);
+                    StrafeLeft(0.8,500);
+                    sleep(1000);
+                    break;
+                case "BSL":
+                    telemetry.addData("current run", sideSelect);
+                    telemetry.update();
+                    sleep(100);
+                    StrafeLeft(0.8,2000);
+                    sleep(1000);
                     break;
             }
-
+            //sleep until the end
+            sleep(30000);
 
         }
     }
