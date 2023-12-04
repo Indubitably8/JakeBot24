@@ -9,7 +9,7 @@ public class DroneLaunch extends XModule {
 
     //var setup
     public Servo launchArm;
-    public Servo angleLaunch;
+    //public Servo angleLaunch;
 
     boolean launched = false;
     boolean angled = false;
@@ -23,6 +23,7 @@ public class DroneLaunch extends XModule {
     }
 
     public void angle() {
+        /*
         if (!angled) {
             angleLaunch.setPosition(0.14);
             angled = true;
@@ -30,6 +31,7 @@ public class DroneLaunch extends XModule {
             angleLaunch.setPosition(0);
             angled = false;
         }
+        */
     }
 
 
@@ -40,8 +42,8 @@ public class DroneLaunch extends XModule {
     public void init() {
         // pulls servos from configs
         launchArm = opMode.hardwareMap.servo.get("launchArm");
-        angleLaunch = opMode.hardwareMap.servo.get("angleLaunch");
-        angleLaunch.setPosition(0);
+        //angleLaunch = opMode.hardwareMap.servo.get("angleLaunch");
+        //angleLaunch.setPosition(0);
         launchArm.setPosition(.96);
     }
 
@@ -53,8 +55,10 @@ public class DroneLaunch extends XModule {
                 launch();
             }
         }
+        /*
         if (xGamepad2().left_bumper.wasPressed()) {
             angle();
         }
+        */
     }
 }
