@@ -73,16 +73,6 @@ public class AutoPickerNorm extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d start = new Pose2d(0,0,0);
-        Vector2d board = new Vector2d(0,0);
-
-        drive.setPoseEstimate(start);
-
-        TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(start)
-                .lineToConstantHeading(board)
-                .build();
-
-
         double power = 0.5;
         int sleepTime = 1000;
 
@@ -121,6 +111,16 @@ public class AutoPickerNorm extends LinearOpMode {
         //runtime.reset();
 
         if (opModeIsActive()) {
+
+            switch(sideSelect) {
+                case "RSR":
+                    // sample
+                    break;
+                case "RSL:"
+                    break;
+                Default:
+                    break;
+            }
 
 
         }
