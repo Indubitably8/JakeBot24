@@ -1,5 +1,6 @@
 package robotx.opmodes.autonomous;
 
+import com.acmerobotics.roadrunner.drive.Drive;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -52,6 +53,9 @@ public class CvAuto extends LinearOpMode {
     MecanumDrive mecanumDrive;
     OrientationDrive orientationDrive;
     OdomSystem odomSystem;
+    ArmSystem armSystem;
+    IntakeSystem intakeSystem;
+    LiftMotors liftMotors;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -86,6 +90,22 @@ public class CvAuto extends LinearOpMode {
 
         mecanumDrive.start();
         orientationDrive.start();
+
+        armSystem = new ArmSystem(this);
+        armSystem.init();
+
+        intakeSystem = new IntakeSystem(this);
+        intakeSystem.init();
+
+        liftMotors = new LiftMotors(this);
+        liftMotors.init();
+
+        odomSystem.start();
+        mecanumDrive.start();
+        orientationDrive.start();
+        armSystem.start();
+        intakeSystem.start();
+        liftMotors.start();
 
         mecanumDrive.frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         mecanumDrive.frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -153,12 +173,70 @@ public class CvAuto extends LinearOpMode {
             //initAprilTag();
 
             //take location and then dependent on this
-/*
+
             aprilTag.getDetections();
             List<AprilTagDetection> currentDetections = aprilTag.getDetections();
 
             for (AprilTagDetection detection : currentDetections) {
-
+//1-left, 3-right
+                //time is not final
+                if(detection.id == 1){
+                    DriveBackward(1, 0);
+                    sleep(sleepTime);
+                    TurnLeft(1, 0);
+                    sleep(sleepTime);
+                    DriveBackward(1,0);
+                    sleep(sleepTime);
+                    DriveForward(1,0);
+                    sleep(sleepTime);
+                    Unintake(1,0);
+                    sleep(sleepTime);
+                    DriveForward(1,0);
+                    sleep(sleepTime);
+                    StrafeLeft(1,0);
+                    sleep(sleepTime);
+                    ArmUp();
+                    sleep(sleepTime);
+                    Release(0);
+                }
+                if(detection.id == 2){
+                    DriveBackward(1,0);
+                    sleep(sleepTime);
+                    DriveForward(1,0);
+                    sleep(sleepTime);
+                    Unintake(1,0);
+                    sleep(sleepTime);
+                    TurnLeft(1,0);
+                    sleep(sleepTime);
+                    DriveForward(1,0);
+                    sleep(sleepTime);
+                    StrafeRight(1,0);
+                    sleep(sleepTime);
+                    ArmUp();
+                    sleep(sleepTime);
+                    Release(0);
+                }
+                if(detection.id == 3){
+                    StrafeLeft(1,0);
+                    sleep(sleepTime);
+                    DriveBackward(1,0);
+                    sleep(sleepTime);
+                    TurnLeft(1,0);
+                    sleep(sleepTime);
+                    DriveBackward(1,0);
+                    sleep(sleepTime);
+                    DriveForward(1,0);
+                    sleep(sleepTime);
+                    Unintake(1,0);
+                    sleep(sleepTime);
+                    DriveForward(1,0);
+                    sleep(sleepTime);
+                    StrafeRight(1,0);
+                    sleep(sleepTime);
+                    ArmUp();
+                    sleep(sleepTime);
+                    Release(0);
+                }
                 if (detection.id == 1){
                 // add in conditions for each
                 // just set to a var and exit, then run code externally
@@ -167,7 +245,7 @@ public class CvAuto extends LinearOpMode {
                     break;
                 }
             }
-*/
+
 
 
         }
@@ -369,8 +447,8 @@ public class CvAuto extends LinearOpMode {
     public void DriveForward(double power, int time) {
         mecanumDrive.frontLeft.setPower(-power);  //top left when rev is down and ducky wheel is right
         mecanumDrive.frontRight.setPower(power); //bottom left
-        mecanumDrive.backLeft.setPower(power);   //top right
-        mecanumDrive.backRight.setPower(-power); // bottom right
+        mecanumDrive.backLeft.setPower(-power);   //top right
+        mecanumDrive.backRight.setPower(power); // bottom right
         sleep(time);
         mecanumDrive.frontLeft.setPower(0);
         mecanumDrive.frontRight.setPower(0);
@@ -381,8 +459,8 @@ public class CvAuto extends LinearOpMode {
     public void DriveBackward(double power, int time) {
         mecanumDrive.frontLeft.setPower(power);
         mecanumDrive.frontRight.setPower(-power);
-        mecanumDrive.backLeft.setPower(-power);
-        mecanumDrive.backRight.setPower(power);
+        mecanumDrive.backLeft.setPower(power);
+        mecanumDrive.backRight.setPower(-power);
         sleep(time);
         mecanumDrive.frontLeft.setPower(0);
         mecanumDrive.frontRight.setPower(0);
@@ -393,8 +471,8 @@ public class CvAuto extends LinearOpMode {
     public void StrafeRight(double power, int time) {
         mecanumDrive.frontLeft.setPower(-power);
         mecanumDrive.frontRight.setPower(-power);
-        mecanumDrive.backLeft.setPower(-power);
-        mecanumDrive.backRight.setPower(-power);
+        mecanumDrive.backLeft.setPower(power);
+        mecanumDrive.backRight.setPower(power);
         sleep(time);
         mecanumDrive.frontLeft.setPower(0);
         mecanumDrive.frontRight.setPower(0);
@@ -405,7 +483,31 @@ public class CvAuto extends LinearOpMode {
     public void StrafeLeft(double power, int time) {
         mecanumDrive.frontLeft.setPower(power);
         mecanumDrive.frontRight.setPower(power);
+        mecanumDrive.backLeft.setPower(-power);
+        mecanumDrive.backRight.setPower(-power);
+        sleep(time);
+        mecanumDrive.frontLeft.setPower(0);
+        mecanumDrive.frontRight.setPower(0);
+        mecanumDrive.backLeft.setPower(0);
+        mecanumDrive.backRight.setPower(0);
+    }
+
+    public void DiagonalLeft(double power, int time){
+        mecanumDrive.frontLeft.setPower(power);
+        mecanumDrive.frontRight.setPower(-power);
         mecanumDrive.backLeft.setPower(power);
+        mecanumDrive.backRight.setPower(-power);
+        sleep(time);
+        mecanumDrive.frontLeft.setPower(0);
+        mecanumDrive.frontRight.setPower(0);
+        mecanumDrive.backLeft.setPower(0);
+        mecanumDrive.backRight.setPower(0);
+    }
+
+    public void DiagonalRight(double power, int time){
+        mecanumDrive.frontLeft.setPower(-power);
+        mecanumDrive.frontRight.setPower(power);
+        mecanumDrive.backLeft.setPower(-power);
         mecanumDrive.backRight.setPower(power);
         sleep(time);
         mecanumDrive.frontLeft.setPower(0);
@@ -417,8 +519,8 @@ public class CvAuto extends LinearOpMode {
     public void TurnLeft(double power, int time) {
         mecanumDrive.frontLeft.setPower(power);
         mecanumDrive.frontRight.setPower(-power);
-        mecanumDrive.backLeft.setPower(power);
-        mecanumDrive.backRight.setPower(-power);
+        mecanumDrive.backLeft.setPower(-power);
+        mecanumDrive.backRight.setPower(power);
         sleep(time);
         mecanumDrive.frontLeft.setPower(0);
         mecanumDrive.frontRight.setPower(0);
@@ -429,13 +531,74 @@ public class CvAuto extends LinearOpMode {
     public void TurnRight(double power, int time) {
         mecanumDrive.frontLeft.setPower(-power);
         mecanumDrive.frontRight.setPower(power);
-        mecanumDrive.backLeft.setPower(-power);
-        mecanumDrive.backRight.setPower(power);
+        mecanumDrive.backLeft.setPower(power);
+        mecanumDrive.backRight.setPower(-power);
         sleep(time);
         mecanumDrive.frontLeft.setPower(0);
         mecanumDrive.frontRight.setPower(0);
         mecanumDrive.backLeft.setPower(0);
         mecanumDrive.backRight.setPower(0);
+    }
+
+    public void Intake(double power, int time) {
+        intakeSystem.IntakeMotor.setPower(power);
+        sleep(time);
+        intakeSystem.IntakeMotor.setPower(0);
+    }
+
+    public void Unintake(double power, int time) {
+        intakeSystem.IntakeMotor.setPower(-power);
+        sleep(time);
+        intakeSystem.IntakeMotor.setPower(0);
+    }
+
+    public void FirstLift() {
+        double liftPower = 1;
+        int liftTime = 100;
+        liftMotors.LeftLift.setPower(liftPower);
+        liftMotors.RightLift.setPower(-liftPower);
+        sleep(liftTime);
+        liftMotors.LeftLift.setPower(0);
+        liftMotors.RightLift.setPower(0);
+    }
+
+    public void RaiseLift(double power, int time) {
+        liftMotors.LeftLift.setPower(power);
+        liftMotors.RightLift.setPower(-power);
+        sleep(time);
+        liftMotors.LeftLift.setPower(0);
+        liftMotors.RightLift.setPower(0);
+    }
+
+    public void LowerLift(double power, int time) {
+        liftMotors.LeftLift.setPower(-power);
+        liftMotors.RightLift.setPower(power);
+        sleep(time);
+        liftMotors.LeftLift.setPower(0);
+        liftMotors.RightLift.setPower(0);
+    }
+
+    public void ArmRest () {
+        armSystem.leftWrist.setPosition(.15);
+        armSystem.rightWrist.setPosition(.95);
+        armSystem.leftArm.setPosition(.29);
+        armSystem.rightArm.setPosition(.70);
+    }
+
+    public void ArmUp () {
+        armSystem.leftWrist.setPosition((.565));
+        armSystem.rightWrist.setPosition((.485));
+        sleep(500);
+        armSystem.leftWrist.setPosition(.98);
+        armSystem.rightWrist.setPosition(.02);
+        armSystem.leftArm.setPosition(.542);
+        armSystem.rightArm.setPosition(0.53);
+    }
+
+    public void Release(int time) {
+        armSystem.blockServo.setPosition(.6);
+        sleep(time);
+        armSystem.blockServo.setPosition(.1);
     }
 
 }
