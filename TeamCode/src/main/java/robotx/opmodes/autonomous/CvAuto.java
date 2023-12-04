@@ -201,12 +201,34 @@ public class CvAuto extends LinearOpMode {
                 sleep(1);
             }
 
-            //change strafe and what it is finding
-            StrafeRight(0.8, 150);
+            /**
+             * Need to test the value to move from one line to the other and if need to change camera view
+             */
+            int timeBetweenLines = 150;
+            switch (sideSelect){
+                case "RSR":
+                case "BSR":
+                    telemetry.addData("current run", sideSelect);
+                    telemetry.update();
+                    sleep(100);
+                    StrafeRight(0.8,timeBetweenLines);
+                    sleep(100);
+                    break;
+                case "RSL":
+                case "BSL":
+                    telemetry.addData("current run", sideSelect);
+                    telemetry.update();
+                    sleep(100);
+                    StrafeLeft(0.8,timeBetweenLines);
+                    sleep(100);
+                    break;
+
+            }
+
 
             //scan outer (away from center)
             for (int i = 0; i < 500; i++) {
-                if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 75 || pipeline.getAnalysis2() > pipeline.getAnalysis1() + 75) {
+                if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 50 || pipeline.getAnalysis2() > pipeline.getAnalysis1() + 50) {
                     pixelPos = "Right";
                     break;
                 }
