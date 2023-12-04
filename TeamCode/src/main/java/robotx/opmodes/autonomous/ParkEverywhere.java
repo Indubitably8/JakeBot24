@@ -24,7 +24,7 @@ public class ParkEverywhere extends LinearOpMode {
     //Modules being imported
     MecanumDrive mecanumDrive;
     OrientationDrive orientationDrive;
-    OdomSystem odomSystem;
+    //OdomSystem odomSystem;
     ArmSystem armSystem;
     IntakeSystem intakeSystem;
     LiftMotors liftMotors;
@@ -43,8 +43,8 @@ public class ParkEverywhere extends LinearOpMode {
         orientationDrive = new OrientationDrive(this);
         orientationDrive.init();
 
-        odomSystem = new OdomSystem(this);
-        odomSystem.init();
+        //odomSystem = new OdomSystem(this);
+        //odomSystem.init();
 
         armSystem = new ArmSystem(this);
         armSystem.init();
@@ -55,7 +55,7 @@ public class ParkEverywhere extends LinearOpMode {
         liftMotors = new LiftMotors(this);
         liftMotors.init();
 
-        odomSystem.start();
+        //odomSystem.start();
         mecanumDrive.start();
         orientationDrive.start();
         armSystem.start();
@@ -73,7 +73,7 @@ public class ParkEverywhere extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d start = new Pose2d(0,0,0);
+        /*Pose2d start = new Pose2d(0,0,0);
         Vector2d board = new Vector2d(0,0);
 
         drive.setPoseEstimate(start);
@@ -81,7 +81,7 @@ public class ParkEverywhere extends LinearOpMode {
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(start)
                 .lineToConstantHeading(board)
                 .build();
-
+        */
 
         double power = 0.5;
         int sleepTime = 1000;
@@ -126,33 +126,40 @@ public class ParkEverywhere extends LinearOpMode {
 
             // need to adjust times / powers
 
+            // cstaut cooked here
+            // 13V goal, 13.5V max, 12.65 min
+
             switch (sideSelect){
                 case "RSR":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeRight(0.8,500);
+                    StrafeRight(0.5,1700);
                     sleep(1000);
                     break;
                 case "RSL":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeRight(0.8,2000);
+                    DriveForward(0.5,1700);
+                    sleep(50);
+                    StrafeRight(0.5,5000);
                     sleep(1000);
                     break;
                 case "BSR":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeLeft(0.8,500);
+                    StrafeLeft(0.5,1700);
                     sleep(1000);
                     break;
                 case "BSL":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeLeft(0.8,2000);
+                    DriveForward(0.5,1700);
+                    sleep(50);
+                    StrafeLeft(0.5,5000);
                     sleep(1000);
                     break;
             }
@@ -165,7 +172,7 @@ public class ParkEverywhere extends LinearOpMode {
 
     public void DriveForward(double power, int time) {
         mecanumDrive.frontLeft.setPower(-power);  //top left when rev is down and ducky wheel is right
-        mecanumDrive.frontRight.setPower(power); //bottom left
+        mecanumDrive.frontRight.setPower(-power); //bottom left
         mecanumDrive.backLeft.setPower(-power);   //top right
         mecanumDrive.backRight.setPower(power); // bottom right
         sleep(time);
@@ -177,7 +184,7 @@ public class ParkEverywhere extends LinearOpMode {
 
     public void DriveBackward(double power, int time) {
         mecanumDrive.frontLeft.setPower(power);
-        mecanumDrive.frontRight.setPower(-power);
+        mecanumDrive.frontRight.setPower(power);
         mecanumDrive.backLeft.setPower(power);
         mecanumDrive.backRight.setPower(-power);
         sleep(time);
@@ -189,7 +196,7 @@ public class ParkEverywhere extends LinearOpMode {
 
     public void StrafeRight(double power, int time) {
         mecanumDrive.frontLeft.setPower(-power);
-        mecanumDrive.frontRight.setPower(-power);
+        mecanumDrive.frontRight.setPower(power);
         mecanumDrive.backLeft.setPower(power);
         mecanumDrive.backRight.setPower(power);
         sleep(time);
@@ -201,7 +208,7 @@ public class ParkEverywhere extends LinearOpMode {
 
     public void StrafeLeft(double power, int time) {
         mecanumDrive.frontLeft.setPower(power);
-        mecanumDrive.frontRight.setPower(power);
+        mecanumDrive.frontRight.setPower(-power);
         mecanumDrive.backLeft.setPower(-power);
         mecanumDrive.backRight.setPower(-power);
         sleep(time);
