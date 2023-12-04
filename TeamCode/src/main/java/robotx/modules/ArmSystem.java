@@ -103,7 +103,7 @@ public class ArmSystem extends XModule {
         leftArm.setPosition(leftArmPos);
         rightArm.setPosition(rightArmPos);
 
-        blockServo.setPosition(.1);
+        blockServo.setPosition(.6);
     }
 
     public void loop() {
