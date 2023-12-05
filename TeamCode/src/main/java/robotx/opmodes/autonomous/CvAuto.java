@@ -192,8 +192,8 @@ public class CvAuto extends LinearOpMode {
             //for red side (currently)
 
             // scanning will work for both sides, just need to change which way we are moving
+            //scan middle
             for (int i = 0; i < 500; i++) {
-                //scan middle
                 if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 75 || pipeline.getAnalysis2() > pipeline.getAnalysis1() + 75) {
                     pixelPos = "Middle";
                     break;
@@ -205,6 +205,7 @@ public class CvAuto extends LinearOpMode {
              * Need to test the value to move from one line to the other and if need to change camera view
              */
             int timeBetweenLines = 150;
+
             switch (sideSelect){
                 case "RSR":
                 case "BSR":
@@ -222,9 +223,7 @@ public class CvAuto extends LinearOpMode {
                     StrafeLeft(0.8,timeBetweenLines);
                     sleep(100);
                     break;
-
             }
-
 
             //scan outer (away from center)
             for (int i = 0; i < 500; i++) {
@@ -298,7 +297,6 @@ public class CvAuto extends LinearOpMode {
             }
 
             /*
-
             code to set up getting to apriltags
 
             left = 1 or 4
@@ -307,10 +305,10 @@ public class CvAuto extends LinearOpMode {
 
             ######## AprilTags Code is constant no matter what and should work no matter where the robot is on the board - change the "ConstantTimeMove1" var to edit how much it is moving
             it is iterative, so could set to a low value it would just jerk a lot
-
              */
 
             int PlacementEval = 0;
+            int escapeThereIsAProbem = 0;
 
             switch(pixelPos) {
 
@@ -324,7 +322,6 @@ public class CvAuto extends LinearOpMode {
                     PlacementEval = 3;
                     break;
             }
-
 
             //clear telemetry for apriltags
             telemetry.clear();
@@ -380,10 +377,19 @@ public class CvAuto extends LinearOpMode {
                     telemetry.addData("FAIL", "FAIL");
                     telemetry.update();
 
+                    escapeThereIsAProbem++;
+
                     //temp sleep for testing
                     sleep(1000);
                     continue;
 
+                }
+
+                //more error handling
+                if (escapeThereIsAProbem > 10){
+                    telemetry.addData("FAIL", "WE ESCAPED");
+                    telemetry.update();
+                    break;
                 }
 
                 // if correct, score and end (stop looking)
@@ -407,14 +413,10 @@ public class CvAuto extends LinearOpMode {
                 }
 
             }
-
             //at this point should have a pixel placed on the wall and parked
-
 
             //sleep entire auto
             sleep(30000);
-
-
 
         }
         // apriltags end vision - don't kill CPU
@@ -511,8 +513,6 @@ public class CvAuto extends LinearOpMode {
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar GREEN = new Scalar(0, 255, 0);
 
-        static final int duckThreshold = 100;
-
         /*
          * The core values which define the location and size of the sample regions
          */
@@ -533,22 +533,16 @@ public class CvAuto extends LinearOpMode {
          */
         Mat region1_Cb;
         Mat region1_Cr;
-        Mat region1_3;
-        Mat region1_0;
 
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
         Mat Cr = new Mat();
-        Mat Test3 = new Mat();
-        Mat Test0 = new Mat();
 
         int avg1;
         int avg2;
 
         int avgCb;
         int avgCr;
-        int avg3;
-        int avg0;
 
         /*
          * This function takes the RGB frame, converts to YCrCb,
