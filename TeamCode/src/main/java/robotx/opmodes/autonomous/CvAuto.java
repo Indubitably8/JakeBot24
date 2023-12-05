@@ -297,7 +297,6 @@ public class CvAuto extends LinearOpMode {
             }
 
             /*
-
             code to set up getting to apriltags
 
             left = 1 or 4
@@ -306,7 +305,6 @@ public class CvAuto extends LinearOpMode {
 
             ######## AprilTags Code is constant no matter what and should work no matter where the robot is on the board - change the "ConstantTimeMove1" var to edit how much it is moving
             it is iterative, so could set to a low value it would just jerk a lot
-
              */
 
             int PlacementEval = 0;
@@ -324,7 +322,6 @@ public class CvAuto extends LinearOpMode {
                     PlacementEval = 3;
                     break;
             }
-
 
             //clear telemetry for apriltags
             telemetry.clear();
@@ -416,7 +413,6 @@ public class CvAuto extends LinearOpMode {
                 }
 
             }
-
             //at this point should have a pixel placed on the wall and parked
 
             //sleep entire auto
@@ -517,8 +513,6 @@ public class CvAuto extends LinearOpMode {
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar GREEN = new Scalar(0, 255, 0);
 
-        static final int duckThreshold = 100;
-
         /*
          * The core values which define the location and size of the sample regions
          */
@@ -539,22 +533,16 @@ public class CvAuto extends LinearOpMode {
          */
         Mat region1_Cb;
         Mat region1_Cr;
-        Mat region1_3;
-        Mat region1_0;
 
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
         Mat Cr = new Mat();
-        Mat Test3 = new Mat();
-        Mat Test0 = new Mat();
 
         int avg1;
         int avg2;
 
         int avgCb;
         int avgCr;
-        int avg3;
-        int avg0;
 
         /*
          * This function takes the RGB frame, converts to YCrCb,
