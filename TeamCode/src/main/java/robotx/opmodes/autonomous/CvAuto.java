@@ -192,8 +192,8 @@ public class CvAuto extends LinearOpMode {
             //for red side (currently)
 
             // scanning will work for both sides, just need to change which way we are moving
+            //scan middle
             for (int i = 0; i < 500; i++) {
-                //scan middle
                 if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 75 || pipeline.getAnalysis2() > pipeline.getAnalysis1() + 75) {
                     pixelPos = "Middle";
                     break;
@@ -205,6 +205,7 @@ public class CvAuto extends LinearOpMode {
              * Need to test the value to move from one line to the other and if need to change camera view
              */
             int timeBetweenLines = 150;
+
             switch (sideSelect){
                 case "RSR":
                 case "BSR":
@@ -222,9 +223,7 @@ public class CvAuto extends LinearOpMode {
                     StrafeLeft(0.8,timeBetweenLines);
                     sleep(100);
                     break;
-
             }
-
 
             //scan outer (away from center)
             for (int i = 0; i < 500; i++) {
@@ -311,6 +310,7 @@ public class CvAuto extends LinearOpMode {
              */
 
             int PlacementEval = 0;
+            int escapeThereIsAProbem = 0;
 
             switch(pixelPos) {
 
@@ -380,10 +380,19 @@ public class CvAuto extends LinearOpMode {
                     telemetry.addData("FAIL", "FAIL");
                     telemetry.update();
 
+                    escapeThereIsAProbem++;
+
                     //temp sleep for testing
                     sleep(1000);
                     continue;
 
+                }
+
+                //more error handling
+                if (escapeThereIsAProbem > 10){
+                    telemetry.addData("FAIL", "WE ESCAPED");
+                    telemetry.update();
+                    break;
                 }
 
                 // if correct, score and end (stop looking)
@@ -410,11 +419,8 @@ public class CvAuto extends LinearOpMode {
 
             //at this point should have a pixel placed on the wall and parked
 
-
             //sleep entire auto
             sleep(30000);
-
-
 
         }
         // apriltags end vision - don't kill CPU
