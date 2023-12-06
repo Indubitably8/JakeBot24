@@ -134,23 +134,38 @@ public class ParkandPlace extends LinearOpMode {
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeRight(0.5,1700);
+                    StrafeRight(-0.5,1200);
+                    sleep(50);
+                    ArmUp();
+                    DriveForward(0.5,2000);
+                    sleep(50);
+                    Release(500);
                     sleep(1000);
                     break;
                 case "RSL":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    DriveForward(0.5,1700);
+                    StrafeRight(-0.5,1200);
                     sleep(50);
-                    StrafeRight(0.5,5000);
+                    DriveForward(0.5,4000);
+                    sleep(1);
+                    ArmUp();
+                    sleep(50);
+                    Release(500);
                     sleep(1000);
                     break;
                 case "BSR":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeLeft(0.5,1700);
+                    StrafeRight(0.5,1200);
+                    sleep(50);
+                    DriveForward(0.5,4000);
+                    sleep(1);
+                    ArmUp();
+                    sleep(50);
+                    Release(500);
                     sleep(1000);
                     break;
                 case "BSL":
