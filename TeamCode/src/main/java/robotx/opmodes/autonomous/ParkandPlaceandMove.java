@@ -15,9 +15,9 @@ import robotx.modules.ArmSystem;
 import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
 
-@Autonomous(name = "ParkandPlace", group = "Default")
+@Autonomous(name = "ParkandPlaceandMove", group = "Default")
 
-public class ParkandPlace extends LinearOpMode {
+public class ParkandPlaceandMove extends LinearOpMode {
 
     //private ElapsedTime runtime = new ElapsedTime();
 
@@ -140,32 +140,52 @@ public class ParkandPlace extends LinearOpMode {
                     DriveForward(0.5,2000);
                     sleep(50);
                     Release(500);
+                    sleep(510);
+                    DriveBackward(0.5, 200);
+                    sleep(10);
+                    StrafeLeft(0.5, 1200);
+                    sleep(10);
+                    ArmRest();
+                    sleep(500);
+                    DriveForward(0.5, 500);
                     sleep(1000);
                     break;
                 case "RSL":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeRight(-0.5,1200);
+                    StrafeRight(-0.25,3000);
                     sleep(50);
-                    DriveForward(0.5,4000);
-                    sleep(1);
-                    ArmUp();
-                    sleep(50);
+                    UnderBar(0.5,2250);
+                    sleep(10);
                     Release(500);
+                    sleep(510);
+                    DriveBackward(0.5, 200);
+                    sleep(10);
+                    StrafeLeft(-0.5, 1200);
+                    sleep(10);
+                    ArmRest();
+                    sleep(500);
+                    DriveForward(0.5, 500);
                     sleep(1000);
                     break;
                 case "BSR":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeRight(0.5,1200);
+                    StrafeRight(0.25,3000);
                     sleep(50);
-                    DriveForward(0.5,4000);
-                    sleep(1);
-                    ArmUp();
-                    sleep(50);
+                    UnderBar(0.5,250);
+                    sleep(10);
                     Release(500);
+                    sleep(510);
+                    DriveBackward(0.5, 200);
+                    sleep(10);
+                    StrafeLeft(0.5, 1200);
+                    sleep(10);
+                    ArmRest();
+                    sleep(500);
+                    DriveForward(0.5, 500);
                     sleep(1000);
                     break;
                 case "BSL":
@@ -178,6 +198,14 @@ public class ParkandPlace extends LinearOpMode {
                     DriveForward(0.5,2000);
                     sleep(50);
                     Release(500);
+                    sleep(510);
+                    DriveBackward(0.5, 200);
+                    sleep(10);
+                    StrafeLeft(-0.5, 1200);
+                    sleep(10);
+                    ArmRest();
+                    sleep(500);
+                    DriveForward(0.5, 500);
                     sleep(1000);
                     break;
             }
@@ -345,4 +373,20 @@ public class ParkandPlace extends LinearOpMode {
         armSystem.blockServo.setPosition(.1);
     }
 
+    public void UnderBar (double power, int time) {
+        if(time < 1500){
+            time = 1500;
+        }
+        mecanumDrive.frontLeft.setPower(-power);
+        mecanumDrive.frontRight.setPower(-power);
+        mecanumDrive.backLeft.setPower(-power);
+        mecanumDrive.backRight.setPower(power);
+        sleep(1500);
+        ArmUp();
+        sleep(time-15-00);
+        mecanumDrive.frontLeft.setPower(0);
+        mecanumDrive.frontRight.setPower(0);
+        mecanumDrive.backLeft.setPower(0);
+        mecanumDrive.backRight.setPower(0);
+    }
 }
