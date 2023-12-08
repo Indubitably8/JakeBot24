@@ -516,10 +516,10 @@ public class CvAuto extends LinearOpMode {
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(160, 98);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(105, 90);
 
-        static final int REGION_WIDTH = 10;
-        static final int REGION_HEIGHT = 25;
+        static final int REGION_WIDTH = 20;
+        static final int REGION_HEIGHT = 20;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
