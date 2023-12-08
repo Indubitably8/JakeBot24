@@ -193,13 +193,28 @@ public class CvAuto extends LinearOpMode {
 
             // scanning will work for both sides, just need to change which way we are moving
             //scan middle
-            for (int i = 0; i < 500; i++) {
-                if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 75 || pipeline.getAnalysis2() > pipeline.getAnalysis1() + 75) {
-                    pixelPos = "Middle";
-                    break;
+                switch (sideSelect) {
+                    case "RSR" :
+                    case "RSL" :
+                        for (int i = 0; i < 500; i++) {
+                            if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 75) {
+                                pixelPos = "Middle";
+                                break;
+                            }
+                            sleep(1);
+                        }
+                        break;
+                    case "BSR":
+                    case "BSL":
+                        for (int i = 0; i < 500; i++) {
+                            if (pipeline.getAnalysis2() > pipeline.getAnalysis1() + 75) {
+                                pixelPos = "Middle";
+                                break;
+                            }
+                            sleep(1);
+                        }
+                        break;
                 }
-                sleep(1);
-            }
 
             /**
              * Need to test the value to move from one line to the other and if need to change camera view
@@ -208,6 +223,7 @@ public class CvAuto extends LinearOpMode {
 
             switch (sideSelect){
                 case "RSR":
+
                 case "BSR":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
@@ -226,12 +242,27 @@ public class CvAuto extends LinearOpMode {
             }
 
             //scan outer (away from center)
-            for (int i = 0; i < 500; i++) {
-                if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 50 || pipeline.getAnalysis2() > pipeline.getAnalysis1() + 50) {
-                    pixelPos = "Right";
+            switch (sideSelect) {
+                case "RSR" :
+                case "RSL" :
+                    for (int i = 0; i < 500; i++) {
+                        if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 50) {
+                            pixelPos = "Right";
+                            break;
+                        }
+                        sleep(1);
+                    }
                     break;
-                }
-                sleep(1);
+                case "BSR":
+                case "BSL":
+                    for (int i = 0; i < 500; i++) {
+                        if (pipeline.getAnalysis2() > pipeline.getAnalysis1() + 50) {
+                            pixelPos = "Right";
+                            break;
+                        }
+                        sleep(1);
+                    }
+                    break;
             }
 
             //then logically has to be the other option
