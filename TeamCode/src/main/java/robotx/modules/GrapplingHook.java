@@ -28,7 +28,7 @@ public class GrapplingHook extends XModule {
 
     public void loop() {
 
-        if (xGamepad2().left_trigger > 0.33){
+        if (xGamepad2().left_bumper.isDown){
             GrappleMotor.setPower(power);
         }
         else {
