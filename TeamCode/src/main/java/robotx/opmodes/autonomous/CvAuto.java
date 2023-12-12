@@ -1,6 +1,7 @@
 package robotx.opmodes.autonomous;
 
 import com.acmerobotics.roadrunner.drive.Drive;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -45,7 +46,7 @@ import robotx.modules.MecanumDrive;
 import robotx.modules.OrientationDrive;
 import robotx.modules.*;
 
-@TeleOp(name = "OpenCv+AprilTags", group = "Default")
+@Autonomous(name = "OpenCv+AprilTags", group = "Default")
 public class CvAuto extends LinearOpMode {
 
     OpenCvWebcam phoneCam;
@@ -79,17 +80,14 @@ public class CvAuto extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        orientationDrive = new OrientationDrive(this);
-        orientationDrive.init();
-
         mecanumDrive = new MecanumDrive(this);
         mecanumDrive.init();
 
-        odomSystem = new OdomSystem(this);
-        odomSystem.init();
+        orientationDrive = new OrientationDrive(this);
+        orientationDrive.init();
 
-        mecanumDrive.start();
-        orientationDrive.start();
+        //odomSystem = new OdomSystem(this);
+        //odomSystem.init();
 
         armSystem = new ArmSystem(this);
         armSystem.init();
@@ -100,7 +98,7 @@ public class CvAuto extends LinearOpMode {
         liftMotors = new LiftMotors(this);
         liftMotors.init();
 
-        odomSystem.start();
+        //odomSystem.start();
         mecanumDrive.start();
         orientationDrive.start();
         armSystem.start();
@@ -117,7 +115,7 @@ public class CvAuto extends LinearOpMode {
 
         //openCV camera / pipeline setup
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId);
+        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         pipeline = new SkystoneDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
 
@@ -129,7 +127,7 @@ public class CvAuto extends LinearOpMode {
         phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_RIGHT);
+                phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
@@ -143,6 +141,8 @@ public class CvAuto extends LinearOpMode {
 
         Boolean programSelected = false;
         String sideSelect = "";
+
+        telemetry.clearAll();
 
         telemetry.addData("Info", "\na:RSR \n b:RSL \n x:BSR \n y:BSL \n ");
         telemetry.update();
@@ -166,6 +166,8 @@ public class CvAuto extends LinearOpMode {
                 programSelected = true;
             }
         }
+
+        telemetry.clearAll();
 
         telemetry.addData("Program running: ", sideSelect);
         telemetry.update();
@@ -201,7 +203,7 @@ public class CvAuto extends LinearOpMode {
                                 pixelPos = "Middle";
                                 break;
                             }
-                            sleep(1);
+                            sleep(5);
                         }
                         break;
                     case "BSR":
@@ -211,7 +213,7 @@ public class CvAuto extends LinearOpMode {
                                 pixelPos = "Middle";
                                 break;
                             }
-                            sleep(1);
+                            sleep(5);
                         }
                         break;
                 }
@@ -246,7 +248,7 @@ public class CvAuto extends LinearOpMode {
                 case "RSR" :
                 case "RSL" :
                     for (int i = 0; i < 500; i++) {
-                        if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 50) {
+                        if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 15) {
                             pixelPos = "Right";
                             break;
                         }
@@ -256,7 +258,7 @@ public class CvAuto extends LinearOpMode {
                 case "BSR":
                 case "BSL":
                     for (int i = 0; i < 500; i++) {
-                        if (pipeline.getAnalysis2() > pipeline.getAnalysis1() + 50) {
+                        if (pipeline.getAnalysis2() > pipeline.getAnalysis1() + 15) {
                             pixelPos = "Right";
                             break;
                         }
@@ -547,7 +549,8 @@ public class CvAuto extends LinearOpMode {
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(105, 90);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(130, 150);
+        //right side of object is even with inside of camera
 
         static final int REGION_WIDTH = 20;
         static final int REGION_HEIGHT = 20;

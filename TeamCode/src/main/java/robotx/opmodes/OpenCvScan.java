@@ -79,7 +79,7 @@ public class OpenCvScan extends LinearOpMode {
         phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+                phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_RIGHT);
             }
 
             @Override
@@ -116,10 +116,10 @@ public class OpenCvScan extends LinearOpMode {
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(160, 98);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(62, 102);
 
         static final int REGION_WIDTH = 10;
-        static final int REGION_HEIGHT = 25;
+        static final int REGION_HEIGHT = 10;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
