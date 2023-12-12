@@ -31,10 +31,10 @@ public class IntakeSystem extends XModule {
 
     public void loop() {
 
-        if(xGamepad2().x.isDown()  || xGamepad1().x.isDown()) {
+        if(xGamepad2().right_trigger > .25) {
             IntakeMotor.setPower(power);
         }
-        else if(xGamepad2().left_trigger > .25 || xGamepad1().left_trigger > .25) {
+        else if(xGamepad2().left_trigger > .25) {
             IntakeMotor.setPower(-power);
         }
         else{

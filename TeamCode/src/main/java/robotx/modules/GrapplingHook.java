@@ -2,17 +2,20 @@ package robotx.modules;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import robotx.libraries.XModule;
 
 public class GrapplingHook extends XModule {
 
-/*
+
     // motors being used
 
     public DcMotor GrappleMotor;
+    public Servo Stabilizer;
 
     double power = 1;
+    boolean stabilized = false;
 
     public GrapplingHook(OpMode op) {
         super(op);
@@ -23,21 +26,30 @@ public class GrapplingHook extends XModule {
         //init motors from configs
 
         GrappleMotor = opMode.hardwareMap.dcMotor.get("GrappleMotor");
+        Stabilizer = opMode.hardwareMap.servo.get("Stabilizer");
 
+        Stabilizer.setPosition(.26);
     }
 
     public void loop() {
-
-        if (xGamepad2().left_bumper.isDown){
+        if (xGamepad2().right_bumper.isDown()){
             GrappleMotor.setPower(power);
-        }
-        else {
+        }else if(xGamepad2().left_bumper.isDown()){
+            GrappleMotor.setPower(-power);
+        } else {
             GrappleMotor.setPower(0.0);
         }
+        if(xGamepad2().x.wasPressed()) {
+            if(stabilized) {
+                Stabilizer.setPosition(.8);
+                stabilized = false;
+            } else {
+                Stabilizer.setPosition(.26);
+                stabilized = true;
+            }
+        }
+    }// stabilizer .26 up, .8 down
 
-    }
-
- */
 }
 
 /*

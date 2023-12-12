@@ -50,7 +50,7 @@ public class ServoTesterOp extends OpMode {
     boolean scaleEnabled = false;
 
 
-    int groupNumber = 2;
+    int groupNumber = 1;
     double unit = 0.1;
 
     boolean delay = false;
@@ -72,8 +72,8 @@ public class ServoTesterOp extends OpMode {
         */
 
         // with new config
-        testServo11 = hardwareMap.servo.get("launchArm"); //up: 0.491
-        testServo12 = hardwareMap.servo.get("launchArm"); //up: 0.670
+        testServo11 = hardwareMap.servo.get("Stabilizer"); //up: 0.491
+        /*testServo12 = hardwareMap.servo.get("rightArm"); //up: 0.670
 
         testServo21 = hardwareMap.servo.get("launchArm");
         testServo22 = hardwareMap.servo.get("launchArm");
@@ -81,15 +81,17 @@ public class ServoTesterOp extends OpMode {
         testServo31 = hardwareMap.servo.get("launchArm");
         testServo32 = hardwareMap.servo.get("launchArm");
 
+         */
+
         activeServo1 = testServo11;
-        activeServo2 = testServo12;
+        /*activeServo2 = testServo12;
 
         servoGroup1 = new Servo[]{testServo11, testServo12};
         servoGroup2 = new Servo[]{testServo21, testServo22};
         servoGroup3 = new Servo[]{testServo31, testServo32};
 
         servoGroups = new Servo[][]{servoGroup1, servoGroup2, servoGroup3};
-
+        */
         gamepad1_dpad_up = new PressHandler();
         gamepad1_dpad_down = new PressHandler();
         gamepad1_a = new PressHandler();
@@ -99,15 +101,16 @@ public class ServoTesterOp extends OpMode {
         gamepad1_right_bumper = new PressHandler();
 
         testServo11.setDirection(Servo.Direction.REVERSE);
-        testServo12.setDirection(Servo.Direction.REVERSE);
+        /*testServo12.setDirection(Servo.Direction.REVERSE);
         testServo21.setDirection(Servo.Direction.REVERSE);
         testServo22.setDirection(Servo.Direction.REVERSE);
+         */
     }
 
     @Override
     public void start() {
         servoPosition1 = 1;
-        servoPosition2 = 0;
+        //servoPosition2 = 0;
         // group 1 (arm) resting position
         // position1 = .29
         // position2 = .71
@@ -121,11 +124,11 @@ public class ServoTesterOp extends OpMode {
         // position1 = 0.02
         // position2 = 0.98
 
-        testServo11.setPosition(.29);
-        testServo12.setPosition(.71);
+        //testServo11.setPosition(.29);
+        //testServo12.setPosition(.71);
 
-        testServo21.setPosition(.38);
-        testServo22.setPosition(.66);
+        //testServo21.setPosition(.38);
+        //testServo22.setPosition(.66);
     }
 
     @Override
@@ -142,11 +145,11 @@ public class ServoTesterOp extends OpMode {
         if (gamepad1_b.onPress()) {
             if (scaleEnabled) {
                 activeServo1.scaleRange(0.0, 1.0);
-                activeServo2.scaleRange(0.0, 1.0);
+                //activeServo2.scaleRange(0.0, 1.0);
                 scaleEnabled = false;
             } else {
                 activeServo1.scaleRange(0.02, 0.98);
-                activeServo2.scaleRange(0.02, 0.98);
+                //activeServo2.scaleRange(0.02, 0.98);
                 scaleEnabled = true;
             }
         }
@@ -192,39 +195,47 @@ public class ServoTesterOp extends OpMode {
             servoPosition1 -= unit;
         }
         if (gamepad1_y.onPress()) {
-            servoPosition2 += unit;
+            //servoPosition2 += unit;
         }
         if (gamepad1_a.onPress()) {
-            servoPosition2 -= unit;
+            //servoPosition2 -= unit;
         }
 
         if (servoPosition1 > 1.0) {
             servoPosition1 = 1.0;
         }
+        /*
         if (servoPosition2 > 1.0) {
             servoPosition2 = 1.0;
         }
+         */
         if (groupNumber != 1) {
             if (servoPosition1 < 0.0) {
                 servoPosition1 = 0.0;
             }
+            /*
             if (servoPosition2 < 0.0) {
                 servoPosition2 = 0.0;
             }
+
+             */
         } else {
             if (servoPosition1 < -1.0) {
                 servoPosition1 = -1.0;
             }
+            /*
             if (servoPosition2 < -1.0) {
                 servoPosition2 = -1.0;
             }
+
+             */
         }
 
-        activeServo1 = servoGroups[groupNumber - 1][0];
-        activeServo2 = servoGroups[groupNumber - 1][1];
+        //activeServo1 = servoGroups[groupNumber - 1][0];
+        //activeServo2 = servoGroups[groupNumber - 1][1];
 
         activeServo1.setPosition(servoPosition1);
-        activeServo2.setPosition(servoPosition2);
+        //activeServo2.setPosition(servoPosition2);
 
         //testServo11.setPosition(0.491);
         //testServo12.setPosition(0.670);
@@ -232,7 +243,7 @@ public class ServoTesterOp extends OpMode {
 
         telemetry.addData("Scale Enabled?    ", scaleEnabled);
         telemetry.addData("Servo Position 1: ", activeServo1.getPosition());
-        telemetry.addData("Servo Position 2: ", activeServo2.getPosition());
+        //telemetry.addData("Servo Position 2: ", activeServo2.getPosition());
         telemetry.addData("Group number:     ", groupNumber);
     }
 

@@ -18,7 +18,7 @@ public class DroneLaunch extends XModule {
     //methods are built into one button as a toggle
 
     public void launch() {
-        launchArm.setPosition(0.62); //start pos .96
+        launchArm.setPosition(.966); //start pos .96   old launch pos .62
         launched = true;
     }
 
@@ -44,13 +44,13 @@ public class DroneLaunch extends XModule {
         launchArm = opMode.hardwareMap.servo.get("launchArm");
         //angleLaunch = opMode.hardwareMap.servo.get("angleLaunch");
         //angleLaunch.setPosition(0);
-        launchArm.setPosition(.96);
+        launchArm.setPosition(.62);
     }
 
     public void loop() {
         // button presses, calls methods
 
-        if (xGamepad2().right_bumper.wasPressed()) {
+        if (xGamepad2().right_stick_button.wasPressed() || xGamepad2().left_stick_button.wasPressed()) {
             if (!launched) {
                 launch();
             }
