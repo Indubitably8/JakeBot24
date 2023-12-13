@@ -41,7 +41,7 @@ public class IntakeSystem extends XModule {
             IntakeMotor.setPower(0);
         }
 
-        leftIntake.setPosition(.29);
-        rightIntake.setPosition(.71);
+        leftIntake.setPosition(.27);
+        rightIntake.setPosition(.73);
     }
 }
