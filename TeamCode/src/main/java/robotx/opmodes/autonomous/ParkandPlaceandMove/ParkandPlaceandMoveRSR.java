@@ -1,4 +1,4 @@
-package robotx.opmodes.autonomous;
+package robotx.opmodes.autonomous.ParkandPlaceandMove;
 
 import com.acmerobotics.roadrunner.geometry.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -15,9 +15,9 @@ import robotx.modules.ArmSystem;
 import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
 
-@Autonomous(name = "Park in place and place", group = "Default")
+@Autonomous(name = "ParkandPlaceandMoveRSR", group = "ParkandPlaceandMove")
 
-public class Place_Park_in_Place extends LinearOpMode {
+public class ParkandPlaceandMoveRSR extends LinearOpMode {
 
     //private ElapsedTime runtime = new ElapsedTime();
 
@@ -90,27 +90,13 @@ public class Place_Park_in_Place extends LinearOpMode {
         Boolean programSelected = false;
         String sideSelect = "";
 
-        telemetry.addData("Info", "\na:RSR \n b:RSL \n x:BSR \n y:BSL \n ");
         telemetry.update();
 
         while (!programSelected){
 
-            if (gamepad1.a){
                 sideSelect = "RSR";
                 programSelected = true;
-            }
-            if (gamepad1.b){
-                sideSelect = "RSL";
-                programSelected = true;
-            }
-            if (gamepad1.x){
-                sideSelect = "BSR";
-                programSelected = true;
-            }
-            if (gamepad1.y){
-                sideSelect = "BSL";
-                programSelected = true;
-            }
+
         }
 
         telemetry.addData("Program running: ", sideSelect);
@@ -143,6 +129,12 @@ public class Place_Park_in_Place extends LinearOpMode {
                     sleep(510);
                     DriveBackward(0.5, 200);
                     sleep(10);
+                    StrafeLeft(0.5, 1200);
+                    sleep(10);
+                    ArmRest();
+                    sleep(500);
+                    DriveForward(0.5, 500);
+                    sleep(1000);
                     break;
                 case "RSL":
                     telemetry.addData("current run", sideSelect);
@@ -156,6 +148,12 @@ public class Place_Park_in_Place extends LinearOpMode {
                     sleep(510);
                     DriveBackward(0.5, 200);
                     sleep(10);
+                    StrafeLeft(-0.5, 1200);
+                    sleep(10);
+                    ArmRest();
+                    sleep(500);
+                    DriveForward(0.5, 500);
+                    sleep(1000);
                     break;
                 case "BSR":
                     telemetry.addData("current run", sideSelect);
@@ -169,6 +167,11 @@ public class Place_Park_in_Place extends LinearOpMode {
                     sleep(510);
                     DriveBackward(0.5, 200);
                     sleep(10);
+                    StrafeLeft(0.5, 1200);
+                    sleep(10);
+                    ArmRest();
+                    sleep(500);
+                    DriveForward(0.5, 500);
                     sleep(1000);
                     break;
                 case "BSL":
@@ -184,6 +187,12 @@ public class Place_Park_in_Place extends LinearOpMode {
                     sleep(510);
                     DriveBackward(0.5, 200);
                     sleep(10);
+                    StrafeLeft(-0.5, 1200);
+                    sleep(10);
+                    ArmRest();
+                    sleep(500);
+                    DriveForward(0.5, 500);
+                    sleep(1000);
                     break;
             }
             //sleep until the end
