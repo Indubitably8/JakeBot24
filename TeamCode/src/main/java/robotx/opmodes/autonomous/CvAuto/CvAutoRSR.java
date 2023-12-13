@@ -1,4 +1,4 @@
-package robotx.opmodes.autonomous;
+package robotx.opmodes.autonomous.CvAuto;
 
 import com.acmerobotics.roadrunner.drive.Drive;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -46,8 +46,8 @@ import robotx.modules.MecanumDrive;
 import robotx.modules.OrientationDrive;
 import robotx.modules.*;
 
-@Autonomous(name = "OpenCv+AprilTags", group = "Default")
-public class CvAuto extends LinearOpMode {
+@Autonomous(name = "OpenCv+Apriltags-RSR", group = "CvAuto")
+public class CvAutoRSR extends LinearOpMode {
 
     OpenCvWebcam phoneCam;
     SkystoneDeterminationPipeline pipeline;
@@ -144,27 +144,13 @@ public class CvAuto extends LinearOpMode {
 
         telemetry.clearAll();
 
-        telemetry.addData("Info", "\na:RSR \n b:RSL \n x:BSR \n y:BSL \n ");
         telemetry.update();
 
         while (!programSelected){
 
-            if (gamepad1.a){
                 sideSelect = "RSR";
                 programSelected = true;
-            }
-            if (gamepad1.b){
-                sideSelect = "RSL";
-                programSelected = true;
-            }
-            if (gamepad1.x){
-                sideSelect = "BSR";
-                programSelected = true;
-            }
-            if (gamepad1.y){
-                sideSelect = "BSL";
-                programSelected = true;
-            }
+
         }
 
         telemetry.clearAll();

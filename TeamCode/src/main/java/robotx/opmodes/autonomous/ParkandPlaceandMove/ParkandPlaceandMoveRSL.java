@@ -1,23 +1,20 @@
-package robotx.opmodes.autonomous;
+package robotx.opmodes.autonomous.ParkandPlaceandMove;
 
-import com.acmerobotics.roadrunner.geometry.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-import robotx.modules.MecanumDrive;
-import robotx.modules.OdomSystem;
-import robotx.modules.OrientationDrive;
 import robotx.modules.ArmSystem;
 import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
+import robotx.modules.MecanumDrive;
+import robotx.modules.OrientationDrive;
 
-@Autonomous(name = "ParkandPlaceandMove", group = "Default")
+@Autonomous(name = "ParkandPlaceandMoveRSL", group = "ParkandPlaceandMove")
 
-public class ParkandPlaceandMove extends LinearOpMode {
+public class ParkandPlaceandMoveRSL extends LinearOpMode {
 
     //private ElapsedTime runtime = new ElapsedTime();
 
@@ -90,27 +87,13 @@ public class ParkandPlaceandMove extends LinearOpMode {
         Boolean programSelected = false;
         String sideSelect = "";
 
-        telemetry.addData("Info", "\na:RSR \n b:RSL \n x:BSR \n y:BSL \n ");
         telemetry.update();
 
         while (!programSelected){
 
-            if (gamepad1.a){
-                sideSelect = "RSR";
-                programSelected = true;
-            }
-            if (gamepad1.b){
                 sideSelect = "RSL";
                 programSelected = true;
-            }
-            if (gamepad1.x){
-                sideSelect = "BSR";
-                programSelected = true;
-            }
-            if (gamepad1.y){
-                sideSelect = "BSL";
-                programSelected = true;
-            }
+
         }
 
         telemetry.addData("Program running: ", sideSelect);
