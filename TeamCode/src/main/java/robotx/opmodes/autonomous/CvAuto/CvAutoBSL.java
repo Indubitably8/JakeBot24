@@ -32,7 +32,7 @@ import robotx.modules.MecanumDrive;
 import robotx.modules.OdomSystem;
 import robotx.modules.OrientationDrive;
 
-@Autonomous(name = "OpenCv+Apriltags-RSR", group = "CvAuto")
+@Autonomous(name = "OpenCv+Apriltags-BSL", group = "CvAuto")
 public class CvAutoBSL extends LinearOpMode {
 
     OpenCvWebcam phoneCam;

@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import robotx.modules.MecanumDrive;
 import robotx.modules.OrientationDrive;
 
-@Autonomous(name = "ParkRSR", group = "ParkEverywhere")
+@Autonomous(name = "ParkBSL", group = "ParkEverywhere")
 
 public class ParkEverywhereBSL extends LinearOpMode {
 
