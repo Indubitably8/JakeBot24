@@ -33,7 +33,7 @@ public class GrapplingHook extends XModule {
     }
 
     public void loop() {
-        if (xGamepad2().right_bumper.isDown()){
+        if (xGamepad2().left_bumper.isDown()){
             if(motor){
                 motor = false;
             } else {
@@ -44,7 +44,7 @@ public class GrapplingHook extends XModule {
             if(motor){
                 GrappleMotor.setPower(-power);
             }
-            if(xGamepad2().left_bumper.isDown()) {
+            if(xGamepad2().right_bumper.isDown()) {
                 GrappleMotor.setPower(power);
             }
         }
