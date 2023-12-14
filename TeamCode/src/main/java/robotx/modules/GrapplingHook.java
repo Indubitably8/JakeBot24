@@ -16,6 +16,7 @@ public class GrapplingHook extends XModule {
 
     double power = 1;
     boolean stabilized = false;
+    boolean motor = false;
 
     public GrapplingHook(OpMode op) {
         super(op);
@@ -33,12 +34,21 @@ public class GrapplingHook extends XModule {
 
     public void loop() {
         if (xGamepad2().right_bumper.isDown()){
-            GrappleMotor.setPower(power);
-        }else if(xGamepad2().left_bumper.isDown()){
-            GrappleMotor.setPower(-power);
+            if(motor){
+                motor = false;
+            } else {
+                motor = true;
+            }
         } else {
             GrappleMotor.setPower(0.0);
+            if(motor){
+                GrappleMotor.setPower(-power);
+            }
+            if(xGamepad2().left_bumper.isDown()) {
+                GrappleMotor.setPower(power);
+            }
         }
+
         if(xGamepad2().x.wasPressed()) {
             if(stabilized) {
                 Stabilizer.setPosition(.8);
