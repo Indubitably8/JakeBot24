@@ -14,11 +14,11 @@ public class ArmSystem extends XModule {
     public Servo rightWrist;
     public Servo blockServo;
 
-    double rightArmPos = .698;
-    double leftArmPos = .288;
+    double rightArmPos = .7;
+    double leftArmPos = .286;
 
-    double rightWristPos = .948;
-    double leftWristPos = .152;
+    double rightWristPos = .95;
+    double leftWristPos = .15;
 
     boolean arm = true; //so arm system knows it starts down
     boolean wrist = true;

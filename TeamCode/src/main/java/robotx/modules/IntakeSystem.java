@@ -14,13 +14,13 @@ public class IntakeSystem extends XModule {
     public Servo leftIntake;
     public Servo rightIntake;
 
-    double power = .8;
+    double power = 1;
 
     public IntakeSystem(OpMode op) {
         super(op);
     }
 
-    public void init() {
+    public void init() { 
 
         //init motors from configs
 
