@@ -33,7 +33,7 @@ import robotx.modules.OdomSystem;
 import robotx.modules.OrientationDrive;
 
 @Autonomous(name = "OpenCv+Apriltags-RSR", group = "CvAuto")
-public class CvAutoRSR extends LinearOpMode {
+public class CvAutoRSL extends LinearOpMode {
 
     OpenCvWebcam phoneCam;
     SkystoneDeterminationPipeline pipeline;
@@ -134,7 +134,7 @@ public class CvAutoRSR extends LinearOpMode {
 
         while (!programSelected){
 
-                sideSelect = "RSR";
+                sideSelect = "RSL";
                 programSelected = true;
 
         }
@@ -264,7 +264,7 @@ public class CvAutoRSR extends LinearOpMode {
                 sleep(sleepTime);
                 DriveForward(0.5, 0);
                 sleep(sleepTime);
-                Unintake(0.5, 0);
+                Unintake(0.50, 0);
                 sleep(sleepTime);
                 DriveForward(0.5, 0);
                 sleep(sleepTime);

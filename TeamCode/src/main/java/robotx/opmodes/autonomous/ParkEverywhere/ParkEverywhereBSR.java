@@ -1,23 +1,17 @@
-package robotx.opmodes.autonomous;
+package robotx.opmodes.autonomous.ParkEverywhere;
 
-import com.acmerobotics.roadrunner.geometry.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import robotx.modules.MecanumDrive;
-import robotx.modules.OdomSystem;
 import robotx.modules.OrientationDrive;
-import robotx.modules.ArmSystem;
-import robotx.modules.IntakeSystem;
-import robotx.modules.LiftMotors;
 
-@Autonomous(name = "ParkEverywhere", group = "Default")
+@Autonomous(name = "ParkRSR", group = "ParkEverywhere")
 
-public class ParkEverywhere extends LinearOpMode {
+public class ParkEverywhereBSR extends LinearOpMode {
 
     //private ElapsedTime runtime = new ElapsedTime();
 
@@ -79,23 +73,8 @@ public class ParkEverywhere extends LinearOpMode {
         telemetry.update();
 
         while (!programSelected){
-
-            if (gamepad1.a){
-                sideSelect = "RSR";
-                programSelected = true;
-            }
-            if (gamepad1.b){
-                sideSelect = "RSL";
-                programSelected = true;
-            }
-            if (gamepad1.x){
                 sideSelect = "BSR";
                 programSelected = true;
-            }
-            if (gamepad1.y){
-                sideSelect = "BSL";
-                programSelected = true;
-            }
         }
 
         telemetry.addData("Program running: ", sideSelect);
@@ -119,32 +98,32 @@ public class ParkEverywhere extends LinearOpMode {
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeRight(0.5,1700);
+                    StrafeRight(-0.5,2400);
+                    sleep(50);
+                    DriveForward(0.5, 1800);
                     sleep(1000);
                     break;
                 case "RSL":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    DriveForward(0.5,1700);
-                    sleep(50);
-                    StrafeRight(0.5,5000);
+                    DriveForward(0.5, 2300);
                     sleep(1000);
                     break;
                 case "BSR":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeLeft(0.5,1700);
+                    DriveForward(0.5, 2300);
                     sleep(1000);
                     break;
                 case "BSL":
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    DriveForward(0.5,1700);
+                    StrafeRight(0.5,2400);
                     sleep(50);
-                    StrafeLeft(0.5,5000);
+                    DriveForward(0.5, 1800);
                     sleep(1000);
                     break;
             }

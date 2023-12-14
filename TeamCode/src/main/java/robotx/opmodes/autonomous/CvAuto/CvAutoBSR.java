@@ -33,7 +33,7 @@ import robotx.modules.OdomSystem;
 import robotx.modules.OrientationDrive;
 
 @Autonomous(name = "OpenCv+Apriltags-RSR", group = "CvAuto")
-public class CvAutoRSR extends LinearOpMode {
+public class CvAutoBSR extends LinearOpMode {
 
     OpenCvWebcam phoneCam;
     SkystoneDeterminationPipeline pipeline;
@@ -134,7 +134,7 @@ public class CvAutoRSR extends LinearOpMode {
 
         while (!programSelected){
 
-                sideSelect = "RSR";
+                sideSelect = "BSR";
                 programSelected = true;
 
         }
@@ -258,13 +258,13 @@ public class CvAutoRSR extends LinearOpMode {
                 //drive and drop off pixel
                 DriveBackward(0.5, 0);
                 sleep(sleepTime);
-                TurnLeft(0.5, 0);
+                TurnLeft(-0.5, 0);
                 sleep(sleepTime);
                 DriveBackward(0.5, 0);
                 sleep(sleepTime);
                 DriveForward(0.5, 0);
                 sleep(sleepTime);
-                Unintake(0.5, 0);
+                Unintake(0.50, 0);
                 sleep(sleepTime);
                 DriveForward(0.5, 0);
                 sleep(sleepTime);
@@ -277,17 +277,17 @@ public class CvAutoRSR extends LinearOpMode {
                 sleep(sleepTime);
                 Unintake(0.5, 0);
                 sleep(sleepTime);
-                TurnLeft(0.5, 0);
+                TurnLeft(-0.5, 0);
                 sleep(sleepTime);
                 DriveForward(0.5, 0);
                 sleep(sleepTime);
             }
             if (pixelPos.equals("Right")) {
-                StrafeLeft(0.5, 0);
+                StrafeLeft(-0.5, 0);
                 sleep(sleepTime);
                 DriveBackward(0.5, 0);
                 sleep(sleepTime);
-                TurnLeft(0.5, 0);
+                TurnLeft(-0.5, 0);
                 sleep(sleepTime);
                 DriveBackward(0.5, 0);
                 sleep(sleepTime);
