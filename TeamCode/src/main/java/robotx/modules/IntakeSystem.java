@@ -14,7 +14,7 @@ public class IntakeSystem extends XModule {
     public Servo leftIntake;
     public Servo rightIntake;
 
-    double power = 1;
+    double power = .7;
 
     public IntakeSystem(OpMode op) {
         super(op);
