@@ -113,18 +113,22 @@ public class ArmSystem extends XModule {
                 toggleBlock();
         }
         if (xGamepad2().y.wasPressed()) {
-
             leftWrist.setPosition(leftWristPos);
             rightWrist.setPosition(rightWristPos);
             leftArm.setPosition(leftArmPos);
             rightArm.setPosition(rightArmPos);
-
             k=0;
-
-
         }
         if (xGamepad2().a.wasPressed()) {
            moveArm();
         }
+        /*
+        if (xGamepad1().b.wasPressed()) {
+            toggleBlock();
+        }
+        if (xGamepad1().a.wasPressed()) {
+            moveArm();
+        }
+         */
     }
 }

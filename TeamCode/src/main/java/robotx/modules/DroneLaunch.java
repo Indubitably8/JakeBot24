@@ -56,6 +56,13 @@ public class DroneLaunch extends XModule {
             }
         }
         /*
+        if (xGamepad1().right_stick_button.wasPressed()) {
+            if (!launched) {
+                launch();
+            }
+        }
+         */
+        /*
         if (xGamepad2().left_bumper.wasPressed()) {
             angle();
         }

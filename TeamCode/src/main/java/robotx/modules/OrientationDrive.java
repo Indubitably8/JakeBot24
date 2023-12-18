@@ -140,6 +140,11 @@ public class OrientationDrive extends XModule {
         */if (xGamepad1().b.wasPressed()){
             offset = globalAngle;
         }
+        /*
+        if (xGamepad1().left_stick_button.wasPressed()){
+            offset = globalAngle;
+        }
+         */
         //opMode.telemetry.addData("Orientation mode:", orientationMode);
 
 
@@ -174,7 +179,14 @@ public class OrientationDrive extends XModule {
         if (xGamepad1().right_bumper.wasPressed()){
             toggleSuperSlow();
         }
-
+        /*
+        if (xGamepad1().dpad_left.wasPressed()){
+            toggleSuperSlow();
+        }
+        if (xGamepad1().dpad_right.wasPressed()){
+            toggleSuperSlow();
+        }
+        */
         if (slowMode){
             frontLeft.setPower((yPrime-xPrime-r)*(s) * 0.55);
             backRight.setPower((yPrime-xPrime+r)*(s) * 0.55);
