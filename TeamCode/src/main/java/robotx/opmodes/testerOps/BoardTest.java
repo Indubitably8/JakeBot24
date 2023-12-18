@@ -1,4 +1,4 @@
-package robotx.opmodes.autonomous;
+package robotx.opmodes.testerOps;
 
 import com.acmerobotics.roadrunner.drive.Drive;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

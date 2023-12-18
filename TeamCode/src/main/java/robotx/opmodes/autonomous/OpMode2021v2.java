@@ -11,7 +11,7 @@ import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "OpMode 23-24", group = "Default")
+@TeleOp(name = "OpMode 23-24", group = "CurrentOp")
 public class OpMode2021v2 extends XOpMode {
     OrientationDrive orientationDrive;
     ArmSystem armSystem;

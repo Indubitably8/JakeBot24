@@ -1,4 +1,4 @@
-package robotx.opmodes;
+package robotx.opmodes.testerOps;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;

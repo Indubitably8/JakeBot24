@@ -1,4 +1,4 @@
-package robotx.opmodes;
+package robotx.opmodes.testerOps;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
