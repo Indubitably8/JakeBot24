@@ -29,7 +29,6 @@ import robotx.modules.ArmSystem;
 import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
 import robotx.modules.MecanumDrive;
-import robotx.modules.OdomSystem;
 import robotx.modules.OrientationDrive;
 
 @Autonomous(name = "OpenCv+Apriltags-RSR", group = "CvAuto")
@@ -39,7 +38,6 @@ public class CvAutoRSR extends LinearOpMode {
     SkystoneDeterminationPipeline pipeline;
     MecanumDrive mecanumDrive;
     OrientationDrive orientationDrive;
-    OdomSystem odomSystem;
     ArmSystem armSystem;
     IntakeSystem intakeSystem;
     LiftMotors liftMotors;
@@ -56,7 +54,6 @@ public class CvAutoRSR extends LinearOpMode {
      */
     private VisionPortal visionPortal;
 
-
     @Override
     public void runOpMode() {
 
@@ -72,9 +69,6 @@ public class CvAutoRSR extends LinearOpMode {
         orientationDrive = new OrientationDrive(this);
         orientationDrive.init();
 
-        //odomSystem = new OdomSystem(this);
-        //odomSystem.init();
-
         armSystem = new ArmSystem(this);
         armSystem.init();
 
@@ -84,7 +78,6 @@ public class CvAutoRSR extends LinearOpMode {
         liftMotors = new LiftMotors(this);
         liftMotors.init();
 
-        //odomSystem.start();
         mecanumDrive.start();
         orientationDrive.start();
         armSystem.start();
@@ -129,7 +122,6 @@ public class CvAutoRSR extends LinearOpMode {
         String sideSelect = "";
 
         telemetry.clearAll();
-
         telemetry.update();
 
         while (!programSelected){

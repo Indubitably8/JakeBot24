@@ -30,7 +30,6 @@ import robotx.modules.LiftMotors;
      LiftMotors liftMotors;
 
      @Override
-
      public void runOpMode() {
 
          //Text at bottom of phone
@@ -88,7 +87,6 @@ import robotx.modules.LiftMotors;
 
          waitForStart();
 
-
          //runtime.reset();
 
          if (opModeIsActive()) {
@@ -96,7 +94,6 @@ import robotx.modules.LiftMotors;
 
          }
      }
-
 
      public void DriveForward(double power, int time) {
          mecanumDrive.frontLeft.setPower(-power);  //top left when rev is down and ducky wheel is right

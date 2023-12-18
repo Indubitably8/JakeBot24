@@ -16,7 +16,7 @@ public class IntakeSystem extends XModule {
 
 
     double power = 0.551;
-    
+
     public IntakeSystem(OpMode op) {
         super(op);
     }
