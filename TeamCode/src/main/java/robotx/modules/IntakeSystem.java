@@ -14,8 +14,9 @@ public class IntakeSystem extends XModule {
     public Servo leftIntake;
     public Servo rightIntake;
 
-    double power = 0.551;
 
+    double power = 0.551;
+    
     public IntakeSystem(OpMode op) {
         super(op);
     }
@@ -39,7 +40,20 @@ public class IntakeSystem extends XModule {
         }
         else{
             IntakeMotor.setPower(0);
+
         }
+        /*
+        if(xGamepad1().right_trigger > .1) {
+            IntakeMotor.setPower(xGamepad2().right_trigger);
+        }
+        else if(xGamepad1().left_trigger > .1) {
+            IntakeMotor.setPower(-xGamepad2().left_trigger);
+        }
+        else{
+            IntakeMotor.setPower(0);
+
+        }
+         */
 
         leftIntake.setPosition(.27);
         rightIntake.setPosition(.73);
