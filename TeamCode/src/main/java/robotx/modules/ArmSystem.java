@@ -3,6 +3,8 @@ package robotx.modules;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import java.util.concurrent.TimeUnit;
+
 import robotx.libraries.XModule;
 
 public class ArmSystem extends XModule {
@@ -78,6 +80,17 @@ public class ArmSystem extends XModule {
         }
     }
 
+    public void release(int time){
+        blockServo.setPosition(.1);
+        long t = System.currentTimeMillis();
+        while (true){
+            if(System.currentTimeMillis() - t > time){
+                blockServo.setPosition(.6);
+                break;
+            }
+        }
+    }
+
 
 
 
@@ -108,7 +121,7 @@ public class ArmSystem extends XModule {
 
     public void loop() {
         // button presses, calls methods
-
+        /*
         if (xGamepad2().b.wasPressed()) {
                 toggleBlock();
         }
@@ -122,13 +135,12 @@ public class ArmSystem extends XModule {
         if (xGamepad2().a.wasPressed()) {
            moveArm();
         }
-        /*
+        */
         if (xGamepad1().b.wasPressed()) {
-            toggleBlock();
+            release(3000);
         }
         if (xGamepad1().a.wasPressed()) {
             moveArm();
         }
-         */
     }
 }

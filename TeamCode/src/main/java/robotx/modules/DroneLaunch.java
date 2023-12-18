@@ -49,19 +49,18 @@ public class DroneLaunch extends XModule {
 
     public void loop() {
         // button presses, calls methods
-
+        /*
         if (xGamepad2().right_stick_button.wasPressed() || xGamepad2().left_stick_button.wasPressed()) {
             if (!launched) {
                 launch();
             }
         }
-        /*
-        if (xGamepad1().right_stick_button.wasPressed()) {
+         */
+        if (xGamepad1().dpad_up.wasPressed()) {
             if (!launched) {
                 launch();
             }
         }
-         */
         /*
         if (xGamepad2().left_bumper.wasPressed()) {
             angle();
