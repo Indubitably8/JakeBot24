@@ -33,7 +33,7 @@ public class GrapplingHook extends XModule {
     }
 
     public void loop() {
-        if (xGamepad2().left_bumper.isDown()){
+        if (xGamepad2().left_bumper.wasPressed()){
             if(motor){
                 motor = false;
             } else {

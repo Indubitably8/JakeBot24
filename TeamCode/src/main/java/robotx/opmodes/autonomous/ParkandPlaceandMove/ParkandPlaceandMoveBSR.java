@@ -137,7 +137,7 @@ public class ParkandPlaceandMoveBSR extends LinearOpMode {
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeRight(-0.25,3000);
+                    StrafeRight(-0.5,1100);
                     sleep(50);
                     UnderBar(0.5,2250);
                     sleep(10);
@@ -156,7 +156,7 @@ public class ParkandPlaceandMoveBSR extends LinearOpMode {
                     telemetry.addData("current run", sideSelect);
                     telemetry.update();
                     sleep(100);
-                    StrafeRight(0.25,3000);
+                    StrafeRight(0.5,1100);
                     sleep(50);
                     UnderBar(0.5,250);
                     sleep(10);

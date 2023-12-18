@@ -18,7 +18,7 @@ public class DroneLaunch extends XModule {
     //methods are built into one button as a toggle
 
     public void launch() {
-        launchArm.setPosition(.966); //start pos .96   old launch pos .62
+        launchArm.setPosition(.3); //start pos .96   old launch pos .62
         launched = true;
     }
 
@@ -44,7 +44,7 @@ public class DroneLaunch extends XModule {
         launchArm = opMode.hardwareMap.servo.get("launchArm");
         //angleLaunch = opMode.hardwareMap.servo.get("angleLaunch");
         //angleLaunch.setPosition(0);
-        launchArm.setPosition(.62);
+        launchArm.setPosition(.9574);
     }
 
     public void loop() {

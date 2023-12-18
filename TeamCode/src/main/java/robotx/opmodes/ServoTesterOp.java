@@ -72,7 +72,7 @@ public class ServoTesterOp extends OpMode {
         */
 
         // with new config
-        testServo11 = hardwareMap.servo.get("Stabilizer"); //up: 0.491
+        testServo11 = hardwareMap.servo.get("launchArm"); //up: 0.491
         /*testServo12 = hardwareMap.servo.get("rightArm"); //up: 0.670
 
         testServo21 = hardwareMap.servo.get("launchArm");
@@ -100,7 +100,7 @@ public class ServoTesterOp extends OpMode {
         gamepad1_left_bumper = new PressHandler();
         gamepad1_right_bumper = new PressHandler();
 
-        testServo11.setDirection(Servo.Direction.REVERSE);
+        //testServo11.setDirection(Servo.Direction.REVERSE);
         /*testServo12.setDirection(Servo.Direction.REVERSE);
         testServo21.setDirection(Servo.Direction.REVERSE);
         testServo22.setDirection(Servo.Direction.REVERSE);
@@ -109,7 +109,7 @@ public class ServoTesterOp extends OpMode {
 
     @Override
     public void start() {
-        servoPosition1 = 1;
+        servoPosition1 = .79;
         //servoPosition2 = 0;
         // group 1 (arm) resting position
         // position1 = .29

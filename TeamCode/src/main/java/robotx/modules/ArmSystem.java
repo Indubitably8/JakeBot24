@@ -17,8 +17,8 @@ public class ArmSystem extends XModule {
     double rightArmPos = .7;
     double leftArmPos = .286;
 
-    double rightWristPos = .95;
-    double leftWristPos = .15;
+    double rightWristPos = .952;
+    double leftWristPos = .148;
 
     boolean arm = true; //so arm system knows it starts down
     boolean wrist = true;
