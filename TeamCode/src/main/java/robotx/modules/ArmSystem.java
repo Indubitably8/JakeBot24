@@ -2,6 +2,7 @@ package robotx.modules;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,12 +38,14 @@ public class ArmSystem extends XModule {
             rightWrist.setPosition(rightWristPos);
             leftArm.setPosition(leftArmPos);
             rightArm.setPosition(rightArmPos);
+            blockServo.setPosition(.6);
             k++;
         }
 
         else if (k == 1){
             leftWrist.setPosition((.98+leftWristPos)/2);
             rightWrist.setPosition((.02+rightWristPos)/2);
+            blockServo.setPosition(.6);
             k++;
         }
 
@@ -52,6 +55,7 @@ public class ArmSystem extends XModule {
             rightWrist.setPosition(.02);
             leftArm.setPosition(.542);
             rightArm.setPosition(0.53);
+            blockServo.setPosition(.6);
             k=k-2;
         }
     }
@@ -82,13 +86,6 @@ public class ArmSystem extends XModule {
 
     public void release(int time){
         blockServo.setPosition(.1);
-        long t = System.currentTimeMillis();
-        while (true){
-            if(System.currentTimeMillis() - t > time){
-                blockServo.setPosition(.6);
-                break;
-            }
-        }
     }
 
 
@@ -137,7 +134,7 @@ public class ArmSystem extends XModule {
         }
         */
         if (xGamepad1().b.wasPressed()) {
-            release(3000);
+            release(2000);
         }
         if (xGamepad1().a.wasPressed()) {
             moveArm();
