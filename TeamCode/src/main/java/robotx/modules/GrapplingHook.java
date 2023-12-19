@@ -62,7 +62,7 @@ public class GrapplingHook extends XModule {
         if(motor){
             GrappleMotor.setPower(-power);
         }
-        if(xGamepad1().right_bumper.wasPressed()){
+        if(xGamepad1().right_bumper.isDown()){
             GrappleMotor.setPower(power);
             Stabilizer.setPosition(.26);
         }
