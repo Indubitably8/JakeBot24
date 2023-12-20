@@ -23,6 +23,8 @@ public class ArmSystem extends XModule {
     double rightWristPos = .952;
     double leftWristPos = .148;
 
+    long t;
+
     boolean arm = true; //so arm system knows it starts down
     boolean wrist = true;
     boolean blocked = true;
@@ -84,7 +86,8 @@ public class ArmSystem extends XModule {
         }
     }
 
-    public void release(int time){
+    public void release()
+    {
         blockServo.setPosition(.1);
     }
 
@@ -134,7 +137,11 @@ public class ArmSystem extends XModule {
         }
         */
         if (xGamepad1().b.wasPressed()) {
-            release(2000);
+            release();
+            t = System.currentTimeMillis();
+        }
+        if(System.currentTimeMillis() - t > 1500){
+            blockServo.setPosition(.6);
         }
         if (xGamepad1().a.wasPressed()) {
             moveArm();
