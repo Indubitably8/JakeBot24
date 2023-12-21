@@ -744,23 +744,21 @@ public class CvAutoBSL extends LinearOpMode {
         liftMotors.RightLift.setPower(0);
     }
 
-    public void ArmRest(int time) {
-        armSystem.leftWrist.setPosition(.15);
-        armSystem.rightWrist.setPosition(.95);
-        armSystem.leftArm.setPosition(.29);
-        armSystem.rightArm.setPosition(.70);
-        sleep(time);
+    public void ArmRest () {
+        armSystem.leftWrist.setPosition(.175);
+        armSystem.rightWrist.setPosition(.925);
+        armSystem.leftArm.setPosition(.274);
+        armSystem.rightArm.setPosition(.712);
     }
 
-    public void ArmUp(int time) {
-        armSystem.leftWrist.setPosition((.565));
-        armSystem.rightWrist.setPosition((.485));
-        sleep(time);
-        armSystem.leftWrist.setPosition(.98);
-        armSystem.rightWrist.setPosition(.02);
-        armSystem.leftArm.setPosition(.542);
-        armSystem.rightArm.setPosition(0.53);
-        sleep(time);
+    public void ArmUp () {
+        armSystem.leftWrist.setPosition((.5775));
+        armSystem.rightWrist.setPosition((.2525));
+        sleep(500);
+        armSystem.leftWrist.setPosition(.86);
+        armSystem.rightWrist.setPosition(.14);
+        armSystem.leftArm.setPosition(.522);
+        armSystem.rightArm.setPosition(0.55);
     }
 
     public void Release(int time) {
@@ -771,9 +769,9 @@ public class CvAutoBSL extends LinearOpMode {
     }
 
     public void ScoreAPixel(int time){
-        ArmUp(time);
+        ArmUp();
         Release(time);
-        ArmRest(time);
+        ArmRest();
 
     }
 
