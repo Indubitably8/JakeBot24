@@ -14,8 +14,8 @@ public class ArmSystem extends XModule {
     public Servo rightWrist;
     public Servo blockServo;
 
-    double rightArmPos = .7;
-    double leftArmPos = .286;
+    double rightArmPos = .72;
+    double leftArmPos = .266;
 
     double rightWristPos = .952;
     double leftWristPos = .148;
