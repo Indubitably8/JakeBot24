@@ -2,6 +2,9 @@ package robotx.modules;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import java.util.concurrent.TimeUnit;
 
 import robotx.libraries.XModule;
 
@@ -20,6 +23,8 @@ public class ArmSystem extends XModule {
     double rightWristPos = .952;
     double leftWristPos = .148;
 
+    long t;
+
     boolean arm = true; //so arm system knows it starts down
     boolean wrist = true;
     boolean blocked = true;
@@ -35,12 +40,14 @@ public class ArmSystem extends XModule {
             rightWrist.setPosition(rightWristPos);
             leftArm.setPosition(leftArmPos);
             rightArm.setPosition(rightArmPos);
+            blockServo.setPosition(.6);
             k++;
         }
 
         else if (k == 1){
             leftWrist.setPosition((.98+leftWristPos)/2);
             rightWrist.setPosition((.02+rightWristPos)/2);
+            blockServo.setPosition(.6);
             k++;
         }
 
@@ -50,6 +57,7 @@ public class ArmSystem extends XModule {
             rightWrist.setPosition(.02);
             leftArm.setPosition(.542);
             rightArm.setPosition(0.53);
+            blockServo.setPosition(.6);
             k=k-2;
         }
     }
@@ -76,6 +84,11 @@ public class ArmSystem extends XModule {
             blockServo.setPosition(.6);
             blocked = false;
         }
+    }
+
+    public void release()
+    {
+        blockServo.setPosition(.1);
     }
 
 
@@ -108,7 +121,7 @@ public class ArmSystem extends XModule {
 
     public void loop() {
         // button presses, calls methods
-
+        /*
         if (xGamepad2().b.wasPressed()) {
                 toggleBlock();
         }
@@ -122,13 +135,16 @@ public class ArmSystem extends XModule {
         if (xGamepad2().a.wasPressed()) {
            moveArm();
         }
-        /*
+        */
         if (xGamepad1().b.wasPressed()) {
-            toggleBlock();
+            release();
+            t = System.currentTimeMillis();
+        }
+        if(System.currentTimeMillis() - t > 1500){
+            blockServo.setPosition(.6);
         }
         if (xGamepad1().a.wasPressed()) {
             moveArm();
         }
-         */
     }
 }

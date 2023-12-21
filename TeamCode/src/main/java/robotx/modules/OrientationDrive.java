@@ -33,6 +33,8 @@ public class OrientationDrive extends XModule {
     public double s;
     public double r;
 
+
+
     public double xPrime;
     public double yPrime;
 
@@ -46,6 +48,8 @@ public class OrientationDrive extends XModule {
     double frPow = ((yPrime+xPrime-r)*(-s));
     double brPow = ((yPrime-xPrime-r)*(-s));
     double blPow = ((yPrime+xPrime+r)*(-s));
+
+    double power = 0.75;
 
     public void init(){
 //Reverses Motors
@@ -137,14 +141,13 @@ public class OrientationDrive extends XModule {
         /*if (xGamepad1().y.wasPressed()) {
             switchMode();
         }
-        */if (xGamepad1().b.wasPressed()){
+        if (xGamepad1().b.wasPressed()){
             offset = globalAngle;
         }
-        /*
-        if (xGamepad1().left_stick_button.wasPressed()){
+        */
+        if (xGamepad1().dpad_down.wasPressed()){
             offset = globalAngle;
         }
-         */
         //opMode.telemetry.addData("Orientation mode:", orientationMode);
 
 
@@ -173,20 +176,26 @@ public class OrientationDrive extends XModule {
         xPrime = (Math.sqrt((x*x) + (y*y))) * (Math.cos(robotAngle + joystickAngle));
         yPrime = -(Math.sqrt((x*x + y*y))) * (Math.sin(robotAngle + joystickAngle));
 // - on yprime
+        /*
         if (xGamepad1().left_bumper.wasPressed()){
             toggleSlow();
         }
         if (xGamepad1().right_bumper.wasPressed()){
             toggleSuperSlow();
         }
-        /*
-        if (xGamepad1().dpad_left.wasPressed()){
-            toggleSuperSlow();
-        }
-        if (xGamepad1().dpad_right.wasPressed()){
-            toggleSuperSlow();
-        }
         */
+        if(xGamepad1().dpad_left.wasPressed()){
+            power -= 0.25;
+        }
+        if(xGamepad1().dpad_right.wasPressed()){
+            power += 0.25;
+        }
+        if(power > 1){
+            power = 1;
+        }
+        if(power < 0.25){
+            power = 0.25;
+        }
         if (slowMode){
             frontLeft.setPower((yPrime-xPrime-r)*(s) * 0.55);
             backRight.setPower((yPrime-xPrime+r)*(s) * 0.55);
@@ -202,11 +211,11 @@ public class OrientationDrive extends XModule {
             backLeft.setPower((yPrime+xPrime-r)*(s) * .4);
         }
         else {
-            frontLeft.setPower((yPrime-xPrime-r)*(s));
-            backRight.setPower((yPrime-xPrime+r)*(s));
+            frontLeft.setPower((yPrime-xPrime-r)*(s)*power);
+            backRight.setPower((yPrime-xPrime+r)*(s)*power);
 
-            frontRight.setPower((yPrime+xPrime+r)*(s));
-            backLeft.setPower((yPrime+xPrime-r)*(s));
+            frontRight.setPower((yPrime+xPrime+r)*(s)*power);
+            backLeft.setPower((yPrime+xPrime-r)*(s)*power);
         }
 
     // deadzone code

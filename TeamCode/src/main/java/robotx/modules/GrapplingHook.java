@@ -33,6 +33,7 @@ public class GrapplingHook extends XModule {
     }
 
     public void loop() {
+        /*
         if (xGamepad2().left_bumper.wasPressed()){
             if(motor){
                 motor = false;
@@ -48,33 +49,24 @@ public class GrapplingHook extends XModule {
                 GrappleMotor.setPower(power);
             }
         }
-        /*
-        if (xGamepad1().left_bumper.isDown()){
+         */
+        GrappleMotor.setPower(0);
+        if(xGamepad1().left_bumper.wasPressed()){
             if(motor){
                 motor = false;
             } else {
                 motor = true;
             }
-        } else {
-            GrappleMotor.setPower(0.0);
-            if(motor){
-                GrappleMotor.setPower(-power);
-            }
-            if(xGamepad1().right_bumper.isDown()) {
-                GrappleMotor.setPower(power);
-            }
+            Stabilizer.setPosition(.26);
         }
-        if(xGamepad1().x.wasPressed()) {
-            if(stabilized) {
-                Stabilizer.setPosition(.8);
-                stabilized = false;
-            } else {
-                Stabilizer.setPosition(.26);
-                stabilized = true;
-            }
+        if(motor){
+            GrappleMotor.setPower(-power);
         }
-         */
-
+        if(xGamepad1().right_bumper.isDown()){
+            GrappleMotor.setPower(power);
+            Stabilizer.setPosition(.8);
+        }
+        /*
         if(xGamepad2().x.wasPressed()) {
             if(stabilized) {
                 Stabilizer.setPosition(.8);
@@ -84,6 +76,7 @@ public class GrapplingHook extends XModule {
                 stabilized = true;
             }
         }
+         */
     }// stabilizer .26 up, .8 down
 
 }
