@@ -20,6 +20,9 @@ public class ServoTesterSimple extends OpMode {
     Servo testServo1;
     Servo testServo2;
 
+    Servo leftArm;
+    Servo rightArm;
+
     double servoPosition1;
     double servoPosition2;
 
@@ -42,8 +45,10 @@ public class ServoTesterSimple extends OpMode {
     @Override
     public void init() {
 
-        testServo1 = hardwareMap.servo.get("launchArm"); //up: 0.491
-        testServo2 = hardwareMap.servo.get("rightArm"); //up: 0.670
+        testServo1 = hardwareMap.servo.get("leftWrist"); //up: 0.491
+        testServo2 = hardwareMap.servo.get("rightWrist"); //up: 0.670
+        leftArm = hardwareMap.servo.get("leftArm");
+        rightArm = hardwareMap.servo.get("rightArm");
 
         gamepad1_dpad_up = new PressHandler();
         gamepad1_dpad_down = new PressHandler();
@@ -56,8 +61,10 @@ public class ServoTesterSimple extends OpMode {
 
     @Override
     public void start() {
-        servoPosition1 = .79;
-        servoPosition2 = 0;
+        servoPosition1 = .96;
+        servoPosition2 = .04;
+        leftArm.setPosition(.522);
+        rightArm.setPosition(0.55);
     }
 
     @Override
