@@ -17,11 +17,11 @@ public class ArmSystem extends XModule {
     public Servo rightWrist;
     public Servo blockServo;
 
-    double rightArmPos = .72;
-    double leftArmPos = .266;
+    double rightArmPos = .712;
+    double leftArmPos = .274;
 
-    double rightWristPos = .952;
-    double leftWristPos = .148;
+    double rightWristPos = .925;
+    double leftWristPos = .175;
 
     long t;
 
@@ -53,10 +53,10 @@ public class ArmSystem extends XModule {
 
         else{
             //UP
-            leftWrist.setPosition(.98);
-            rightWrist.setPosition(.02);
-            leftArm.setPosition(.542);
-            rightArm.setPosition(0.53);
+            leftWrist.setPosition(.86);
+            rightWrist.setPosition(.14);
+            leftArm.setPosition(.522);
+            rightArm.setPosition(0.55);
             blockServo.setPosition(.6);
             k=k-2;
         }
@@ -140,9 +140,9 @@ public class ArmSystem extends XModule {
             release();
             t = System.currentTimeMillis();
         }
-        if(System.currentTimeMillis() - t > 1500){
-            blockServo.setPosition(.6);
-        }
+        if(System.currentTimeMillis() - t > 1500) {
+        blockServo.setPosition(.6);
+    }
         if (xGamepad1().a.wasPressed()) {
             moveArm();
         }
