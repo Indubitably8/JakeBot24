@@ -188,6 +188,10 @@ public class BoardTest extends LinearOpMode {
 
             //dependent on location in relation to the board
 
+            ArmUp(1000);
+            sleep(500);
+            DriveForward(.7,2000);
+
             while (true){
 
                 aprilTag.getDetections();
@@ -249,7 +253,7 @@ public class BoardTest extends LinearOpMode {
                 // if correct, score and end (stop looking)
                 if (PlacementEval == DetectionEval){
 
-                    ScoreAPixel(500);
+                    Release(500);
                     break;
                 }
 
