@@ -136,64 +136,6 @@ public class ParkandPlaceandMoveRSR extends LinearOpMode {
                     DriveForward(0.5, 500);
                     sleep(1000);
                     break;
-                case "RSL":
-                    telemetry.addData("current run", sideSelect);
-                    telemetry.update();
-                    sleep(100);
-                    StrafeRight(-0.25,3000);
-                    sleep(50);
-                    UnderBar(0.5,2250);
-                    sleep(10);
-                    Release(500);
-                    sleep(510);
-                    DriveBackward(0.5, 200);
-                    sleep(10);
-                    StrafeLeft(-0.5, 1200);
-                    sleep(10);
-                    ArmRest();
-                    sleep(500);
-                    DriveForward(0.5, 500);
-                    sleep(1000);
-                    break;
-                case "BSR":
-                    telemetry.addData("current run", sideSelect);
-                    telemetry.update();
-                    sleep(100);
-                    StrafeRight(0.25,3000);
-                    sleep(50);
-                    UnderBar(0.5,250);
-                    sleep(10);
-                    Release(500);
-                    sleep(510);
-                    DriveBackward(0.5, 200);
-                    sleep(10);
-                    StrafeLeft(0.5, 1200);
-                    sleep(10);
-                    ArmRest();
-                    sleep(500);
-                    DriveForward(0.5, 500);
-                    sleep(1000);
-                    break;
-                case "BSL":
-                    telemetry.addData("current run", sideSelect);
-                    telemetry.update();
-                    sleep(100);
-                    StrafeRight(0.5,1200);
-                    sleep(50);
-                    ArmUp();
-                    DriveForward(0.5,2000);
-                    sleep(50);
-                    Release(500);
-                    sleep(510);
-                    DriveBackward(0.5, 200);
-                    sleep(10);
-                    StrafeLeft(-0.5, 1200);
-                    sleep(10);
-                    ArmRest();
-                    sleep(500);
-                    DriveForward(0.5, 500);
-                    sleep(1000);
-                    break;
             }
             //sleep until the end
             sleep(30000);

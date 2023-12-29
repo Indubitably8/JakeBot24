@@ -245,20 +245,20 @@ public class CvAutoRSR extends LinearOpMode {
             phoneCam.closeCameraDevice();
 
             //movements place a pixel and get robot to the board
-
             if (pixelPos.equals("Left")) {
                 //drive and drop off pixel
-                DriveBackward(0.5, 0);
+                DriveBackward(0.5, 1200);
                 sleep(sleepTime);
-                TurnLeft(0.5, 0);
+                TurnLeft(0.5, 300);
                 sleep(sleepTime);
-                DriveBackward(0.5, 0);
+                DriveBackward(0.5, 200);
                 sleep(sleepTime);
-                DriveForward(0.5, 0);
+                DriveForward(0.5, 200);
                 sleep(sleepTime);
-                Unintake(0.5, 0);
+                Unintake(0.7, 500);
                 sleep(sleepTime);
-                DriveForward(0.5, 0);
+                ArmUp();
+                DriveForward(0.5, 800);
                 sleep(sleepTime);
 
             }
