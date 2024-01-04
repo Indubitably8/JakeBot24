@@ -1,15 +1,12 @@
 package robotx.opmodes.autonomous.ParkandPlaceandMove;
 
-import com.acmerobotics.roadrunner.geometry.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import robotx.modules.MecanumDrive;
-import robotx.modules.OdomSystem;
 import robotx.modules.OrientationDrive;
 import robotx.modules.ArmSystem;
 import robotx.modules.IntakeSystem;
@@ -170,7 +167,7 @@ public class ParkandPlaceandMoveRSR extends LinearOpMode {
 
     public void StrafeRight(double power, int time) {
         mecanumDrive.frontLeft.setPower(-power);
-        mecanumDrive.frontRight.setPower(power);
+        mecanumDrive.frontRight.setPower(-power);
         mecanumDrive.backLeft.setPower(power);
         mecanumDrive.backRight.setPower(power);
         sleep(time);
