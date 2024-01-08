@@ -31,7 +31,7 @@ import robotx.modules.LiftMotors;
 import robotx.modules.MecanumDrive;
 import robotx.modules.OrientationDrive;
 
-@Autonomous(name = "OpenCv+Apriltags-RSR", group = "CvAuto")
+@Autonomous(name = "CvAprilRSR", group = "CvAuto")
 public class CvAutoRSR extends LinearOpMode {
 
     OpenCvWebcam phoneCam;
