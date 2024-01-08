@@ -1,4 +1,4 @@
-package robotx.opmodes.autonomous.CvAuto;
+package robotx.opmodes.autonomous.CvOdom;
 
 import android.util.Size;
 
@@ -29,17 +29,15 @@ import robotx.modules.ArmSystem;
 import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
 import robotx.modules.MecanumDrive;
-import robotx.modules.OdomSystem;
 import robotx.modules.OrientationDrive;
 
-@Autonomous(name = "CvAprilBSL", group = "CvAuto")
-public class CvAutoBSL extends LinearOpMode {
+@Autonomous(name = "CvOdomRSL", group = "CvOdom")
+public class CvOdomRSL extends LinearOpMode {
 
     OpenCvWebcam phoneCam;
     SkystoneDeterminationPipeline pipeline;
     MecanumDrive mecanumDrive;
     OrientationDrive orientationDrive;
-    OdomSystem odomSystem;
     ArmSystem armSystem;
     IntakeSystem intakeSystem;
     LiftMotors liftMotors;
@@ -56,7 +54,6 @@ public class CvAutoBSL extends LinearOpMode {
      */
     private VisionPortal visionPortal;
 
-
     @Override
     public void runOpMode() {
 
@@ -72,9 +69,6 @@ public class CvAutoBSL extends LinearOpMode {
         orientationDrive = new OrientationDrive(this);
         orientationDrive.init();
 
-        //odomSystem = new OdomSystem(this);
-        //odomSystem.init();
-
         armSystem = new ArmSystem(this);
         armSystem.init();
 
@@ -84,7 +78,6 @@ public class CvAutoBSL extends LinearOpMode {
         liftMotors = new LiftMotors(this);
         liftMotors.init();
 
-        //odomSystem.start();
         mecanumDrive.start();
         orientationDrive.start();
         armSystem.start();
@@ -129,13 +122,12 @@ public class CvAutoBSL extends LinearOpMode {
         String sideSelect = "";
 
         telemetry.clearAll();
-
         telemetry.update();
 
         while (!programSelected){
 
-                sideSelect = "BSL";
-                programSelected = true;
+            sideSelect = "RSL";
+            programSelected = true;
 
         }
 
@@ -167,28 +159,28 @@ public class CvAutoBSL extends LinearOpMode {
 
             // scanning will work for both sides, just need to change which way we are moving
             //scan middle
-                switch (sideSelect) {
-                    case "RSR" :
-                    case "RSL" :
-                        for (int i = 0; i < 500; i++) {
-                            if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 75) {
-                                pixelPos = "Middle";
-                                break;
-                            }
-                            sleep(5);
+            switch (sideSelect) {
+                case "RSR" :
+                case "RSL" :
+                    for (int i = 0; i < 500; i++) {
+                        if (pipeline.getAnalysis1() > pipeline.getAnalysis2() + 75) {
+                            pixelPos = "Middle";
+                            break;
                         }
-                        break;
-                    case "BSR":
-                    case "BSL":
-                        for (int i = 0; i < 500; i++) {
-                            if (pipeline.getAnalysis2() > pipeline.getAnalysis1() + 75) {
-                                pixelPos = "Middle";
-                                break;
-                            }
-                            sleep(5);
+                        sleep(5);
+                    }
+                    break;
+                case "BSR":
+                case "BSL":
+                    for (int i = 0; i < 500; i++) {
+                        if (pipeline.getAnalysis2() > pipeline.getAnalysis1() + 75) {
+                            pixelPos = "Middle";
+                            break;
                         }
-                        break;
-                }
+                        sleep(5);
+                    }
+                    break;
+            }
 
             /**
              * Need to test the value to move from one line to the other and if need to change camera view
@@ -253,20 +245,20 @@ public class CvAutoBSL extends LinearOpMode {
             phoneCam.closeCameraDevice();
 
             //movements place a pixel and get robot to the board
-
             if (pixelPos.equals("Left")) {
                 //drive and drop off pixel
-                DriveBackward(0.5, 0);
+                DriveBackward(0.5, 1200);
                 sleep(sleepTime);
-                TurnLeft(-0.5, 0);
+                TurnLeft(0.5, 300);
                 sleep(sleepTime);
-                DriveBackward(0.5, 0);
+                DriveBackward(0.5, 200);
                 sleep(sleepTime);
-                DriveForward(0.5, 0);
+                DriveForward(0.5, 200);
                 sleep(sleepTime);
-                Unintake(0.5, 0);
+                Unintake(0.7, 500);
                 sleep(sleepTime);
-                DriveForward(0.5, 0);
+                ArmUp();
+                DriveForward(0.5, 800);
                 sleep(sleepTime);
 
             }
@@ -277,17 +269,17 @@ public class CvAutoBSL extends LinearOpMode {
                 sleep(sleepTime);
                 Unintake(0.5, 0);
                 sleep(sleepTime);
-                TurnLeft(-0.5, 0);
+                TurnLeft(0.5, 0);
                 sleep(sleepTime);
                 DriveForward(0.5, 0);
                 sleep(sleepTime);
             }
             if (pixelPos.equals("Right")) {
-                StrafeLeft(-0.5, 0);
+                StrafeLeft(0.5, 0);
                 sleep(sleepTime);
                 DriveBackward(0.5, 0);
                 sleep(sleepTime);
-                TurnLeft(-0.5, 0);
+                TurnLeft(0.5, 0);
                 sleep(sleepTime);
                 DriveBackward(0.5, 0);
                 sleep(sleepTime);
