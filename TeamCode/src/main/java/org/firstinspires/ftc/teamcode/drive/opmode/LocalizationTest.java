@@ -29,7 +29,6 @@ public class LocalizationTest extends LinearOpMode {
         odomSystem = new OdomSystem(this);
         odomSystem.init();
         odomSystem.start();
-        odomSystem.OdomSys();
 
         waitForStart();
 

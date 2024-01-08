@@ -20,17 +20,12 @@ import robotx.modules.OdomSystem;
 @Autonomous(group = "drive")
 public class StrafeTest extends LinearOpMode {
 
-    OdomSystem odomSystem;
 
     public static double DISTANCE = 60; // in
 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        odomSystem = new OdomSystem(this);
-        odomSystem.init();
-
-        odomSystem.OdomSys();
 
 
 

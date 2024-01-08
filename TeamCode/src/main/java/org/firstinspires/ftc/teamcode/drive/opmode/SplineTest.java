@@ -15,17 +15,12 @@ import robotx.modules.OdomSystem;
  */
 @Autonomous(group = "drive")
 public class SplineTest extends LinearOpMode {
-    OdomSystem odomSystem;
 
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        odomSystem = new OdomSystem(this);
-        odomSystem.init();
-
-        odomSystem.OdomSys();
 
         waitForStart();
 

@@ -64,7 +64,6 @@ public class ManualFeedforwardTuner extends LinearOpMode {
         return MotionProfileGenerator.generateSimpleMotionProfile(start, goal, MAX_VEL, MAX_ACCEL);
     }
 
-    OdomSystem odomSystem;
     
     @Override
     public void runOpMode() {
@@ -85,10 +84,6 @@ public class ManualFeedforwardTuner extends LinearOpMode {
         telemetry.update();
         telemetry.clearAll();
 
-        odomSystem = new OdomSystem(this);
-        odomSystem.init();
-        odomSystem.start();
-        odomSystem.OdomSys();
 
         waitForStart();
 

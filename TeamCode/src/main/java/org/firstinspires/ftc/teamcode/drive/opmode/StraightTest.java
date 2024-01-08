@@ -22,7 +22,6 @@ import robotx.modules.OdomSystem;
 public class StraightTest extends LinearOpMode {
     public static double DISTANCE = 60; // in
 
-    OdomSystem odomSystem;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -35,10 +34,6 @@ public class StraightTest extends LinearOpMode {
                 .forward(DISTANCE)
                 .build();
 
-        odomSystem = new OdomSystem(this);
-        odomSystem.init();
-        odomSystem.start();
-        odomSystem.OdomSys();
 
         waitForStart();
 

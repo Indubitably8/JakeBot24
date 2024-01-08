@@ -32,7 +32,7 @@ public class BackAndForth extends LinearOpMode {
 
     public static double DISTANCE = 50;
 
-    OdomSystem odomSystem;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -46,10 +46,6 @@ public class BackAndForth extends LinearOpMode {
                 .back(DISTANCE)
                 .build();
 
-        odomSystem = new OdomSystem(this);
-        odomSystem.init();
-
-        odomSystem.OdomSys();
 
         waitForStart();
 

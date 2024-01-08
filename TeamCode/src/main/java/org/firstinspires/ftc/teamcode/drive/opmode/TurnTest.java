@@ -15,14 +15,10 @@ import robotx.modules.OdomSystem;
 @Autonomous(group = "drive")
 public class TurnTest extends LinearOpMode {
     public static double ANGLE = 180; // deg
-    OdomSystem odomSystem;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        odomSystem = new OdomSystem(this);
-        odomSystem.init();
 
-        odomSystem.OdomSys();
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 

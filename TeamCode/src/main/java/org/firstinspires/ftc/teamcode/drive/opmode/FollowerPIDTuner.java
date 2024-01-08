@@ -28,7 +28,6 @@ import robotx.modules.OdomSystem;
 public class FollowerPIDTuner extends LinearOpMode {
     public static double DISTANCE = 48; // in
 
-    OdomSystem odomSystem;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -38,10 +37,6 @@ public class FollowerPIDTuner extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
 
-        odomSystem = new OdomSystem(this);
-        odomSystem.init();
-
-        odomSystem.OdomSys();
 
         waitForStart();
 
