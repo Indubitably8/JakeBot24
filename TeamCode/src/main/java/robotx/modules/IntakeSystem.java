@@ -10,6 +10,8 @@ public class IntakeSystem extends XModule {
 
     // motors being used
 
+    boolean toggle;
+
     public DcMotor IntakeMotor;
     public Servo leftIntake;
     public Servo rightIntake;
@@ -31,32 +33,29 @@ public class IntakeSystem extends XModule {
     }
 
     public void loop() {
+        toggle = robotx.modules.ToggleMode.toggle;
+        if (toggle) {
+            if (xGamepad1().x.isDown()) {
+                IntakeMotor.setPower(power);
+            } else if (xGamepad1().y.isDown()) {
+                IntakeMotor.setPower(-power);
+            } else {
+                IntakeMotor.setPower(0);
 
-        /*
-        if(xGamepad2().right_trigger > .25) {
-            IntakeMotor.setPower(power);
-        }
-        else if(xGamepad2().left_trigger > .25) {
-            IntakeMotor.setPower(-power);
-        }
-        else{
-            IntakeMotor.setPower(0);
+            }
 
+            leftIntake.setPosition(.27);
+            rightIntake.setPosition(.73);
+        } else {
+            if(xGamepad2().right_trigger > .25) {
+                IntakeMotor.setPower(power);
+            }
+            else if(xGamepad2().left_trigger > .25) {
+                IntakeMotor.setPower(-power);
+            }
+            else{
+                IntakeMotor.setPower(0);
+            }
         }
-         */
-
-        if(xGamepad1().x.isDown()) {
-            IntakeMotor.setPower(power);
-        }
-        else if(xGamepad1().y.isDown()) {
-            IntakeMotor.setPower(-power);
-        }
-        else{
-            IntakeMotor.setPower(0);
-
-        }
-
-        leftIntake.setPosition(.27);
-        rightIntake.setPosition(.73);
     }
 }

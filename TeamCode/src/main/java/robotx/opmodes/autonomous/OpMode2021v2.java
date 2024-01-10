@@ -9,7 +9,7 @@ import robotx.modules.ArmSystem;
 import robotx.modules.DroneLaunch;
 import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
-import com.qualcomm.robotcore.hardware.Servo;
+import robotx.modules.ToggleMode;
 
 @TeleOp(name = "OpMode 23-24", group = "CurrentOp")
 public class OpMode2021v2 extends XOpMode {
@@ -20,6 +20,7 @@ public class OpMode2021v2 extends XOpMode {
     LiftMotors liftMotors;
     GrapplingHook grapplingHook;
 
+    ToggleMode toggleMode;
 
     public void initModules() {
 
@@ -42,6 +43,9 @@ public class OpMode2021v2 extends XOpMode {
 
         grapplingHook = new GrapplingHook(this);
         activeModules.add(grapplingHook);
+
+        toggleMode = new ToggleMode(this);
+        activeModules.add(toggleMode);
 
     }
 

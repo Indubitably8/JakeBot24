@@ -2,14 +2,13 @@ package robotx.modules;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import java.util.concurrent.TimeUnit;
 
 import robotx.libraries.XModule;
 
-public class ArmSystem extends XModule {
 
+public class ArmSystem extends XModule {
+    boolean toggle;
+    //boolean toggle = true;
     //var setup
     public Servo leftArm;
     public Servo rightArm;
@@ -93,11 +92,9 @@ public class ArmSystem extends XModule {
 
 
 
-
     public ArmSystem(OpMode op) {
         super(op);
     }
-
     public void init() {
         // pulls servos from configs
         leftArm = opMode.hardwareMap.servo.get("leftArm");
@@ -120,31 +117,36 @@ public class ArmSystem extends XModule {
     }
 
     public void loop() {
+        toggle = robotx.modules.ToggleMode.toggle;
         // button presses, calls methods
         /*
-        if (xGamepad2().b.wasPressed()) {
-                toggleBlock();
-        }
-        if (xGamepad2().y.wasPressed()) {
-            leftWrist.setPosition(leftWristPos);
-            rightWrist.setPosition(rightWristPos);
-            leftArm.setPosition(leftArmPos);
-            rightArm.setPosition(rightArmPos);
-            k=0;
-        }
-        if (xGamepad2().a.wasPressed()) {
-           moveArm();
-        }
+
         */
-        if (xGamepad1().b.wasPressed()) {
-            release();
-            t = System.currentTimeMillis();
-        }
-        if(System.currentTimeMillis() - t > 1500) {
-        blockServo.setPosition(.6);
-    }
-        if (xGamepad1().a.wasPressed()) {
-            moveArm();
+        if(toggle) {
+            if (xGamepad1().b.wasPressed()) {
+                release();
+                t = System.currentTimeMillis();
+            }
+            if (System.currentTimeMillis() - t > 1500) {
+                blockServo.setPosition(.6);
+            }
+            if (xGamepad1().a.wasPressed()) {
+                moveArm();
+            }
+        } else {
+            if (xGamepad2().b.wasPressed()) {
+                toggleBlock();
+            }
+            if (xGamepad2().y.wasPressed()) {
+                leftWrist.setPosition(leftWristPos);
+                rightWrist.setPosition(rightWristPos);
+                leftArm.setPosition(leftArmPos);
+                rightArm.setPosition(rightArmPos);
+                k=0;
+            }
+            if (xGamepad2().a.wasPressed()) {
+                moveArm();
+            }
         }
     }
 }

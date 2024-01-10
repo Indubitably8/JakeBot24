@@ -10,7 +10,7 @@ public class GrapplingHook extends XModule {
 
 
     // motors being used
-
+    boolean toggle;
     public DcMotor GrappleMotor;
     public Servo Stabilizer;
 
@@ -33,38 +33,40 @@ public class GrapplingHook extends XModule {
     }
 
     public void loop() {
-        /*
-        if (xGamepad2().left_bumper.wasPressed()){
-            if(motor){
-                motor = false;
-            } else {
-                motor = true;
+        toggle = robotx.modules.ToggleMode.toggle;
+        if(toggle) {
+            GrappleMotor.setPower(0);
+            if (xGamepad1().left_bumper.wasPressed()) {
+                if (motor) {
+                    motor = false;
+                } else {
+                    motor = true;
+                }
+                Stabilizer.setPosition(.26);
             }
-        } else {
-            GrappleMotor.setPower(0.0);
-            if(motor){
+            if (motor) {
                 GrappleMotor.setPower(-power);
             }
-            if(xGamepad2().right_bumper.isDown()) {
+            if (xGamepad1().right_bumper.isDown()) {
                 GrappleMotor.setPower(power);
+                Stabilizer.setPosition(.8);
             }
-        }
-         */
-        GrappleMotor.setPower(0);
-        if(xGamepad1().left_bumper.wasPressed()){
-            if(motor){
-                motor = false;
+        } else {
+            if (xGamepad2().left_bumper.wasPressed()){
+                if(motor){
+                    motor = false;
+                } else {
+                    motor = true;
+                }
             } else {
-                motor = true;
+                GrappleMotor.setPower(0.0);
+                if(motor){
+                    GrappleMotor.setPower(-power);
+                }
+                if(xGamepad2().right_bumper.isDown()) {
+                    GrappleMotor.setPower(power);
+                }
             }
-            Stabilizer.setPosition(.26);
-        }
-        if(motor){
-            GrappleMotor.setPower(-power);
-        }
-        if(xGamepad1().right_bumper.isDown()){
-            GrappleMotor.setPower(power);
-            Stabilizer.setPosition(.8);
         }
         /*
         if(xGamepad2().x.wasPressed()) {

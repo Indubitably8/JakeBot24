@@ -8,9 +8,9 @@ import robotx.libraries.XModule;
 public class DroneLaunch extends XModule {
 
     //var setup
+    boolean toggle;
     public Servo launchArm;
     //public Servo angleLaunch;
-
     boolean launched = false;
     boolean angled = false;
 
@@ -48,23 +48,19 @@ public class DroneLaunch extends XModule {
     }
 
     public void loop() {
-        // button presses, calls methods
-        /*
-        if (xGamepad2().right_stick_button.wasPressed() || xGamepad2().left_stick_button.wasPressed()) {
-            if (!launched) {
-                launch();
+        toggle = robotx.modules.ToggleMode.toggle;
+        if(toggle) {
+            if (xGamepad1().dpad_up.wasPressed()) {
+                if (!launched) {
+                    launch();
+                }
+            }
+        } else {
+            if (xGamepad2().right_stick_button.wasPressed() || xGamepad2().left_stick_button.wasPressed()) {
+                if (!launched) {
+                    launch();
+                }
             }
         }
-         */
-        if (xGamepad1().dpad_up.wasPressed()) {
-            if (!launched) {
-                launch();
-            }
-        }
-        /*
-        if (xGamepad2().left_bumper.wasPressed()) {
-            angle();
-        }
-        */
     }
 }
