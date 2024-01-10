@@ -26,7 +26,6 @@ import robotx.modules.LiftMotors;
      OrientationDrive orientationDrive;
      OdomSystem odomSystem;
      ArmSystem armSystem;
-     IntakeSystem intakeSystem;
      LiftMotors liftMotors;
 
      @Override
@@ -48,9 +47,6 @@ import robotx.modules.LiftMotors;
          armSystem = new ArmSystem(this);
          armSystem.init();
 
-         intakeSystem = new IntakeSystem(this);
-         intakeSystem.init();
-
          liftMotors = new LiftMotors(this);
          liftMotors.init();
 
@@ -58,7 +54,6 @@ import robotx.modules.LiftMotors;
          mecanumDrive.start();
          orientationDrive.start();
          armSystem.start();
-         intakeSystem.start();
          liftMotors.start();
 
          mecanumDrive.frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -191,18 +186,6 @@ import robotx.modules.LiftMotors;
          mecanumDrive.backRight.setPower(0);
      }
 
-     public void Intake(double power, int time) {
-         intakeSystem.IntakeMotor.setPower(power);
-         sleep(time);
-         intakeSystem.IntakeMotor.setPower(0);
-     }
-
-     public void Unintake(double power, int time) {
-         intakeSystem.IntakeMotor.setPower(-power);
-         sleep(time);
-         intakeSystem.IntakeMotor.setPower(0);
-     }
-
      public void FirstLift() {
          double liftPower = 1;
          int liftTime = 100;
@@ -229,27 +212,12 @@ import robotx.modules.LiftMotors;
          liftMotors.RightLift.setPower(0);
      }
 
-     public void ArmRest () {
-         armSystem.leftWrist.setPosition(.15);
-         armSystem.rightWrist.setPosition(.95);
-         armSystem.leftArm.setPosition(.29);
-         armSystem.rightArm.setPosition(.70);
+     public void OpenLeft(){
+         armSystem.leftClaw.setPosition(0);
      }
 
-     public void ArmUp () {
-         armSystem.leftWrist.setPosition((.565));
-         armSystem.rightWrist.setPosition((.485));
-         sleep(500);
-         armSystem.leftWrist.setPosition(.98);
-         armSystem.rightWrist.setPosition(.02);
-         armSystem.leftArm.setPosition(.542);
-         armSystem.rightArm.setPosition(0.53);
-     }
-
-     public void Release(int time) {
-         armSystem.blockServo.setPosition(.6);
-         sleep(time);
-         armSystem.blockServo.setPosition(.1);
+     public void OpenRight(){
+         armSystem.rightClaw.setPosition(0);
      }
 
  }

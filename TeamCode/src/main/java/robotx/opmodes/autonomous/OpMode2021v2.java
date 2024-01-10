@@ -7,7 +7,6 @@ import robotx.modules.GrapplingHook;
 import robotx.modules.OrientationDrive;
 import robotx.modules.ArmSystem;
 import robotx.modules.DroneLaunch;
-import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
 import robotx.modules.ToggleMode;
 
@@ -16,7 +15,6 @@ public class OpMode2021v2 extends XOpMode {
     OrientationDrive orientationDrive;
     ArmSystem armSystem;
     DroneLaunch droneLaunch;
-    IntakeSystem intakeSystem;
     LiftMotors liftMotors;
     GrapplingHook grapplingHook;
 
@@ -29,20 +27,18 @@ public class OpMode2021v2 extends XOpMode {
         orientationDrive = new OrientationDrive(this);
         activeModules.add(orientationDrive);
 
-        armSystem = new ArmSystem(this);
-        activeModules.add(armSystem);
+        //armSystem = new ArmSystem(this);
+        //activeModules.add(armSystem);
 
-        droneLaunch = new DroneLaunch(this);
-        activeModules.add(droneLaunch);
+        //droneLaunch = new DroneLaunch(this);
+        //activeModules.add(droneLaunch);
 
-        intakeSystem = new IntakeSystem(this);
-        activeModules.add(intakeSystem);
 
-        liftMotors = new LiftMotors(this);
-        activeModules.add(liftMotors);
+        //liftMotors = new LiftMotors(this);
+        //activeModules.add(liftMotors);
 
-        grapplingHook = new GrapplingHook(this);
-        activeModules.add(grapplingHook);
+        //grapplingHook = new GrapplingHook(this);
+        //activeModules.add(grapplingHook);
 
         toggleMode = new ToggleMode(this);
         activeModules.add(toggleMode);

@@ -10,145 +10,81 @@ public class ArmSystem extends XModule {
     boolean toggle;
     //boolean toggle = true;
     //var setup
-    public Servo leftArm;
-    public Servo rightArm;
-    public Servo leftWrist;
-    public Servo rightWrist;
-    public Servo blockServo;
+    public Servo rightClaw;
+    public Servo leftClaw;
 
-    double rightArmPos = .712;
-    double leftArmPos = .274;
+    public Servo armServo;
 
-    double rightWristPos = .925;
-    double leftWristPos = .175;
+    boolean right = false; //so arm system knows it starts down
+    boolean left = false;
+    boolean arm = false;
 
-    long t;
-
-    boolean arm = true; //so arm system knows it starts down
-    boolean wrist = true;
-    boolean blocked = true;
-
-
-    int k = 0;
     //methods are built into one button as a toggle
 
-    public void moveArm() {
-        if (k == 0) {
-            //DOWN
-            leftWrist.setPosition(leftWristPos);
-            rightWrist.setPosition(rightWristPos);
-            leftArm.setPosition(leftArmPos);
-            rightArm.setPosition(rightArmPos);
-            blockServo.setPosition(.6);
-            k++;
-        }
-
-        else if (k == 1){
-            leftWrist.setPosition((.98+leftWristPos)/2);
-            rightWrist.setPosition((.02+rightWristPos)/2);
-            blockServo.setPosition(.6);
-            k++;
-        }
-
-        else{
-            //UP
-            leftWrist.setPosition(.86);
-            rightWrist.setPosition(.14);
-            leftArm.setPosition(.522);
-            rightArm.setPosition(0.55);
-            blockServo.setPosition(.6);
-            k=k-2;
+    public void lClaw(){
+        if(left){
+            leftClaw.setPosition(0);
+            left = false;
+        } else {
+            leftClaw.setPosition(0);
+            left = true;
         }
     }
 
-    public void moveWrist() {
-        if (!wrist) {
-            leftWrist.setPosition(.36);
-            rightWrist.setPosition(.696);
-            wrist = true;
-        }
-        else {
-            leftWrist.setPosition(0.62);
-            rightWrist.setPosition(0.42);
-            wrist = false;
+    public void rClaw(){
+        if(right){
+            rightClaw.setPosition(0);
+            right = false;
+        } else {
+            rightClaw.setPosition(0);
+            right = true;
         }
     }
 
-    public void toggleBlock() {
-        if (!blocked) {
-            blockServo.setPosition(.1);
-            blocked = true;
-        }
-        else {
-            blockServo.setPosition(.6);
-            blocked = false;
+    public void moveArm(){
+        if(arm){
+            armServo.setPosition(0);
+            arm = false;
+        } else {
+            armServo.setPosition(0);
+            arm = true;
         }
     }
-
-    public void release()
-    {
-        blockServo.setPosition(.1);
-    }
-
-
 
     public ArmSystem(OpMode op) {
         super(op);
     }
     public void init() {
         // pulls servos from configs
-        leftArm = opMode.hardwareMap.servo.get("leftArm");
-        rightArm = opMode.hardwareMap.servo.get("rightArm");
-        leftWrist = opMode.hardwareMap.servo.get("leftWrist");
-        rightWrist = opMode.hardwareMap.servo.get("rightWrist");
-        blockServo = opMode.hardwareMap.servo.get("blockServo");
+        leftClaw = opMode.hardwareMap.servo.get("leftClaw");
+        rightClaw = opMode.hardwareMap.servo.get("rightClaw");
+        armServo = opMode.hardwareMap.servo.get("armServo");
 
-        //leftWrist.setDirection(Servo.Direction.REVERSE);
-        //rightWrist.setDirection(Servo.Direction.REVERSE);
-        leftArm.setDirection(Servo.Direction.REVERSE);
-        rightArm.setDirection(Servo.Direction.REVERSE);
-
-        leftWrist.setPosition(leftWristPos);
-        rightWrist.setPosition(rightWristPos);
-        leftArm.setPosition(leftArmPos);
-        rightArm.setPosition(rightArmPos);
-
-        blockServo.setPosition(.6);
+        leftClaw.setPosition(0);
+        rightClaw.setPosition(0);
+        armServo.setPosition(0);
     }
 
     public void loop() {
         toggle = robotx.modules.ToggleMode.toggle;
-        // button presses, calls methods
-        /*
-
-        */
         if(toggle) {
             if (xGamepad1().b.wasPressed()) {
-                release();
-                t = System.currentTimeMillis();
-            }
-            if (System.currentTimeMillis() - t > 1500) {
-                blockServo.setPosition(.6);
+                rClaw();
             }
             if (xGamepad1().a.wasPressed()) {
+                lClaw();
+            }
+            if (xGamepad1().x.wasPressed()) {
                 moveArm();
             }
         } else {
             if (xGamepad2().b.wasPressed()) {
-                release();
-                t = System.currentTimeMillis();
-            }
-            if (System.currentTimeMillis() - t > 1500) {
-                blockServo.setPosition(.6);
-            }
-            if (xGamepad2().y.wasPressed()) {
-                leftWrist.setPosition(leftWristPos);
-                rightWrist.setPosition(rightWristPos);
-                leftArm.setPosition(leftArmPos);
-                rightArm.setPosition(rightArmPos);
-                k=0;
+                rClaw();
             }
             if (xGamepad2().a.wasPressed()) {
+                lClaw();
+            }
+            if (xGamepad2().x.wasPressed()) {
                 moveArm();
             }
         }
