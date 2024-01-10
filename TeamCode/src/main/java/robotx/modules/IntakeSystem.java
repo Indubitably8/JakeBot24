@@ -34,6 +34,8 @@ public class IntakeSystem extends XModule {
 
     public void loop() {
         toggle = robotx.modules.ToggleMode.toggle;
+        leftIntake.setPosition(.27);
+        rightIntake.setPosition(.73);
         if (toggle) {
             if (xGamepad1().x.isDown()) {
                 IntakeMotor.setPower(power);
@@ -43,9 +45,6 @@ public class IntakeSystem extends XModule {
                 IntakeMotor.setPower(0);
 
             }
-
-            leftIntake.setPosition(.27);
-            rightIntake.setPosition(.73);
         } else {
             if(xGamepad2().right_trigger > .25) {
                 IntakeMotor.setPower(power);

@@ -135,7 +135,11 @@ public class ArmSystem extends XModule {
             }
         } else {
             if (xGamepad2().b.wasPressed()) {
-                toggleBlock();
+                release();
+                t = System.currentTimeMillis();
+            }
+            if (System.currentTimeMillis() - t > 1500) {
+                blockServo.setPosition(.6);
             }
             if (xGamepad2().y.wasPressed()) {
                 leftWrist.setPosition(leftWristPos);
