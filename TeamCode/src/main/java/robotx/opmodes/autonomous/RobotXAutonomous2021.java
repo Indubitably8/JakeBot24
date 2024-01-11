@@ -12,7 +12,6 @@ import robotx.modules.MecanumDrive;
 import robotx.modules.OdomSystem;
 import robotx.modules.OrientationDrive;
 import robotx.modules.ArmSystem;
-import robotx.modules.IntakeSystem;
 import robotx.modules.LiftMotors;
 
  @Autonomous(name = "MainAutonRight", group = "Default")
