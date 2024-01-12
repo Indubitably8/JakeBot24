@@ -1,4 +1,4 @@
-package robotx.opmodes.autonomous;
+package robotx.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
